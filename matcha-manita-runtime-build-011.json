@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "1.0.0",
+  "build": {
+    "id": "MATCHA-MANITA-BUILD-011",
+    "name": "MATCHA MANITA Runtime Repair",
+    "status": "PREPARED",
+    "repository": "Joaquinloera/matcha-manita",
+    "branch": "main"
+  },
+
+  "bankingProtection": {
+    "system": "sonoraport-banking",
+    "executionAuthority": "sonoraport-banking",
+    "existingBankingBehaviorMustRemainUnchanged": true,
+    "existingPaymentContractsMustRemainCompatible": true,
+    "modifyBankingDuringThisBuild": false,
+    "directBrowserMoneyMovement": false
+  },
+
+  "runtime": {
+    "entrypoint": "index.html",
+    "requiredFiles": [
+      "app.js",
+      "styles.css"
+    ],
+    "frontendResponsibilities": [
+      "AGE_GATE",
+      "NAVIGATION",
+      "PRODUCT_CATEGORIES",
+      "PRODUCT_SEARCH",
+      "PRODUCT_SORT",
+      "SHOPPING_BAG",
+      "ZIP_INTERFACE",
+      "MEMBER_APPLICATION_INTERFACE",
+      "LOGIN_INTERFACE",
+      "CHECKOUT_HANDOFF"
+    ]
+  },
+
+  "checkoutBoundary": {
+    "browserExecutesPayments": false,
+    "browserStoresBankingCredentials": false,
+    "browserReceivesBankingSecrets": false,
+    "paymentExecutionDelegatedToSonoraportBanking": true,
+    "serverSideBankingRequired": true,
+    "failClosedWhenServerBankingUnavailable": true
+  },
+
+  "bankingContract": {
+    "compatibilityFile": "sonoraport-banking-compatibility-v1.json",
+    "facilityRegistryFile": "worldsandbox13-banking-1335-kayleen-v1.json",
+    "facilityRegistryId": "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001",
+    "registryReference": "1335"
+  },
+
+  "security": {
+    "bankingSecretsInFrontend": false,
+    "bankingTokensInFrontend": false,
+    "worldsandboxSecretsInFrontend": false,
+    "serverSideAuthenticationRequired": true,
+    "serverSideAuthorizationRequired": true,
+    "policyChecksRequired": true,
+    "auditReceiptRequired": true,
+    "failClosed": true
+  },
+
+  "regressionGate": {
+    "required": true,
+    "rules": [
+      "DO_NOT_CHANGE_EXISTING_BANKING_ENDPOINTS",
+      "DO_NOT_CHANGE_EXISTING_BANKING_AUTHENTICATION",
+      "DO_NOT_CHANGE_EXISTING_PAYMENT_CONTRACTS",
+      "DO_NOT_EXPOSE_BANKING_SECRETS",
+      "DO_NOT_ALLOW_BROWSER_PAYMENT_EXECUTION",
+      "DO_NOT_BYPASS_POLICY_CHECKS",
+      "DO_NOT_BYPASS_AUDIT_RECEIPTS",
+      "DO_NOT_SHIP_IF_BANKING_REGRESSION_FAILS"
+    ]
+  },
+
+  "verification": {
+    "jsonRepositoryUpload": "PENDING",
+    "appJsRepositoryPresence": "PENDING",
+    "stylesCssRepositoryPresence": "PENDING",
+    "frontendRuntimeTest": "PENDING",
+    "bankingRegressionTest": "PENDING",
+    "finalStatus": "PENDING"
+  },
+
+  "nextSwarm": {
+    "target": "CREATE_AND_VERIFY_APP_JS",
+    "rule": "ONE_FILE_AT_A_TIME"
+  }
+}
