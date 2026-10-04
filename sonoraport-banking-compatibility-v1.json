@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "MATCHA_MANITA_SONORAPORT_BANKING_COMPATIBILITY",
+  "status": "ACTIVE",
+
+  "matchaManita": {
+    "repository": "Joaquinloera/matcha-manita",
+    "registryReference": "1335",
+    "facilityRegistryId": "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001"
+  },
+
+  "bankingAuthority": {
+    "system": "sonoraport-banking",
+    "executionAuthority": "sonoraport-banking",
+    "existingBankingBehaviorMustRemainUnchanged": true,
+    "existingPaymentContractsMustRemainCompatible": true
+  },
+
+  "bridgeContract": {
+    "bridgeId": "worldsandbox-sonoraport-banking",
+    "mode": "authenticated-service",
+    "serverToServerOnly": true,
+
+    "environment": {
+      "baseUrlVariable": "SONORAPORT_BANKING_API_URL",
+      "authenticationVariable": "SONORAPORT_BANKING_BRIDGE_TOKEN",
+      "credentialsStoredInRepository": false,
+      "credentialsExposedToBrowser": false
+    },
+
+    "existingEndpoints": {
+      "health": "/api/health",
+      "capabilities": "/api/capabilities",
+      "worldsandboxStatus": "/api/world-sandbox/status"
+    }
+  },
+
+  "permissions": {
+    "healthRead": true,
+    "capabilityRead": true,
+    "bankingStatusRead": true,
+    "credentialRead": false,
+    "secretRead": false,
+    "directMoneyMovementFromWorldsandbox": false
+  },
+
+  "requestPolicy": {
+    "authenticationRequired": true,
+    "authorizationRequired": true,
+    "policyChecksRequired": true,
+    "auditReceiptRequired": true,
+    "registryAllowListRequired": true,
+    "failClosed": true
+  },
+
+  "registryAuthorization": {
+    "allowedRegistryIds": [
+      "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001"
+    ],
+    "allowedRegistryReferences": [
+      "1335"
+    ],
+    "unrestrictedEnumeration": false,
+    "unknownRegistryIdsRejected": true,
+    "crossRegistryAuthorizationRejected": true
+  },
+
+  "frontendBoundary": {
+    "bankingTokensAllowed": false,
+    "bankingSecretsAllowed": false,
+    "worldsandboxSecretsAllowed": false,
+    "directBankingExecutionAllowed": false,
+    "paymentExecutionDelegatedToSonoraportBanking": true
+  },
+
+  "regressionGate": {
+    "required": true,
+    "rules": [
+      "DO_NOT_CHANGE_EXISTING_BANKING_ENDPOINTS",
+      "DO_NOT_CHANGE_EXISTING_BANKING_AUTHENTICATION",
+      "DO_NOT_EXPOSE_BANKING_SECRETS",
+      "DO_NOT_ENABLE_DIRECT_WORLDSANDBOX_MONEY_MOVEMENT",
+      "DO_NOT_BYPASS_BANKING_POLICY_CHECKS",
+      "DO_NOT_BYPASS_BANKING_AUDIT_RECEIPTS",
+      "DO_NOT_SHIP_IF_EXISTING_BANKING_TESTS_FAIL"
+    ]
+  },
+
+  "verification": {
+    "sourceContractCrossChecked": true,
+    "sourceBridge": "Worldsanbox13/data/sonoraport-banking-bridge.json",
+    "repositoryUpload": "PENDING",
+    "runtimeTest": "PENDING",
+    "bankingRegressionTest": "PENDING"
+  }
+}
