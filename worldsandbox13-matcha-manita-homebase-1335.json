@@ -1,0 +1,158 @@
+{
+  "swarm": {
+    "id": "SONORAPORT-BANKING-SWARM-024",
+    "name": "Receipt Audit Chain and Worldsanbox13 Reader Boundary",
+    "version": "1.0.0",
+    "status": "APPROVED_FOR_BUILD",
+    "method": [
+      "AI_AGENT_SWARMING",
+      "AI_AGENT_SKIMMING"
+    ],
+    "system": "SONORAPORT_BANKING",
+    "instructions": {
+      "workMode": "ACTUAL_SOURCE_FILES_ONLY",
+      "noSourceChangeNoBuild": true,
+      "executeTests": true,
+      "fixFailures": true,
+      "rerunRegression": true,
+      "preserveExistingUI": true,
+      "doNotFabricateProviderVerification": true
+    },
+    "architecture": {
+      "matchaManita": "MATCHA_MANITA",
+      "bankingBridge": "AUTHENTICATED_SERVER_SIDE_BRIDGE",
+      "banking": "SONORAPORT_BANKING",
+      "registryReader": "AUTHORIZED_WORLDSANBOX13_READER",
+      "registry": "WORLDSANBOX13"
+    },
+    "authorizedFacilityRegistry": {
+      "registryId": "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001",
+      "recordType": "MATCHA_MANITA_HOME_BASE_AND_FACILITY",
+      "status": "ACTIVE",
+      "facilityName": "MATCHA MANITA HOME BASE",
+      "facilityType": "HOME_BASE_AND_FACILITY",
+      "address": {
+        "street": "870 S Tusa Rd",
+        "city": "Maricopa",
+        "state": "AZ",
+        "postalCode": "85139",
+        "country": "United States"
+      },
+      "associatedRegistry": {
+        "canonicalName": "Kayleen Merissa Loera Guzman Sanchez Daniel",
+        "reference": "1335"
+      },
+      "sourceClassification": "USER_PROVIDED",
+      "independentOwnershipVerification": false
+    },
+    "receiptIntegrity": {
+      "enabled": true,
+      "requireAuthenticatedOwner": true,
+      "requirePaymentOwnership": true,
+      "bindReceiptToPaymentId": true,
+      "bindReceiptToProfileId": true,
+      "requireAmountMatch": true,
+      "requireCurrencyMatch": true,
+      "requireProviderReferenceWhenAvailable": true,
+      "requireImmutableReceiptDigest": true,
+      "rejectCrossCustomerReceiptAccess": true,
+      "preventSensitiveDataDisclosure": true
+    },
+    "auditChain": {
+      "enabled": true,
+      "requireCorrelationId": true,
+      "requireActorIdentity": true,
+      "requireAction": true,
+      "requireOutcome": true,
+      "requireResourceId": true,
+      "recordAuthorizationFailures": true,
+      "recordRegistryAccess": true,
+      "recordPaymentStateChanges": true,
+      "recordReceiptGeneration": true,
+      "neverLogSecrets": true,
+      "neverLogRawPan": true,
+      "neverLogCvv": true,
+      "neverLogPin": true
+    },
+    "worldsanbox13Reader": {
+      "enabled": true,
+      "serverSideOnly": true,
+      "authenticationRequired": true,
+      "authorizationRequired": true,
+      "failClosed": true,
+      "registryAllowListRequired": true,
+      "allowedRegistryIds": [
+        "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001"
+      ],
+      "rejectUnknownRegistryIds": true,
+      "rejectUnauthorizedCrossRegistryAccess": true,
+      "preventRegistryEnumeration": true,
+      "boundedResponseRequired": true,
+      "credentialsReturnedToClient": false,
+      "browserDirectAccess": false
+    },
+    "matchaManitaBoundary": {
+      "browserReceivesBankingCredentials": false,
+      "browserReceivesWorldsanboxCredentials": false,
+      "matchaManitaReceivesInfrastructureCredentials": false,
+      "authenticatedServerBridgeRequired": true,
+      "paymentOwnershipRequired": true,
+      "registryAuthorizationRequired": true
+    },
+    "skimSequence": [
+      "SOURCE_MAP",
+      "STATIC_ANALYSIS",
+      "SECURITY_SECRET_SCAN",
+      "AUTHENTICATION_REVIEW",
+      "AUTHORIZATION_REVIEW",
+      "RECEIPT_INTEGRITY_REVIEW",
+      "AUDIT_CHAIN_REVIEW",
+      "REGISTRY_ALLOWLIST_REVIEW",
+      "API_CONTRACT_TESTING",
+      "CROSS_IDENTITY_TESTING",
+      "FUZZ_EDGE_CASE_TESTING",
+      "REPLAY_TESTING",
+      "FAULT_TESTING",
+      "REGRESSION_TESTING",
+      "FINAL_VERIFICATION"
+    ],
+    "requiredAttackTests": [
+      "CUSTOMER_B_CANNOT_READ_CUSTOMER_A_RECEIPT",
+      "CUSTOMER_B_CANNOT_CONTROL_CUSTOMER_A_PAYMENT",
+      "UNAUTHENTICATED_RECEIPT_REQUEST_REJECTED",
+      "UNKNOWN_REGISTRY_ID_REJECTED",
+      "UNAUTHORIZED_REGISTRY_ACCESS_REJECTED",
+      "REGISTRY_ENUMERATION_REJECTED",
+      "MALFORMED_REGISTRY_ID_REJECTED",
+      "CREDENTIALS_NOT_RETURNED",
+      "SECRETS_NOT_LOGGED",
+      "RECEIPT_AMOUNT_TAMPERING_DETECTED",
+      "RECEIPT_CURRENCY_TAMPERING_DETECTED",
+      "RECEIPT_PAYMENT_ID_TAMPERING_DETECTED",
+      "AUDIT_EVENT_CORRELATION_PRESERVED",
+      "EXISTING_PAYMENT_FLOW_REGRESSION_PASSES",
+      "EXISTING_IDEMPOTENCY_REGRESSION_PASSES",
+      "EXISTING_CALLBACK_REPLAY_REGRESSION_PASSES"
+    ],
+    "releaseGate": {
+      "sourceFilesActuallyChanged": true,
+      "newTestsRequired": true,
+      "testsMustExecute": true,
+      "existingRegressionMustPass": true,
+      "uiMustRemainUnchanged": true,
+      "noCredentialsInSource": true,
+      "noFabricatedConnectedState": true,
+      "noFabricatedAuthenticatedState": true,
+      "noFabricatedProviderVerifiedState": true,
+      "rule": "NO_SOURCE_CHANGE_PLUS_NO_EXECUTED_VERIFICATION_EQUALS_NO_BUILD"
+    },
+    "requiredReport": [
+      "FILES_CHANGED",
+      "SKIM_FINDINGS",
+      "CHANGES_LANDED",
+      "TESTS_EXECUTED",
+      "INTEGRATION_IMPACT",
+      "NEXT_SWARM_TARGET"
+    ]
+  }
+}
