@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.1.0",
+  "registry": {
+    "id": "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001",
+    "name": "MATCHA MANITA HOME BASE",
+    "recordType": "MATCHA_MANITA_FACILITY_BANKING_REGISTRY",
+    "status": "ACTIVE",
+    "changeType": "NEW_REGISTRY",
+    "sourceClassification": "USER_PROVIDED"
+  },
+  "matchaManita": {
+    "name": "MATCHA MANITA",
+    "repository": "Joaquinloera/matcha-manita",
+    "facilityDesignation": "MATCHA MANITA HOME BASE + FACILITY",
+    "facility": {
+      "facilityId": "MATCHA-MANITA-HOMEBASE-1335-001",
+      "facilityType": "HOME_BASE_AND_FACILITY",
+      "status": "REGISTERED",
+      "address": {
+        "street": "870 S Tusa Rd",
+        "city": "Maricopa",
+        "state": "AZ",
+        "zip": "85139",
+        "country": "United States"
+      }
+    }
+  },
+  "associatedRegistry": {
+    "name": "Kayleen Merissa Loera Guzman Sanchez Daniel",
+    "reference": "1335",
+    "designation": "MATCHA MANITA HOME BASE + FACILITY"
+  },
+  "worldsandbox13": {
+    "repository": "Joaquinloera/Worldsanbox13",
+    "branch": "main",
+    "propertyRecord": "worldsandbox13-property-870-s-tusa-rd.json",
+    "bankingBridge": "data/sonoraport-banking-bridge.json",
+    "ownershipVerificationImplied": false,
+    "licensingVerificationImplied": false
+  },
+  "architecture": {
+    "flow": [
+      "MATCHA_MANITA",
+      "AUTHENTICATED_SERVER_SIDE_BRIDGE",
+      "SONORAPORT_BANKING",
+      "AUTHORIZED_WORLDSANBOX13_READER",
+      "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001"
+    ]
+  },
+  "bankingBoundary": {
+    "executionAuthority": "sonoraport-banking",
+    "serverSideOnly": true,
+    "authenticationRequired": true,
+    "authorizationRequired": true,
+    "registryAllowListRequired": true,
+    "allowedRegistryIds": [
+      "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001"
+    ],
+    "approvedRegistryReference": "1335",
+    "unknownRegistryIdsFailClosed": true,
+    "crossRegistryAuthorizationRejected": true,
+    "unrestrictedRegistryEnumeration": false,
+    "credentialsExposedToClient": false,
+    "directMoneyMovement": false,
+    "existingPaymentContractsPreserved": true
+  },
+  "security": {
+    "credentialsStoredInRepository": false,
+    "credentialsExposedToBrowser": false,
+    "bankingCredentialsExposedToMatchaManita": false,
+    "worldsandboxCredentialsExposedToBrowser": false,
+    "serverSideCredentialsOnly": true,
+    "failClosed": true,
+    "auditLoggingRequired": true,
+    "requestValidationRequired": true,
+    "responseResourceLimitsRequired": true
+  },
+  "swarm": {
+    "method": [
+      "AI_AGENT_SKIMMING",
+      "AI_AGENT_SWARMING"
+    ],
+    "workflow": [
+      "SKIM",
+      "SWARM",
+      "IDENTIFY",
+      "CROSS_CHECK",
+      "MODIFY_REAL_FILES",
+      "TEST",
+      "FIX",
+      "REGRESSION_TEST",
+      "VERIFY"
+    ],
+    "buildRule": "NO_SOURCE_CHANGE_PLUS_NO_EXECUTED_VERIFICATION_EQUALS_NO_BUILD"
+  },
+  "integrationRequirements": {
+    "registryIdAllowList": true,
+    "serverSideAuthentication": true,
+    "authorizationBeforeRetrieval": true,
+    "approvedRecordsOnly": true,
+    "requestValidation": true,
+    "responseResourceLimits": true,
+    "credentialsRemovedFromResponses": true,
+    "auditLogging": true,
+    "unknownIdsFailClosed": true,
+    "crossRegistryAuthorizationRejected": true,
+    "existingBankingPaymentsUnchanged": true,
+    "matchaManitaPaymentCompatibilityRequired": true
+  },
+  "verification": {
+    "jsonSyntax": "PENDING_REPOSITORY_VERIFICATION",
+    "repositoryPresence": "PENDING_UPLOAD",
+    "worldsandboxConnection": "PENDING",
+    "sonoraportBankingConnection": "PENDING",
+    "runtimeIntegration": "PENDING",
+    "automatedTests": "PENDING",
+    "regressionTests": "PENDING"
+  },
+  "agent281102ReturnUpdate": {
+    "reference": "281102",
+    "status": "UPDATE_IN_PROGRESS",
+    "message": "MATCHA MANITA facility and controlled SonoraPort Banking integration are being prepared through SWARM + SKIM development.",
+    "nextTarget": "VERIFY_MATCHA_MANITA_REPOSITORY_UPLOAD_AND_BUILD_RUNTIME_INTEGRATION"
+  }
+}
