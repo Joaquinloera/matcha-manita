@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0.0",
+
+  "build": {
+    "id": "MATCHA-MANITA-BUILD-013",
+    "name": "MATCHA MANITA app.js Runtime Implementation",
+    "status": "PREPARED",
+    "repository": "Joaquinloera/matcha-manita",
+    "branch": "main",
+    "previousBuild": "MATCHA-MANITA-BUILD-012"
+  },
+
+  "swarm": {
+    "mode": "SWARM_AND_SKIM",
+    "targetFile": "app.js",
+    "sourceImplementation": true,
+    "oneFileAtATime": true,
+    "verificationRequired": true
+  },
+
+  "appRuntime": {
+    "entrypoint": "index.html",
+    "script": "app.js",
+
+    "features": {
+      "ageGate": true,
+      "mobileNavigation": true,
+      "productRendering": true,
+      "categoryFiltering": true,
+      "productSearch": true,
+      "productSorting": true,
+      "shoppingBag": true,
+      "cartQuantityControls": true,
+      "cartTotalCalculation": true,
+      "zipInterface": true,
+      "applicationInterface": true,
+      "loginInterface": true,
+      "checkoutHandoff": true
+    }
+  },
+
+  "domBinding": {
+    "required": true,
+
+    "elements": [
+      "ageGate",
+      "enterBtn",
+      "leaveBtn",
+      "menuBtn",
+      "nav",
+      "cartBtn",
+      "cartCount",
+      "categories",
+      "search",
+      "sort",
+      "productGrid",
+      "zipForm",
+      "zip",
+      "zipStatus",
+      "applyForm",
+      "applyStatus",
+      "loginForm",
+      "loginStatus",
+      "drawer",
+      "closeCart",
+      "cartItems",
+      "cartTotal",
+      "checkoutBtn",
+      "checkoutStatus",
+      "scrim"
+    ]
+  },
+
+  "checkoutSecurity": {
+    "executionAuthority": "sonoraport-banking",
+    "browserPaymentExecution": false,
+    "directBrowserBankingRequest": false,
+    "serverSideHandoffRequired": true,
+    "failClosedUntilServerRouteVerified": true
+  },
+
+  "bankingProtection": {
+    "modifySonoraportBanking": false,
+    "modifyBankingAuthentication": false,
+    "modifyPaymentContracts": false,
+    "bankingApiKeysInAppJs": false,
+    "bankingTokensInAppJs": false,
+    "bankingSecretsInAppJs": false,
+    "worldsandboxSecretsInAppJs": false
+  },
+
+  "complianceBoundary": {
+    "ageGateRequired": true,
+    "deliveryEligibilityMustBeVerifiedServerSide": true,
+    "frontendZipCheckDoesNotEstablishEligibility": true,
+    "licensedFulfillmentRequired": true
+  },
+
+  "failClosedRules": [
+    "NO_DIRECT_BROWSER_PAYMENT",
+    "NO_BANKING_SECRET_EXPOSURE",
+    "NO_CLIENT_SIDE_BANKING_TOKEN",
+    "NO_UNVERIFIED_DELIVERY_AUTHORIZATION",
+    "NO_CHECKOUT_EXECUTION_WITHOUT_VERIFIED_SERVER_ROUTE"
+  ],
+
+  "verification": {
+    "buildJsonRepositoryPresence": "PENDING",
+    "appJsRepositoryPresence": "PENDING",
+    "javascriptSyntax": "PENDING",
+    "domBindings": "PENDING",
+    "secretScan": "PENDING",
+    "directPaymentScan": "PENDING",
+    "checkoutFailClosed": "PENDING",
+    "runtimeExecution": "PENDING",
+    "finalStatus": "PENDING"
+  },
+
+  "nextSwarm": {
+    "afterJsonVerification": "CREATE_APP_JS",
+    "afterAppJsVerification": "STYLES_CSS_BUILD",
+    "rule": "VERIFY_EACH_SOURCE_CHANGE_BEFORE_ADVANCING"
+  }
+}
