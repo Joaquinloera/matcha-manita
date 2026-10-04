@@ -1,0 +1,196 @@
+name: MATCHA MANITA Validation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate MATCHA MANITA Registry
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate JSON files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "🔎 MATCHA MANITA JSON validation starting..."
+
+          mapfile -t JSON_FILES < <(
+            find . \
+              -type f \
+              -name "*.json" \
+              -not -path "./node_modules/*" \
+              -not -path "./.git/*" \
+              -print
+          )
+
+          if [ "${#JSON_FILES[@]}" -eq 0 ]; then
+            echo "❌ No JSON files found."
+            exit 1
+          fi
+
+          for file in "${JSON_FILES[@]}"; do
+            echo "Checking: $file"
+            node -e "
+              const fs = require('fs');
+              const file = process.argv[1];
+
+              try {
+                JSON.parse(fs.readFileSync(file, 'utf8'));
+                console.log('✅ Valid JSON:', file);
+              } catch (error) {
+                console.error('❌ Invalid JSON:', file);
+                console.error(error.message);
+                process.exit(1);
+              }
+            " "$file"
+          done
+
+          echo "✅ ALL JSON FILES VALID"
+
+      - name: Validate MATCHA MANITA home-base registry
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          FILE="worldsandbox13-matcha-manita-homebase-1335.json"
+
+          if [ ! -f "$FILE" ]; then
+            echo "❌ Required registry missing: $FILE"
+            exit 1
+          fi
+
+          node <<'NODE'
+          const fs = require("fs");
+
+          const file =
+            "worldsandbox13-matcha-manita-homebase-1335.json";
+
+          const data = JSON.parse(
+            fs.readFileSync(file, "utf8")
+          );
+
+          const swarm = data.swarm;
+
+          if (!swarm) {
+            throw new Error("Missing swarm object");
+          }
+
+          const facility = swarm.authorizedFacilityRegistry;
+
+          if (!facility) {
+            throw new Error(
+              "Missing authorizedFacilityRegistry"
+            );
+          }
+
+          const expectedRegistry =
+            "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001";
+
+          if (facility.registryId !== expectedRegistry) {
+            throw new Error(
+              "Unexpected MATCHA MANITA registry ID"
+            );
+          }
+
+          if (
+            facility.associatedRegistry?.reference !== "1335"
+          ) {
+            throw new Error(
+              "Registry reference must be 1335"
+            );
+          }
+
+          if (
+            swarm.worldsanbox13Reader
+              ?.serverSideOnly !== true
+          ) {
+            throw new Error(
+              "Worldsanbox13 reader must remain server-side only"
+            );
+          }
+
+          if (
+            swarm.worldsanbox13Reader
+              ?.authenticationRequired !== true
+          ) {
+            throw new Error(
+              "Authentication must remain required"
+            );
+          }
+
+          if (
+            swarm.worldsanbox13Reader
+              ?.authorizationRequired !== true
+          ) {
+            throw new Error(
+              "Authorization must remain required"
+            );
+          }
+
+          if (
+            swarm.worldsanbox13Reader
+              ?.failClosed !== true
+          ) {
+            throw new Error(
+              "Worldsanbox13 reader must fail closed"
+            );
+          }
+
+          if (
+            swarm.matchaManitaBoundary
+              ?.browserReceivesBankingCredentials !== false
+          ) {
+            throw new Error(
+              "Banking credentials cannot be exposed to browser"
+            );
+          }
+
+          if (
+            swarm.matchaManitaBoundary
+              ?.browserReceivesWorldsanboxCredentials !== false
+          ) {
+            throw new Error(
+              "Worldsanbox13 credentials cannot be exposed to browser"
+            );
+          }
+
+          const allowed =
+            swarm.worldsanbox13Reader
+              ?.allowedRegistryIds || [];
+
+          if (!allowed.includes(expectedRegistry)) {
+            throw new Error(
+              "MATCHA MANITA registry is not allow-listed"
+            );
+          }
+
+          console.log(
+            "✅ MATCHA MANITA REGISTRY VALIDATION PASS"
+          );
+          NODE
+
+      - name: Validation complete
+        run: |
+          echo "=========================================="
+          echo "✅ MATCHA MANITA VALIDATION: PASS"
+          echo "=========================================="
