@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0.0",
+
+  "build": {
+    "id": "MATCHA-MANITA-BUILD-012",
+    "name": "MATCHA MANITA Frontend Runtime Engine",
+    "status": "PREPARED",
+    "repository": "Joaquinloera/matcha-manita",
+    "branch": "main",
+    "previousBuild": "MATCHA-MANITA-BUILD-011"
+  },
+
+  "swarm": {
+    "mode": "SWARM_AND_SKIM",
+    "target": "app.js",
+    "oneFileAtATime": true,
+    "sourceChangeRequired": true,
+    "verificationRequired": true
+  },
+
+  "runtimeEngine": {
+    "entrypoint": "index.html",
+    "javascript": "app.js",
+
+    "requiredFeatures": [
+      "AGE_GATE",
+      "MOBILE_NAVIGATION",
+      "PRODUCT_CATEGORY_FILTER",
+      "PRODUCT_SEARCH",
+      "PRODUCT_SORT",
+      "SHOPPING_BAG",
+      "CART_QUANTITY_CONTROL",
+      "CART_TOTAL",
+      "DELIVERY_ZIP_INTERFACE",
+      "APPLICATION_INTERFACE",
+      "LOGIN_INTERFACE",
+      "CHECKOUT_HANDOFF"
+    ]
+  },
+
+  "domContract": {
+    "requiredIds": [
+      "ageGate",
+      "enterBtn",
+      "leaveBtn",
+      "menuBtn",
+      "nav",
+      "cartBtn",
+      "cartCount",
+      "categories",
+      "search",
+      "sort",
+      "productGrid",
+      "zipForm",
+      "zip",
+      "zipStatus",
+      "applyForm",
+      "applyStatus",
+      "loginForm",
+      "loginStatus",
+      "drawer",
+      "closeCart",
+      "cartItems",
+      "cartTotal",
+      "checkoutBtn",
+      "checkoutStatus",
+      "scrim"
+    ]
+  },
+
+  "bankingBoundary": {
+    "system": "sonoraport-banking",
+    "executionAuthority": "sonoraport-banking",
+    "modifyBanking": false,
+
+    "frontend": {
+      "directBankingRequestsAllowed": false,
+      "paymentExecutionAllowed": false,
+      "bankingTokensAllowed": false,
+      "bankingSecretsAllowed": false,
+      "worldsandboxSecretsAllowed": false
+    },
+
+    "checkout": {
+      "mode": "SERVER_SIDE_HANDOFF_REQUIRED",
+      "failClosed": true,
+      "directBrowserPayment": false
+    }
+  },
+
+  "securityGate": {
+    "requireServerSideAuthentication": true,
+    "requireServerSideAuthorization": true,
+    "requirePolicyChecks": true,
+    "requireAuditReceipt": true,
+    "credentialsStoredInFrontend": false
+  },
+
+  "regressionRules": [
+    "DO_NOT_MODIFY_SONORAPORT_BANKING",
+    "DO_NOT_CHANGE_BANKING_AUTHENTICATION",
+    "DO_NOT_CHANGE_PAYMENT_CONTRACTS",
+    "DO_NOT_EXPOSE_BANKING_CREDENTIALS",
+    "DO_NOT_EXECUTE_PAYMENT_FROM_BROWSER",
+    "CHECKOUT_MUST_FAIL_CLOSED",
+    "APP_JS_MUST_MATCH_INDEX_HTML_DOM"
+  ],
+
+  "verification": {
+    "buildJsonUpload": "PENDING",
+    "appJsRepositoryPresence": "PENDING",
+    "javascriptSyntax": "PENDING",
+    "domContract": "PENDING",
+    "frontendSecretScan": "PENDING",
+    "checkoutBoundary": "PENDING",
+    "runtimeTest": "PENDING",
+    "finalStatus": "PENDING"
+  },
+
+  "nextSwarm": {
+    "afterBuild012JsonVerification": "APP_JS",
+    "rule": "VERIFY_GITHUB_UPLOAD_BEFORE_ADVANCING"
+  }
+}
