@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "1.1.0",
+
+  "registry": {
+    "id": "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001",
+    "recordType": "MATCHA_MANITA_FACILITY_BANKING_REGISTRY",
+    "status": "ACTIVE",
+    "changeType": "UPDATED_REGISTRY",
+    "sourceClassification": "USER_PROVIDED"
+  },
+
+  "agentSwarm": {
+    "command": "SWARM + SKIM MODE",
+    "method": [
+      "AI_AGENT_SKIMMING",
+      "AI_AGENT_SWARMING"
+    ],
+    "workflow": [
+      "SKIM",
+      "SWARM",
+      "IDENTIFY",
+      "CROSS_CHECK",
+      "BUILD",
+      "TEST",
+      "FIX",
+      "REGRESSION_TEST",
+      "VERIFY"
+    ],
+    "buildRule": "NO_SOURCE_CHANGE_PLUS_NO_EXECUTED_VERIFICATION_EQUALS_NO_BUILD"
+  },
+
+  "associatedRegistry": {
+    "name": "Kayleen Merissa Loera Guzman Sanchez Daniel",
+    "reference": "1335",
+    "status": "ACTIVE",
+    "existingLicensingRegistry": "worldsandbox13-licensing-records-1335-kayleen.json"
+  },
+
+  "matchaManita": {
+    "name": "MATCHA MANITA",
+    "facilityDesignation": "MATCHA MANITA HOME BASE + FACILITY",
+
+    "facility": {
+      "facilityId": "MATCHA-MANITA-HOMEBASE-1335-001",
+      "facilityType": "HOME_BASE_AND_FACILITY",
+      "status": "REGISTERED",
+
+      "address": {
+        "street": "870 S Tusa Rd",
+        "city": "Maricopa",
+        "state": "AZ",
+        "zip": "85139",
+        "country": "United States"
+      },
+
+      "propertyRegistry": {
+        "record": "worldsandbox13-property-870-s-tusa-rd.json",
+        "addressMatchRequired": true,
+        "ownershipVerificationImplied": false,
+        "licensingVerificationImplied": false
+      }
+    }
+  },
+
+  "architecture": {
+    "flow": [
+      "MATCHA_MANITA",
+      "AUTHENTICATED_SERVER_SIDE_BANKING_BRIDGE",
+      "SONORAPORT_BANKING",
+      "AUTHORIZED_WORLDSANBOX13_READER",
+      "WORLDSANBOX13_MATCHA_MANITA_HOMEBASE_1335_001"
+    ],
+
+    "worldsandboxRepository": {
+      "repository": "Joaquinloera/Worldsanbox13",
+      "branch": "main"
+    }
+  },
+
+  "sonoraportBanking": {
+    "bridgeRegistry": "data/sonoraport-banking-bridge.json",
+
+    "executionAuthority": "sonoraport-banking",
+
+    "access": {
+      "serverSideOnly": true,
+      "authenticationRequired": true,
+      "authorizationRequired": true,
+      "registryAllowListRequired": true,
+      "approvedRegistryReference": "1335",
+      "unknownRegistryIdsFailClosed": true,
+      "crossRegistryAuthorizationRejected": true,
+      "unrestrictedRegistryEnumeration": false
+    },
+
+    "payments": {
+      "existingPaymentContractsPreserved": true,
+      "facilityRegistryDirectMoneyMovement": false,
+      "paymentExecutionAuthority": "sonoraport-banking"
+    }
+  },
+
+  "security": {
+    "credentialsStoredInRepository": false,
+    "credentialsExposedToBrowser": false,
+    "bankingCredentialsExposedToMatchaManita": false,
+    "worldsandboxCredentialsExposedToBrowser": false,
+    "serverSideCredentialsOnly": true,
+    "failClosed": true,
+    "auditLoggingRequired": true,
+    "requestValidationRequired": true,
+    "responseResourceLimitsRequired": true
+  },
+
+  "integrationRequirements": {
+    "registryIdAllowList": true,
+    "serverSideAuthentication": true,
+    "authorizationBeforeRetrieval": true,
+    "approvedRecordsOnly": true,
+    "requestValidation": true,
+    "responseResourceLimits": true,
+    "credentialsRemovedFromResponses": true,
+    "auditLogging": true,
+    "unknownIdsFailClosed": true,
+    "crossRegistryAuthorizationRejected": true,
+    "existingBankingPaymentsUnchanged": true,
+    "matchaManitaPaymentCompatibilityRequired": true
+  },
+
+  "verification": {
+    "jsonSyntax": "PENDING_GITHUB_UPLOAD_VERIFICATION",
+    "repositoryPresence": "PENDING_GITHUB_UPLOAD",
+    "runtimeIntegration": "PENDING",
+    "bankingIntegration": "PENDING",
+    "automatedTests": "PENDING",
+    "regressionTests": "PENDING"
+  },
+
+  "agent281102ReturnUpdate": {
+    "reference": "281102",
+    "status": "RETURN_UPDATE_PREPARED",
+
+    "message": "MATCHA MANITA facility registry and SonoraPort Banking boundary update prepared during SWARM + SKIM MODE.",
+
+    "verifiedProgress": [
+      "WORLDSANBOX13 repository skimmed",
+      "Existing reference 1335 records identified",
+      "Existing SonoraPort Banking bridge identified",
+      "870 S Tusa property registry identified",
+      "MATCHA MANITA facility registry architecture prepared"
+    ],
+
+    "nextSwarmTarget": "VERIFY_GITHUB_UPLOAD_THEN_CONNECT_RUNTIME_AND_WEBSITE_LAYERS"
+  }
+}
