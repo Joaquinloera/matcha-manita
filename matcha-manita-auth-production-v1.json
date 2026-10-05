@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "MATCHA_MANITA_PRODUCTION_AUTH_CONTRACT",
+  "status": "ACTIVE",
+
+  "architecture": {
+    "environment": "production",
+    "authenticationRequired": true,
+    "serverVerifiedIdentityRequired": true,
+    "browserSuppliedCustomerIdTrusted": false,
+    "failClosed": true
+  },
+
+  "sessionBoundary": {
+    "serverSideVerificationRequired": true,
+    "customerIdSource": "VERIFIED_AUTHENTICATED_SESSION",
+    "clientMaySelectCustomerId": false,
+    "anonymousCheckoutAllowed": false,
+    "sessionRequiredForOrderCreation": true,
+    "sessionRequiredForPaymentOperations": true
+  },
+
+  "orderOwnership": {
+    "serverGeneratedOrderId": true,
+    "ownershipProofServerGenerated": true,
+    "ownershipSecretExposedToBrowser": false,
+    "customerIdMustMatchAuthenticatedSession": true,
+    "crossCustomerAccessRejected": true
+  },
+
+  "paymentAuthorization": {
+    "authority": "sonoraport-banking",
+    "directBrowserBankingAllowed": false,
+    "paymentIntentRequiresAuthenticatedOrder": true,
+    "paymentStatusRequiresOwnership": true,
+    "paymentCancellationRequiresOwnership": true,
+    "paymentReceiptRequiresOwnership": true,
+    "settlementStateMustComeFromAuthority": true,
+    "providerVerificationMustComeFromAuthority": true
+  },
+
+  "credentialPolicy": {
+    "passwordsStoredInFrontend": false,
+    "bankingTokensExposedToBrowser": false,
+    "apiKeysExposedToBrowser": false,
+    "privateKeysExposedToBrowser": false,
+    "serviceRoleCredentialsExposedToBrowser": false,
+    "webhookSecretsExposedToBrowser": false,
+    "panCvvPinStoredByMatchaManita": false
+  },
+
+  "identityProvider": {
+    "status": "REQUIRED_NOT_CONFIGURED",
+    "provider": null,
+    "productionConfigurationRequired": true,
+    "fakeAuthenticationAllowed": false
+  },
+
+  "integrationGate": {
+    "checkoutConnectionAllowedBeforeAuth": false,
+    "requirements": [
+      "PRODUCTION_IDENTITY_PROVIDER_CONFIGURED",
+      "SERVER_SESSION_VERIFICATION_IMPLEMENTED",
+      "ORDER_CUSTOMER_OWNERSHIP_ENFORCED",
+      "BANKING_CREDENTIALS_SERVER_SIDE_ONLY"
+    ]
+  },
+
+  "verification": {
+    "repositoryUpload": "PENDING",
+    "identityProviderRuntime": "PENDING",
+    "sessionRuntimeTest": "PENDING",
+    "checkoutIntegrationTest": "PENDING"
+  }
+}
