@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0",
+  "registryId": "MATCHA-MANITA-ASSETS-REQUIRED-V1",
+  "project": "MATCHA MANITA",
+  "repository": "Joaquinloera/matcha-manita",
+  "branch": "main",
+  "requiredAsset": {
+    "directory": "assets",
+    "filename": "matcha-manita-logo.png",
+    "path": "assets/matcha-manita-logo.png",
+    "required": true,
+    "referencedBy": "index.html"
+  },
+  "deployment": {
+    "target": "Netlify",
+    "siteName": "kayleenllc",
+    "siteId": "e5414df2-564d-4427-afa9-7fb03461b63a"
+  },
+  "verification": {
+    "assetExists": "PENDING",
+    "netlifyPackage": "PENDING",
+    "functionsIncluded": [
+      "netlify/functions/create-order-session.js",
+      "netlify/functions/create-payment-intent.js"
+    ]
+  },
+  "status": "WAITING_FOR_REQUIRED_ASSET"
+}
