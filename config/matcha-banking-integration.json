@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "integration": "matcha-manita-sonoraport-banking",
+  "mode": "server-to-server",
+  "authentication": {
+    "type": "hmac-sha256",
+    "timestampHeader": "x-matcha-timestamp",
+    "requestIdHeader": "x-matcha-request-id",
+    "idempotencyHeader": "x-idempotency-key",
+    "signatureHeader": "x-matcha-signature",
+    "secretsInConfig": false
+  },
+  "routes": {
+    "create": "/.netlify/functions/matcha-payment-intent-create",
+    "status": "/.netlify/functions/matcha-payment-intent-status",
+    "cancel": "/.netlify/functions/matcha-payment-intent-cancel",
+    "receipt": "/.netlify/functions/matcha-payment-intent-receipt",
+    "bindBankingPayment": "/.netlify/functions/matcha-payment-intent-bind"
+  },
+  "ownership": {
+    "required": [
+      "customerId",
+      "orderId",
+      "intentId"
+    ],
+    "enforceServerSide": true
+  },
+  "executionBinding": {
+    "field": "bankingPaymentId",
+    "allowRebind": false,
+    "allowTerminalIntentBind": false
+  },
+  "providerReconciliation": {
+    "authority": "provider-callback",
+    "allowBrowserSettlement": false,
+    "preventTerminalRollback": true,
+    "duplicateCallbackProtection": true
+  },
+  "security": {
+    "browserSecrets": false,
+    "failClosed": true,
+    "replayProtection": true,
+    "auditLifecycleChanges": true
+  }
+}
