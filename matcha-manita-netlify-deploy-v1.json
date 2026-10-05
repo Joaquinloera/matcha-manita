@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0",
+  "registryId": "MATCHA-MANITA-NETLIFY-DEPLOY-V1",
+  "project": "MATCHA MANITA",
+  "repository": "Joaquinloera/matcha-manita",
+  "branch": "main",
+  "netlify": {
+    "siteName": "kayleenllc",
+    "siteId": "e5414df2-564d-4427-afa9-7fb03461b63a"
+  },
+  "source": {
+    "appJsSha": "1e239b7f25c4adf0ee98abbf774cbfdb2beecc5e",
+    "indexHtmlSha": "870be4f3ca823233ce14e81d712ba293899c5d72",
+    "stylesCssSha": "229b3f48ba9cf028d74ec605a6ffcd4bccd1f05d",
+    "netlifyTomlSha": "9a057cc23a74ab8bc78d8768ca0171949c5280c5",
+    "createOrderSessionSha": "82977607f9b2b86bd4c678640004569cf8d2e5fc",
+    "createPaymentIntentSha": "b7578090cb8872f7780e519b0e9d624b4dc1181b"
+  },
+  "requiredFiles": [
+    "index.html",
+    "app.js",
+    "styles.css",
+    "netlify.toml",
+    "assets/",
+    "netlify/functions/create-order-session.js",
+    "netlify/functions/create-payment-intent.js"
+  ],
+  "productionChecks": {
+    "supabaseAuthentication": "REQUIRES_RUNTIME_VERIFICATION",
+    "createOrderSessionFunction": "REQUIRES_DEPLOYMENT",
+    "createPaymentIntentFunction": "REQUIRES_DEPLOYMENT",
+    "unauthenticatedOrderSessionExpectedStatus": 401,
+    "authenticatedOrderSession": "REQUIRES_RUNTIME_VERIFICATION",
+    "sonoraportBankingBridge": "REQUIRES_RUNTIME_VERIFICATION"
+  },
+  "security": {
+    "browserBankingSecrets": false,
+    "browserOwnershipSecret": false,
+    "customerIdentitySource": "SUPABASE_AUTH_USER_ID",
+    "orderOwnership": "SERVER_GENERATED_HMAC",
+    "failClosed": true
+  },
+  "status": "READY_FOR_DEPLOYMENT_VERIFICATION"
+}
