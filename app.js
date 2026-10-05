@@ -2,6 +2,7 @@
   "use strict";
 
   const $ = id => document.getElementById(id);
+
   const money = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD"
@@ -31,6 +32,8 @@
   let active = "All";
   let cart = [];
   let accessToken = "";
+  let orderSession = null;
+  let checkoutInFlight = false;
 
   function cats() {
     const host = $("categories");
@@ -78,16 +81,19 @@
           .includes(query))
     );
 
-    if (sort === "low")
+    if (sort === "low") {
       items.sort((a, b) => a.price - b.price);
+    }
 
-    if (sort === "high")
+    if (sort === "high") {
       items.sort((a, b) => b.price - a.price);
+    }
 
-    if (sort === "featured")
+    if (sort === "featured") {
       items.sort(
         (a, b) => a.featured - b.featured
       );
+    }
 
     return items;
   }
@@ -140,7 +146,10 @@
     if (item) {
       item.qty++;
     } else {
-      cart.push({ id, qty: 1 });
+      cart.push({
+        id,
+        qty: 1
+      });
     }
 
     bag();
@@ -160,22 +169,8 @@
     bag();
   }
 
-  function bag() {
-    const itemsHost = $("cartItems");
-    const count = $("cartCount");
-    const total = $("cartTotal");
-
-    if (!itemsHost || !count || !total)
-      return;
-
-    count.textContent = String(
-      cart.reduce(
-        (sum, item) => sum + item.qty,
-        0
-      )
-    );
-
-    total.textContent = money.format(
+  function cartAmountMinor() {
+    return Math.round(
       cart.reduce((sum, item) => {
         const product =
           products.find(
@@ -186,8 +181,30 @@
           (product
             ? product.price * item.qty
             : 0);
-      }, 0)
+      }, 0) * 100
     );
+  }
+
+  function bag() {
+    const itemsHost = $("cartItems");
+    const count = $("cartCount");
+    const total = $("cartTotal");
+
+    if (!itemsHost || !count || !total) {
+      return;
+    }
+
+    count.textContent = String(
+      cart.reduce(
+        (sum, item) => sum + item.qty,
+        0
+      )
+    );
+
+    total.textContent =
+      money.format(
+        cartAmountMinor() / 100
+      );
 
     itemsHost.innerHTML = "";
 
@@ -330,7 +347,9 @@
     if (
       !sessionResponse.ok ||
       !sessionBody.ok ||
-      !sessionBody.customerId
+      !sessionBody.customerId ||
+      !sessionBody.orderId ||
+      !sessionBody.ownershipProof
     ) {
       throw new Error(
         sessionBody.error ||
@@ -340,6 +359,17 @@
 
     accessToken =
       authBody.access_token;
+
+    orderSession = {
+      orderId:
+        sessionBody.orderId,
+
+      customerId:
+        sessionBody.customerId,
+
+      ownershipProof:
+        sessionBody.ownershipProof
+    };
 
     return sessionBody;
   }
@@ -380,9 +410,10 @@
   document
     .querySelectorAll("#nav a")
     .forEach(link => {
-      link.onclick = () =>
-        $("nav")
-          ?.classList.remove("open");
+      link.onclick =
+        () =>
+          $("nav")
+            ?.classList.remove("open");
     });
 
   $("cartBtn")
@@ -406,8 +437,9 @@
   document.addEventListener(
     "keydown",
     event => {
-      if (event.key === "Escape")
+      if (event.key === "Escape") {
         drawer(false);
+      }
     }
   );
 
@@ -507,6 +539,7 @@
           $("loginPassword").value = "";
         } catch (error) {
           accessToken = "";
+          orderSession = null;
 
           if (status) {
             status.textContent =
@@ -525,13 +558,136 @@
   $("checkoutBtn")
     ?.addEventListener(
       "click",
-      () => {
-        $("checkoutStatus").textContent =
-          !cart.length
-            ? "Add an item before continuing."
-            : !accessToken
-              ? "Sign in before continuing to protected checkout."
-              : "Customer session verified. Payment execution remains protected by the server-side SonoraPort Banking route.";
+      async () => {
+        const status =
+          $("checkoutStatus");
+
+        const button =
+          $("checkoutBtn");
+
+        if (!cart.length) {
+          status.textContent =
+            "Add an item before continuing.";
+          return;
+        }
+
+        if (
+          !accessToken ||
+          !orderSession
+        ) {
+          status.textContent =
+            "Sign in before continuing to protected checkout.";
+          return;
+        }
+
+        if (checkoutInFlight) {
+          return;
+        }
+
+        const amount =
+          cartAmountMinor();
+
+        if (
+          !Number.isInteger(amount) ||
+          amount <= 0
+        ) {
+          status.textContent =
+            "Checkout amount is invalid.";
+          return;
+        }
+
+        checkoutInFlight = true;
+
+        if (button) {
+          button.disabled = true;
+        }
+
+        status.textContent =
+          "Creating protected payment intent…";
+
+        try {
+          const idempotencyKey =
+            typeof crypto?.randomUUID ===
+              "function"
+              ? `mm-${crypto.randomUUID()}`
+              : `mm-${orderSession.orderId}-${Date.now()}`;
+
+          const paymentResponse =
+            await fetch(
+              "/.netlify/functions/create-payment-intent",
+              {
+                method: "POST",
+
+                headers: {
+                  "content-type":
+                    "application/json",
+
+                  "idempotency-key":
+                    idempotencyKey
+                },
+
+                body: JSON.stringify({
+                  amount,
+                  currency: "USD",
+
+                  orderId:
+                    orderSession.orderId,
+
+                  customerId:
+                    orderSession.customerId,
+
+                  ownershipProof:
+                    orderSession.ownershipProof,
+
+                  description:
+                    "MATCHA MANITA order"
+                })
+              }
+            );
+
+          const paymentBody =
+            await paymentResponse
+              .json()
+              .catch(() => ({}));
+
+          if (
+            !paymentResponse.ok ||
+            paymentBody.ok !== true
+          ) {
+            throw new Error(
+              paymentBody.error ||
+              "SonoraPort Banking rejected the payment intent."
+            );
+          }
+
+          const intent =
+            paymentBody.paymentIntent || {};
+
+          const state =
+            intent.status || "created";
+
+          status.textContent =
+            `Payment intent ${state}. Settlement executed: ${
+              paymentBody.settlementExecuted === true
+                ? "yes"
+                : "no"
+            }. Provider confirmed: ${
+              paymentBody.providerConfirmed === true
+                ? "yes"
+                : "no"
+            }.`;
+        } catch (error) {
+          status.textContent =
+            error instanceof Error
+              ? error.message
+              : "Protected checkout failed.";
+        } finally {
+          checkoutInFlight = false;
+
+          if (button) {
+            button.disabled = false;
+          }
+        }
       }
     );
 
