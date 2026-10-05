@@ -1,9 +1,13 @@
 const crypto = require("crypto");
 
+const SUPABASE_URL =
+  (process.env.MATCHA_MANITA_SUPABASE_URL || "").replace(/\/$/, "");
+
+const SUPABASE_PUBLISHABLE_KEY =
+  process.env.MATCHA_MANITA_SUPABASE_PUBLISHABLE_KEY || "";
+
 const ORDER_OWNERSHIP_SECRET =
   process.env.MATCHA_MANITA_ORDER_OWNERSHIP_SECRET || "";
-
-const MAX_BODY_BYTES = 8192;
 
 function response(statusCode, body) {
   return {
@@ -17,20 +21,54 @@ function response(statusCode, body) {
   };
 }
 
+function getBearerToken(headers = {}) {
+  const authorization =
+    headers.authorization ||
+    headers.Authorization ||
+    "";
+
+  const match = /^Bearer\s+(.+)$/i.exec(authorization);
+
+  return match ? match[1].trim() : "";
+}
+
+async function verifyCustomer(accessToken) {
+  const authResponse = await fetch(
+    `${SUPABASE_URL}/auth/v1/user`,
+    {
+      method: "GET",
+      headers: {
+        apikey: SUPABASE_PUBLISHABLE_KEY,
+        authorization: `Bearer ${accessToken}`,
+        accept: "application/json"
+      }
+    }
+  );
+
+  if (!authResponse.ok) {
+    return null;
+  }
+
+  const user = await authResponse.json();
+
+  if (
+    !user ||
+    typeof user.id !== "string" ||
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      user.id
+    )
+  ) {
+    return null;
+  }
+
+  return user;
+}
+
 function ownershipDigest(customerId, orderId) {
   return crypto
     .createHmac("sha256", ORDER_OWNERSHIP_SECRET)
     .update(`${customerId}:${orderId}`)
     .digest("hex");
-}
-
-function validIdentifier(value) {
-  return (
-    typeof value === "string" &&
-    value.length >= 8 &&
-    value.length <= 128 &&
-    /^[A-Za-z0-9_-]+$/.test(value)
-  );
 }
 
 exports.handler = async function handler(event) {
@@ -41,51 +79,57 @@ exports.handler = async function handler(event) {
     });
   }
 
-  if (!ORDER_OWNERSHIP_SECRET) {
+  if (
+    !SUPABASE_URL ||
+    !SUPABASE_PUBLISHABLE_KEY ||
+    !ORDER_OWNERSHIP_SECRET
+  ) {
     return response(503, {
       ok: false,
       error:
-        "Production order ownership service is not configured."
+        "Production customer authentication is not fully configured."
     });
   }
 
-  if (
-    Buffer.byteLength(event.body || "", "utf8") >
-    MAX_BODY_BYTES
-  ) {
-    return response(413, {
+  const accessToken = getBearerToken(event.headers);
+
+  if (!accessToken) {
+    return response(401, {
       ok: false,
-      error: "Request body too large."
+      error: "Authenticated customer session required."
     });
   }
 
-  let body;
+  let user;
 
   try {
-    body = JSON.parse(event.body || "{}");
+    user = await verifyCustomer(accessToken);
   } catch {
-    return response(400, {
+    return response(502, {
       ok: false,
-      error: "Invalid JSON request body."
+      error: "Customer identity service is unavailable."
     });
   }
 
-  if (!validIdentifier(body.customerId)) {
-    return response(400, {
+  if (!user) {
+    return response(401, {
       ok: false,
-      error: "A valid authenticated customer ID is required."
+      error: "Customer session could not be verified."
     });
   }
 
-  const orderId = `mm_${crypto.randomUUID()}`;
+  const customerId = user.id;
+
+  const orderId =
+    `mm_${crypto.randomUUID()}`;
 
   const ownershipProof =
-    ownershipDigest(body.customerId, orderId);
+    ownershipDigest(customerId, orderId);
 
   return response(201, {
     ok: true,
     orderId,
-    customerId: body.customerId,
+    customerId,
     ownershipProof
   });
 };
