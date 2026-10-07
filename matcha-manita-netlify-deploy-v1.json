@@ -1,44 +1,152 @@
 {
-  "schemaVersion": "1.0",
-  "registryId": "MATCHA-MANITA-NETLIFY-DEPLOY-V1",
+  "schemaVersion": "2.0",
+  "registryId": "MATCHA-MANITA-NETLIFY-DEPLOY-V2",
   "project": "MATCHA MANITA",
   "repository": "Joaquinloera/matcha-manita",
   "branch": "main",
+  "status": "ASSET_AND_RUNTIME_GATED",
+
   "netlify": {
     "siteName": "kayleenllc",
-    "siteId": "e5414df2-564d-4427-afa9-7fb03461b63a"
+    "siteId": "e5414df2-564d-4427-afa9-7fb03461b63a",
+    "functionsDirectory": "netlify/functions",
+    "publishDirectory": "."
   },
-  "source": {
-    "appJsSha": "1e239b7f25c4adf0ee98abbf774cbfdb2beecc5e",
-    "indexHtmlSha": "870be4f3ca823233ce14e81d712ba293899c5d72",
-    "stylesCssSha": "229b3f48ba9cf028d74ec605a6ffcd4bccd1f05d",
-    "netlifyTomlSha": "9a057cc23a74ab8bc78d8768ca0171949c5280c5",
-    "createOrderSessionSha": "82977607f9b2b86bd4c678640004569cf8d2e5fc",
-    "createPaymentIntentSha": "b7578090cb8872f7780e519b0e9d624b4dc1181b"
+
+  "verifiedSource": {
+    "appJs": {
+      "path": "app.js",
+      "sha": "a2f052aa47f995740f5a79f763dda47bf6c8356c"
+    },
+    "indexHtml": {
+      "path": "index.html",
+      "sha": "870be4f3ca823233ce14e81d712ba293899c5d72"
+    },
+    "stylesCss": {
+      "path": "styles.css",
+      "sha": "229b3f48ba9cf028d74ec605a6ffcd4bccd1f05d"
+    },
+    "netlifyToml": {
+      "path": "netlify.toml",
+      "sha": "9a057cc23a74ab8bc78d8768ca0171949c5280c5"
+    },
+    "skuCatalog": {
+      "path": "matcha-manita-sku-catalog-v1.json",
+      "sha": "5cf6a7703faf13a472065e5d73c90f091cec012a"
+    },
+    "createOrderSession": {
+      "path": "netlify/functions/create-order-session.js",
+      "sha": "82977607f9b2b86bd4c678640004569cf8d2e5fc"
+    },
+    "createPaymentIntent": {
+      "path": "netlify/functions/create-payment-intent.js",
+      "sha": "b7578090cb8872f7780e519b0e9d624b4dc1181b"
+    },
+    "bankingIntegrationRegistry": {
+      "path": "config/matcha-banking-integration.json",
+      "sha": "590e5e412a56e3f9f6c80621c19e5c5c4400f865"
+    },
+    "checkoutSwarmRegistry": {
+      "path": "matcha-manita-checkout-swarm-v1.json",
+      "sha": "108918e83098658f46528d3f071df6053ccee29f"
+    }
   },
+
   "requiredFiles": [
     "index.html",
     "app.js",
     "styles.css",
     "netlify.toml",
-    "assets/",
+    "matcha-manita-sku-catalog-v1.json",
+    "config/matcha-banking-integration.json",
+    "matcha-manita-checkout-swarm-v1.json",
     "netlify/functions/create-order-session.js",
     "netlify/functions/create-payment-intent.js"
   ],
-  "productionChecks": {
-    "supabaseAuthentication": "REQUIRES_RUNTIME_VERIFICATION",
-    "createOrderSessionFunction": "REQUIRES_DEPLOYMENT",
-    "createPaymentIntentFunction": "REQUIRES_DEPLOYMENT",
-    "unauthenticatedOrderSessionExpectedStatus": 401,
-    "authenticatedOrderSession": "REQUIRES_RUNTIME_VERIFICATION",
-    "sonoraportBankingBridge": "REQUIRES_RUNTIME_VERIFICATION"
+
+  "requiredAssets": {
+    "directory": "assets",
+    "logo": "assets/matcha-manita-logo.png",
+    "logoReferencedByIndex": true,
+    "logoPresentInVerifiedRepository": false,
+    "releaseGate": "BLOCKED_UNTIL_REQUIRED_ASSET_EXISTS"
   },
+
+  "runtimeArchitecture": {
+    "authentication": "SUPABASE_AUTH",
+    "customerIdentitySource": "VERIFIED_SUPABASE_USER_ID",
+    "anonymousCheckoutAllowed": false,
+    "orderSessionEndpoint": "/.netlify/functions/create-order-session",
+    "paymentIntentEndpoint": "/.netlify/functions/create-payment-intent",
+    "bankingAuthority": "SonoraPort Banking",
+    "directBrowserBanking": false,
+    "serverSideBankingRequired": true,
+    "orderOwnershipProofRequired": true,
+    "idempotencyRequired": true,
+    "failClosed": true
+  },
+
+  "environmentRequirements": {
+    "serverOnly": [
+      "MATCHA_MANITA_ORDER_OWNERSHIP_SECRET",
+      "MATCHA_MANITA_BANKING_TOKEN"
+    ],
+    "requiredRuntimeConfiguration": [
+      "MATCHA_MANITA_SUPABASE_URL",
+      "MATCHA_MANITA_SUPABASE_PUBLISHABLE_KEY",
+      "MATCHA_MANITA_ORDER_OWNERSHIP_SECRET",
+      "SONORAPORT_BANKING_API_URL",
+      "MATCHA_MANITA_BANKING_TOKEN"
+    ],
+    "secretValuesStoredInRegistry": false,
+    "secretValuesAllowedInFrontend": false
+  },
+
+  "productionChecks": {
+    "sourceRepository": "VERIFIED",
+    "jsonContracts": "VERIFIED",
+    "skuCatalogWiring": "VERIFIED",
+    "orderSessionSource": "VERIFIED",
+    "paymentIntentSource": "VERIFIED",
+    "requiredArtworkAssets": "BLOCKED",
+    "netlifyFunctionsDeployment": "PENDING",
+    "supabaseAuthenticationRuntime": "PENDING",
+    "unauthenticatedOrderSessionExpectedStatus": 401,
+    "authenticatedOrderSessionRuntime": "PENDING",
+    "ownershipProofRuntime": "PENDING",
+    "paymentIntentRuntime": "PENDING",
+    "sonoraportBankingBridgeRuntime": "PENDING",
+    "endToEndCheckout": "PENDING"
+  },
+
   "security": {
     "browserBankingSecrets": false,
     "browserOwnershipSecret": false,
-    "customerIdentitySource": "SUPABASE_AUTH_USER_ID",
+    "browserServiceRoleCredentials": false,
+    "browserSuppliedCustomerIdTrusted": false,
     "orderOwnership": "SERVER_GENERATED_HMAC",
+    "settlementAuthority": "SONORAPORT_BANKING",
+    "manufacturedSettlementSuccessAllowed": false,
     "failClosed": true
   },
-  "status": "READY_FOR_DEPLOYMENT_VERIFICATION"
+
+  "releaseGate": {
+    "sourceReady": true,
+    "assetsReady": false,
+    "runtimeVerified": false,
+    "productionReady": false,
+    "blockingReasons": [
+      "REQUIRED_LOGO_ASSET_NOT_VERIFIED_IN_REPOSITORY",
+      "NETLIFY_FUNCTIONS_DEPLOYMENT_NOT_VERIFIED",
+      "AUTHENTICATED_RUNTIME_NOT_VERIFIED",
+      "SONORAPORT_BANKING_RUNTIME_NOT_VERIFIED",
+      "END_TO_END_CHECKOUT_NOT_VERIFIED"
+    ]
+  },
+
+  "nextSwarm": {
+    "target": "AUTH_REGISTRY_AND_VALIDATION_WORKFLOW",
+    "deployAfterRequiredAssetsExist": true,
+    "doNotClaimProductionReadyBeforeRuntimeVerification": true
+  }
 }
