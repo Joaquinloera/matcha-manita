@@ -1,43 +1,124 @@
 {
-  "schemaVersion": "1.0",
-  "registryId": "MATCHA-MANITA-CHECKOUT-SWARM-V1",
+  "schemaVersion": "2.0",
+  "registryId": "MATCHA-MANITA-CHECKOUT-SWARM-V2",
   "project": "MATCHA MANITA",
   "repository": "Joaquinloera/matcha-manita",
   "branch": "main",
-  "targetFile": "app.js",
-  "verifiedBaseSha": "1e239b7f25c4adf0ee98abbf774cbfdb2beecc5e",
+  "status": "ACTIVE",
+
+  "source": {
+    "targetFile": "app.js",
+    "verifiedAppJsSha": "a2f052aa47f995740f5a79f763dda47bf6c8356c",
+    "skuCatalog": "matcha-manita-sku-catalog-v1.json",
+    "verifiedSkuCatalogSha": "5cf6a7703faf13a472065e5d73c90f091cec012a",
+    "orderSessionFunction": "netlify/functions/create-order-session.js",
+    "verifiedOrderSessionSha": "82977607f9b2b86bd4c678640004569cf8d2e5fc",
+    "paymentIntentFunction": "netlify/functions/create-payment-intent.js",
+    "verifiedPaymentIntentSha": "b7578090cb8872f7780e519b0e9d624b4dc1181b"
+  },
+
   "swarm": {
-    "auth": "retain server-issued authenticated order session",
-    "order": "use orderId, customerId and ownershipProof returned by create-order-session",
-    "checkout": "calculate cart amount in integer USD minor units",
-    "idempotency": "generate a unique Idempotency-Key for payment-intent creation",
+    "mode": "SWARM_AND_SKIM",
+    "workstreams": [
+      "AUTH",
+      "CATALOG",
+      "CART",
+      "PAYMENT",
+      "SECURITY",
+      "INTEGRATION",
+      "TEST"
+    ],
+    "authentication": "SUPABASE_AUTH",
+    "authenticatedOrderSessionRequired": true,
+    "browserSuppliedCustomerIdTrusted": false,
+    "orderOwnershipProofRequired": true,
+    "checkoutAmountUnit": "INTEGER_USD_MINOR_UNITS",
+    "cartIdentity": "SKU",
+    "idempotencyRequired": true,
     "paymentBoundary": "/.netlify/functions/create-payment-intent",
+    "orderSessionBoundary": "/.netlify/functions/create-order-session",
     "bankingAuthority": "SonoraPort Banking",
     "clientBankingSecrets": false,
     "clientOwnershipSecret": false,
-    "authoritativeStatus": "display Banking response; do not manufacture settlement success"
+    "manufacturedSettlementSuccessAllowed": false
   },
-  "requiredRequest": {
+
+  "catalogContract": {
+    "registryId": "matcha-manita-sku-catalog-v1",
+    "runtimeSource": "/matcha-manita-sku-catalog-v1.json",
+    "skuRequired": true,
+    "uniqueSkuRequired": true,
+    "priceField": "priceMinor",
+    "integerMinorUnitsRequired": true,
+    "unavailableSkuRejected": true,
+    "cartUsesExactSku": true
+  },
+
+  "orderContract": {
+    "customerIdentitySource": "VERIFIED_SUPABASE_USER",
+    "orderIdGeneratedServerSide": true,
+    "customerIdGeneratedFromVerifiedSession": true,
+    "ownershipProofGeneratedServerSide": true,
+    "ownershipAlgorithm": "HMAC-SHA256",
+    "anonymousCheckoutAllowed": false
+  },
+
+  "paymentContract": {
     "method": "POST",
-    "headers": [
+    "endpoint": "/.netlify/functions/create-payment-intent",
+    "requiredHeaders": [
       "content-type: application/json",
       "idempotency-key"
     ],
-    "bodyFields": [
+    "requiredBodyFields": [
       "amount",
       "currency",
       "orderId",
       "customerId",
       "ownershipProof",
       "description"
-    ]
+    ],
+    "amountMustBePositiveInteger": true,
+    "currency": "USD",
+    "ownershipValidationServerSide": true,
+    "bankingCredentialsServerSideOnly": true
   },
-  "verificationAfterUpload": [
-    "fetch app.js from GitHub main",
-    "verify checkout calls create-payment-intent",
-    "verify idempotency key exists",
-    "verify Banking secrets are not in browser code",
-    "verify order ownership fields come from authenticated server-issued session"
-  ],
-  "status": "READY_FOR_MANUAL_GITHUB_UPLOAD"
+
+  "authoritativeResponse": {
+    "authority": "SONORAPORT_BANKING",
+    "settlementExecutedMustComeFromAuthority": true,
+    "providerConfirmedMustComeFromAuthority": true,
+    "browserMayManufactureSuccess": false,
+    "browserMayOverrideSettlementState": false
+  },
+
+  "securityGate": {
+    "bankingSecretsInFrontend": false,
+    "ownershipSecretInFrontend": false,
+    "serviceRoleCredentialsInFrontend": false,
+    "browserSuppliedCustomerIdentityTrusted": false,
+    "directBrowserBankingAllowed": false,
+    "failClosed": true
+  },
+
+  "verification": {
+    "githubSourceVerified": true,
+    "catalogWiringVerified": true,
+    "skuCartIdentityVerified": true,
+    "integerMinorUnitsVerified": true,
+    "orderSessionBoundaryVerified": true,
+    "ownershipProofBoundaryVerified": true,
+    "paymentIntentBoundaryVerified": true,
+    "cryptoRandomUuidGuardVerified": true,
+    "deployedRuntime": "PENDING",
+    "authenticatedCheckoutRuntime": "PENDING",
+    "bankingRuntime": "PENDING"
+  },
+
+  "remainingGates": {
+    "requiredArtworkAssets": "PENDING",
+    "artworkHotspotMap": "BLOCKED_UNTIL_ASSETS_EXIST",
+    "netlifyRuntimeVerification": "PENDING",
+    "endToEndCheckoutVerification": "PENDING"
+  }
 }
