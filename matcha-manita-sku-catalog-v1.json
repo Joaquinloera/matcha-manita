@@ -1,0 +1,156 @@
+{
+  "registryId": "matcha-manita-sku-catalog-v1",
+  "version": "1.0.0",
+  "status": "ACTIVE",
+  "currency": "USD",
+  "priceUnit": "cents",
+  "products": [
+    {
+      "id": "mm-01",
+      "name": "Emerald Collection",
+      "category": "Flower",
+      "variants": [
+        {
+          "sku": "mm-01-1g",
+          "weight": "1g",
+          "priceMinor": 300,
+          "available": true
+        },
+        {
+          "sku": "mm-01-3.5g",
+          "weight": "1/8 oz",
+          "grams": 3.5,
+          "priceMinor": 1000,
+          "available": true
+        },
+        {
+          "sku": "mm-01-7g",
+          "weight": "1/4 oz",
+          "grams": 7,
+          "priceMinor": 2000,
+          "available": true
+        },
+        {
+          "sku": "mm-01-14g",
+          "weight": "1/2 oz",
+          "grams": 14,
+          "priceMinor": 4000,
+          "available": true
+        },
+        {
+          "sku": "mm-01-28g",
+          "weight": "1 oz",
+          "grams": 28,
+          "priceMinor": 8000,
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "mm-02",
+      "name": "Purple Orbit",
+      "category": "Flower",
+      "variants": [
+        {
+          "sku": "mm-02-1g",
+          "weight": "1g",
+          "priceMinor": 300,
+          "available": true
+        },
+        {
+          "sku": "mm-02-3.5g",
+          "weight": "1/8 oz",
+          "grams": 3.5,
+          "priceMinor": 1000,
+          "available": true
+        },
+        {
+          "sku": "mm-02-7g",
+          "weight": "1/4 oz",
+          "grams": 7,
+          "priceMinor": 2000,
+          "available": true
+        },
+        {
+          "sku": "mm-02-14g",
+          "weight": "1/2 oz",
+          "grams": 14,
+          "priceMinor": 4000,
+          "available": true
+        },
+        {
+          "sku": "mm-02-28g",
+          "weight": "1 oz",
+          "grams": 28,
+          "priceMinor": 8000,
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "mm-03",
+      "name": "Golden Moon",
+      "category": "Concentrates",
+      "variants": [
+        {
+          "sku": "mm-03-1g",
+          "weight": "1g",
+          "priceMinor": 3800,
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "mm-04",
+      "name": "Diamond Drop",
+      "category": "Concentrates",
+      "variants": [
+        {
+          "sku": "mm-04-1g",
+          "weight": "1g",
+          "priceMinor": 5200,
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "mm-05",
+      "name": "Cosmic Chews",
+      "category": "Edibles",
+      "variants": [
+        {
+          "sku": "mm-05-unit",
+          "size": "Unit",
+          "priceMinor": 2400,
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "mm-06",
+      "name": "Hive Vape",
+      "category": "Vapes",
+      "variants": [
+        {
+          "sku": "mm-06-unit",
+          "size": "Unit",
+          "priceMinor": 3600,
+          "available": true
+        }
+      ]
+    }
+  ],
+  "cartRules": {
+    "identityField": "sku",
+    "quantityMinimum": 1,
+    "useIntegerMinorUnits": true,
+    "rejectUnavailableSku": true
+  },
+  "checkout": {
+    "authenticationRequired": true,
+    "orderSessionRequired": true,
+    "ownershipProofRequired": true,
+    "paymentIntentBoundary": "/.netlify/functions/create-payment-intent",
+    "orderSessionBoundary": "/.netlify/functions/create-order-session"
+  }
+}
