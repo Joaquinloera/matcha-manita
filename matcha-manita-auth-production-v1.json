@@ -1,75 +1,133 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "2.0",
   "recordType": "MATCHA_MANITA_PRODUCTION_AUTH_CONTRACT",
-  "status": "ACTIVE",
+  "registryId": "MATCHA-MANITA-AUTH-PRODUCTION-V2",
+  "project": "MATCHA MANITA",
+  "repository": "Joaquinloera/matcha-manita",
+  "branch": "main",
+  "status": "IMPLEMENTED_RUNTIME_VERIFICATION_PENDING",
 
   "architecture": {
     "environment": "production",
     "authenticationRequired": true,
     "serverVerifiedIdentityRequired": true,
     "browserSuppliedCustomerIdTrusted": false,
+    "anonymousCheckoutAllowed": false,
+    "failClosed": true
+  },
+
+  "identityProvider": {
+    "provider": "SUPABASE_AUTH",
+    "projectId": "xbzxzdcfrhsxrqlpqzdw",
+    "implementationStatus": "IMPLEMENTED",
+    "runtimeVerification": "PENDING",
+    "fakeAuthenticationAllowed": false
+  },
+
+  "clientAuthentication": {
+    "implementation": "app.js",
+    "verifiedSourceSha": "a2f052aa47f995740f5a79f763dda47bf6c8356c",
+    "flow": "PASSWORD_SIGN_IN",
+    "supabaseEndpoint": "/auth/v1/token?grant_type=password",
+    "publishableCredentialOnly": true,
+    "serviceRoleCredentialAllowed": false,
+    "bankingCredentialAllowed": false,
+    "ownershipSecretAllowed": false
+  },
+
+  "serverIdentityVerification": {
+    "implementation": "netlify/functions/create-order-session.js",
+    "verifiedSourceSha": "82977607f9b2b86bd4c678640004569cf8d2e5fc",
+    "provider": "SUPABASE_AUTH",
+    "verificationEndpoint": "/auth/v1/user",
+    "bearerAccessTokenRequired": true,
+    "customerIdSource": "VERIFIED_SUPABASE_USER_ID",
+    "clientMaySelectCustomerId": false,
+    "invalidSessionStatus": 401,
+    "missingSessionStatus": 401,
+    "identityServiceFailureStatus": 502,
+    "missingServerConfigurationStatus": 503,
     "failClosed": true
   },
 
   "sessionBoundary": {
+    "orderSessionEndpoint": "/.netlify/functions/create-order-session",
     "serverSideVerificationRequired": true,
-    "customerIdSource": "VERIFIED_AUTHENTICATED_SESSION",
-    "clientMaySelectCustomerId": false,
-    "anonymousCheckoutAllowed": false,
     "sessionRequiredForOrderCreation": true,
-    "sessionRequiredForPaymentOperations": true
+    "sessionRequiredForProtectedCheckout": true,
+    "customerIdSource": "VERIFIED_AUTHENTICATED_SESSION"
   },
 
   "orderOwnership": {
-    "serverGeneratedOrderId": true,
-    "ownershipProofServerGenerated": true,
+    "orderIdGeneratedServerSide": true,
+    "orderIdGenerator": "crypto.randomUUID",
+    "ownershipProofGeneratedServerSide": true,
+    "ownershipAlgorithm": "HMAC-SHA256",
+    "ownershipSecretEnvironmentVariable": "MATCHA_MANITA_ORDER_OWNERSHIP_SECRET",
     "ownershipSecretExposedToBrowser": false,
-    "customerIdMustMatchAuthenticatedSession": true,
-    "crossCustomerAccessRejected": true
+    "customerIdMustComeFromAuthenticatedSession": true
   },
 
   "paymentAuthorization": {
-    "authority": "sonoraport-banking",
+    "authority": "SONORAPORT_BANKING",
+    "paymentIntentEndpoint": "/.netlify/functions/create-payment-intent",
     "directBrowserBankingAllowed": false,
-    "paymentIntentRequiresAuthenticatedOrder": true,
-    "paymentStatusRequiresOwnership": true,
-    "paymentCancellationRequiresOwnership": true,
-    "paymentReceiptRequiresOwnership": true,
+    "paymentIntentRequiresAuthenticatedOrderSession": true,
+    "ownershipProofRequired": true,
     "settlementStateMustComeFromAuthority": true,
-    "providerVerificationMustComeFromAuthority": true
+    "providerVerificationMustComeFromAuthority": true,
+    "manufacturedSettlementSuccessAllowed": false
   },
 
   "credentialPolicy": {
-    "passwordsStoredInFrontend": false,
-    "bankingTokensExposedToBrowser": false,
-    "apiKeysExposedToBrowser": false,
+    "passwordStoredInFrontendSource": false,
+    "bankingTokenExposedToBrowser": false,
     "privateKeysExposedToBrowser": false,
     "serviceRoleCredentialsExposedToBrowser": false,
+    "ownershipSecretExposedToBrowser": false,
     "webhookSecretsExposedToBrowser": false,
     "panCvvPinStoredByMatchaManita": false
   },
 
-  "identityProvider": {
-    "status": "REQUIRED_NOT_CONFIGURED",
-    "provider": null,
-    "productionConfigurationRequired": true,
-    "fakeAuthenticationAllowed": false
+  "requiredServerEnvironment": [
+    "MATCHA_MANITA_SUPABASE_URL",
+    "MATCHA_MANITA_SUPABASE_PUBLISHABLE_KEY",
+    "MATCHA_MANITA_ORDER_OWNERSHIP_SECRET"
+  ],
+
+  "sourceVerification": {
+    "appJs": {
+      "status": "VERIFIED",
+      "sha": "a2f052aa47f995740f5a79f763dda47bf6c8356c"
+    },
+    "createOrderSession": {
+      "status": "VERIFIED",
+      "sha": "82977607f9b2b86bd4c678640004569cf8d2e5fc"
+    },
+    "supabaseAuthImplementation": "VERIFIED_IN_SOURCE",
+    "serverIdentityVerificationImplementation": "VERIFIED_IN_SOURCE",
+    "serverGeneratedOrderOwnership": "VERIFIED_IN_SOURCE"
   },
 
-  "integrationGate": {
-    "checkoutConnectionAllowedBeforeAuth": false,
-    "requirements": [
-      "PRODUCTION_IDENTITY_PROVIDER_CONFIGURED",
-      "SERVER_SESSION_VERIFICATION_IMPLEMENTED",
-      "ORDER_CUSTOMER_OWNERSHIP_ENFORCED",
-      "BANKING_CREDENTIALS_SERVER_SIDE_ONLY"
-    ]
+  "runtimeVerification": {
+    "supabasePasswordSignIn": "PENDING",
+    "accessTokenVerification": "PENDING",
+    "authenticatedOrderSession": "PENDING",
+    "invalidTokenRejection": "PENDING",
+    "missingTokenRejection": "PENDING",
+    "ownershipProofRuntime": "PENDING",
+    "protectedCheckout": "PENDING"
   },
 
-  "verification": {
-    "repositoryUpload": "PENDING",
-    "identityProviderRuntime": "PENDING",
-    "sessionRuntimeTest": "PENDING",
-    "checkoutIntegrationTest": "PENDING"
+  "releaseGate": {
+    "sourceImplementationReady": true,
+    "runtimeVerified": false,
+    "productionAuthVerified": false,
+    "doNotClaimProductionVerifiedUntilRuntimeTestsPass": true
+  },
+
+  "nextSwarm": {
+    "target": ".github/workflows/matcha-manita-validation.yml",
+    "mission": "ADD_SOURCE_CATALOG_AUTH_PAYMENT_AND_CONTRACT_DRIFT_GATES"
   }
 }
