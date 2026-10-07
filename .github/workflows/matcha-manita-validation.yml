@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   validate:
-    name: Validate MATCHA MANITA Registry
+    name: Validate MATCHA MANITA
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -27,12 +27,21 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Validate JSON files
+      - name: Validate JavaScript syntax
         shell: bash
         run: |
           set -euo pipefail
 
-          echo "🔎 MATCHA MANITA JSON validation starting..."
+          node --check app.js
+          node --check netlify/functions/create-order-session.js
+          node --check netlify/functions/create-payment-intent.js
+
+          echo "✅ JAVASCRIPT SYNTAX PASS"
+
+      - name: Validate JSON files
+        shell: bash
+        run: |
+          set -euo pipefail
 
           mapfile -t JSON_FILES < <(
             find . \
@@ -50,22 +59,446 @@ jobs:
 
           for file in "${JSON_FILES[@]}"; do
             echo "Checking: $file"
+
             node -e "
               const fs = require('fs');
               const file = process.argv[1];
 
               try {
-                JSON.parse(fs.readFileSync(file, 'utf8'));
-                console.log('✅ Valid JSON:', file);
+                JSON.parse(
+                  fs.readFileSync(file, 'utf8')
+                );
+
+                console.log(
+                  '✅ Valid JSON:',
+                  file
+                );
               } catch (error) {
-                console.error('❌ Invalid JSON:', file);
-                console.error(error.message);
+                console.error(
+                  '❌ Invalid JSON:',
+                  file
+                );
+
+                console.error(
+                  error.message
+                );
+
                 process.exit(1);
               }
             " "$file"
           done
 
-          echo "✅ ALL JSON FILES VALID"
+          echo "✅ JSON VALIDATION PASS"
+
+      - name: Validate SKU catalog
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          node <<'NODE'
+          const fs = require("fs");
+
+          const catalog =
+            JSON.parse(
+              fs.readFileSync(
+                "matcha-manita-sku-catalog-v1.json",
+                "utf8"
+              )
+            );
+
+          if (
+            catalog.registryId !==
+            "matcha-manita-sku-catalog-v1"
+          ) {
+            throw new Error(
+              "Unexpected catalog registry ID"
+            );
+          }
+
+          if (
+            !Array.isArray(catalog.products) ||
+            !catalog.products.length
+          ) {
+            throw new Error(
+              "Catalog must contain products"
+            );
+          }
+
+          const skus = new Set();
+
+          for (const product of catalog.products) {
+            if (
+              !product.id ||
+              !product.name ||
+              !product.category ||
+              !Array.isArray(product.variants)
+            ) {
+              throw new Error(
+                `Invalid product: ${product.id || "UNKNOWN"}`
+              );
+            }
+
+            for (const variant of product.variants) {
+              if (!variant.sku) {
+                throw new Error(
+                  `Missing SKU: ${product.id}`
+                );
+              }
+
+              if (skus.has(variant.sku)) {
+                throw new Error(
+                  `Duplicate SKU: ${variant.sku}`
+                );
+              }
+
+              skus.add(variant.sku);
+
+              if (
+                !Number.isInteger(
+                  variant.priceMinor
+                ) ||
+                variant.priceMinor < 0
+              ) {
+                throw new Error(
+                  `Invalid priceMinor: ${variant.sku}`
+                );
+              }
+            }
+          }
+
+          if (
+            catalog.checkout
+              ?.paymentIntentBoundary !==
+            "/.netlify/functions/create-payment-intent"
+          ) {
+            throw new Error(
+              "Catalog payment boundary drift"
+            );
+          }
+
+          if (
+            catalog.checkout
+              ?.orderSessionBoundary !==
+            "/.netlify/functions/create-order-session"
+          ) {
+            throw new Error(
+              "Catalog order-session boundary drift"
+            );
+          }
+
+          if (
+            catalog.checkout
+              ?.authenticationRequired !== true ||
+            catalog.checkout
+              ?.orderSessionRequired !== true ||
+            catalog.checkout
+              ?.ownershipProofRequired !== true
+          ) {
+            throw new Error(
+              "Protected checkout requirements drifted"
+            );
+          }
+
+          console.log(
+            `✅ SKU CATALOG PASS: ${skus.size} SKUs`
+          );
+          NODE
+
+      - name: Validate frontend boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          node <<'NODE'
+          const fs = require("fs");
+
+          const app =
+            fs.readFileSync(
+              "app.js",
+              "utf8"
+            );
+
+          const required = [
+            "/matcha-manita-sku-catalog-v1.json",
+            "/.netlify/functions/create-order-session",
+            "/.netlify/functions/create-payment-intent",
+            "idempotency-key",
+            "ownershipProof",
+            "priceMinor",
+            "SUPABASE_PUBLISHABLE_KEY"
+          ];
+
+          for (const value of required) {
+            if (!app.includes(value)) {
+              throw new Error(
+                `app.js missing required boundary: ${value}`
+              );
+            }
+          }
+
+          const forbidden = [
+            "/.netlify/functions/matcha-payment-intent-create",
+            "/.netlify/functions/matcha-payment-intent-status",
+            "/.netlify/functions/matcha-payment-intent-cancel",
+            "/.netlify/functions/matcha-payment-intent-receipt",
+            "/.netlify/functions/matcha-payment-intent-bind"
+          ];
+
+          for (const value of forbidden) {
+            if (app.includes(value)) {
+              throw new Error(
+                `Stale frontend route detected: ${value}`
+              );
+            }
+          }
+
+          console.log(
+            "✅ FRONTEND BOUNDARY PASS"
+          );
+          NODE
+
+      - name: Validate authentication boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          node <<'NODE'
+          const fs = require("fs");
+
+          const app =
+            fs.readFileSync(
+              "app.js",
+              "utf8"
+            );
+
+          const order =
+            fs.readFileSync(
+              "netlify/functions/create-order-session.js",
+              "utf8"
+            );
+
+          if (
+            !app.includes(
+              "/auth/v1/token?grant_type=password"
+            )
+          ) {
+            throw new Error(
+              "Supabase password authentication missing"
+            );
+          }
+
+          if (
+            !order.includes("/auth/v1/user")
+          ) {
+            throw new Error(
+              "Server identity verification missing"
+            );
+          }
+
+          if (
+            !order.includes(
+              "MATCHA_MANITA_ORDER_OWNERSHIP_SECRET"
+            )
+          ) {
+            throw new Error(
+              "Order ownership secret boundary missing"
+            );
+          }
+
+          if (
+            !order.includes(
+              'createHmac("sha256"'
+            )
+          ) {
+            throw new Error(
+              "HMAC ownership proof missing"
+            );
+          }
+
+          console.log(
+            "✅ AUTHENTICATION BOUNDARY PASS"
+          );
+          NODE
+
+      - name: Validate payment boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          node <<'NODE'
+          const fs = require("fs");
+
+          const payment =
+            fs.readFileSync(
+              "netlify/functions/create-payment-intent.js",
+              "utf8"
+            );
+
+          const required = [
+            "SONORAPORT_BANKING_API_URL",
+            "MATCHA_MANITA_BANKING_TOKEN",
+            "MATCHA_MANITA_ORDER_OWNERSHIP_SECRET",
+            "idempotency-key",
+            "/api/matcha-manita/payment-intents"
+          ];
+
+          for (const value of required) {
+            if (!payment.includes(value)) {
+              throw new Error(
+                `Payment boundary missing: ${value}`
+              );
+            }
+          }
+
+          console.log(
+            "✅ PAYMENT BOUNDARY PASS"
+          );
+          NODE
+
+      - name: Validate integration registries
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          node <<'NODE'
+          const fs = require("fs");
+
+          const banking =
+            JSON.parse(
+              fs.readFileSync(
+                "config/matcha-banking-integration.json",
+                "utf8"
+              )
+            );
+
+          const checkout =
+            JSON.parse(
+              fs.readFileSync(
+                "matcha-manita-checkout-swarm-v1.json",
+                "utf8"
+              )
+            );
+
+          const auth =
+            JSON.parse(
+              fs.readFileSync(
+                "matcha-manita-auth-production-v1.json",
+                "utf8"
+              )
+            );
+
+          if (
+            banking.frontendBoundary
+              ?.paymentEndpoint !==
+            "/.netlify/functions/create-payment-intent"
+          ) {
+            throw new Error(
+              "Banking registry payment route drift"
+            );
+          }
+
+          if (
+            banking.frontendBoundary
+              ?.orderSessionEndpoint !==
+            "/.netlify/functions/create-order-session"
+          ) {
+            throw new Error(
+              "Banking registry order route drift"
+            );
+          }
+
+          if (
+            checkout.swarm
+              ?.cartIdentity !== "SKU"
+          ) {
+            throw new Error(
+              "Checkout registry must use SKU identity"
+            );
+          }
+
+          if (
+            checkout.securityGate
+              ?.failClosed !== true
+          ) {
+            throw new Error(
+              "Checkout registry must fail closed"
+            );
+          }
+
+          if (
+            auth.identityProvider
+              ?.provider !== "SUPABASE_AUTH"
+          ) {
+            throw new Error(
+              "Auth registry provider drift"
+            );
+          }
+
+          if (
+            auth.identityProvider
+              ?.implementationStatus !==
+            "IMPLEMENTED"
+          ) {
+            throw new Error(
+              "Supabase source implementation status drift"
+            );
+          }
+
+          console.log(
+            "✅ INTEGRATION REGISTRY PASS"
+          );
+          NODE
+
+      - name: Scan frontend for protected secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          node <<'NODE'
+          const fs = require("fs");
+
+          const app =
+            fs.readFileSync(
+              "app.js",
+              "utf8"
+            );
+
+          const forbidden = [
+            "MATCHA_MANITA_BANKING_TOKEN",
+            "MATCHA_MANITA_ORDER_OWNERSHIP_SECRET",
+            "SUPABASE_SERVICE_ROLE_KEY",
+            "service_role"
+          ];
+
+          for (const value of forbidden) {
+            if (app.includes(value)) {
+              throw new Error(
+                `Protected server credential reference found in app.js: ${value}`
+              );
+            }
+          }
+
+          console.log(
+            "✅ FRONTEND SECRET BOUNDARY PASS"
+          );
+          NODE
+
+      - name: Validate required artwork asset
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ASSET="assets/matcha-manita-logo.png"
+
+          if [ ! -f "$ASSET" ]; then
+            echo "❌ Required artwork asset missing:"
+            echo "$ASSET"
+            echo ""
+            echo "Upload the verified MATCHA MANITA logo before release."
+            exit 1
+          fi
+
+          echo "✅ REQUIRED ARTWORK ASSET PASS"
 
       - name: Validate MATCHA MANITA home-base registry
         shell: bash
@@ -82,38 +515,41 @@ jobs:
           node <<'NODE'
           const fs = require("fs");
 
-          const file =
-            "worldsandbox13-matcha-manita-homebase-1335.json";
-
-          const data = JSON.parse(
-            fs.readFileSync(file, "utf8")
-          );
+          const data =
+            JSON.parse(
+              fs.readFileSync(
+                "worldsandbox13-matcha-manita-homebase-1335.json",
+                "utf8"
+              )
+            );
 
           const swarm = data.swarm;
 
           if (!swarm) {
-            throw new Error("Missing swarm object");
-          }
-
-          const facility = swarm.authorizedFacilityRegistry;
-
-          if (!facility) {
             throw new Error(
-              "Missing authorizedFacilityRegistry"
+              "Missing swarm object"
             );
           }
+
+          const facility =
+            swarm.authorizedFacilityRegistry;
 
           const expectedRegistry =
             "WORLDSANBOX13-MATCHA-MANITA-HOMEBASE-1335-001";
 
-          if (facility.registryId !== expectedRegistry) {
+          if (
+            !facility ||
+            facility.registryId !==
+              expectedRegistry
+          ) {
             throw new Error(
               "Unexpected MATCHA MANITA registry ID"
             );
           }
 
           if (
-            facility.associatedRegistry?.reference !== "1335"
+            facility.associatedRegistry
+              ?.reference !== "1335"
           ) {
             throw new Error(
               "Registry reference must be 1335"
@@ -122,55 +558,29 @@ jobs:
 
           if (
             swarm.worldsanbox13Reader
-              ?.serverSideOnly !== true
-          ) {
-            throw new Error(
-              "Worldsanbox13 reader must remain server-side only"
-            );
-          }
-
-          if (
+              ?.serverSideOnly !== true ||
             swarm.worldsanbox13Reader
-              ?.authenticationRequired !== true
-          ) {
-            throw new Error(
-              "Authentication must remain required"
-            );
-          }
-
-          if (
+              ?.authenticationRequired !== true ||
             swarm.worldsanbox13Reader
-              ?.authorizationRequired !== true
-          ) {
-            throw new Error(
-              "Authorization must remain required"
-            );
-          }
-
-          if (
+              ?.authorizationRequired !== true ||
             swarm.worldsanbox13Reader
               ?.failClosed !== true
           ) {
             throw new Error(
-              "Worldsanbox13 reader must fail closed"
+              "Worldsanbox13 security boundary drift"
             );
           }
 
           if (
             swarm.matchaManitaBoundary
-              ?.browserReceivesBankingCredentials !== false
-          ) {
-            throw new Error(
-              "Banking credentials cannot be exposed to browser"
-            );
-          }
-
-          if (
+              ?.browserReceivesBankingCredentials !==
+            false ||
             swarm.matchaManitaBoundary
-              ?.browserReceivesWorldsanboxCredentials !== false
+              ?.browserReceivesWorldsanboxCredentials !==
+            false
           ) {
             throw new Error(
-              "Worldsanbox13 credentials cannot be exposed to browser"
+              "Protected credentials cannot reach browser"
             );
           }
 
@@ -178,19 +588,23 @@ jobs:
             swarm.worldsanbox13Reader
               ?.allowedRegistryIds || [];
 
-          if (!allowed.includes(expectedRegistry)) {
+          if (
+            !allowed.includes(
+              expectedRegistry
+            )
+          ) {
             throw new Error(
               "MATCHA MANITA registry is not allow-listed"
             );
           }
 
           console.log(
-            "✅ MATCHA MANITA REGISTRY VALIDATION PASS"
+            "✅ HOME-BASE REGISTRY PASS"
           );
           NODE
 
       - name: Validation complete
         run: |
           echo "=========================================="
-          echo "✅ MATCHA MANITA VALIDATION: PASS"
+          echo "✅ MATCHA MANITA SOURCE VALIDATION: PASS"
           echo "=========================================="
