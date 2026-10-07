@@ -3,10 +3,7 @@
 
   const $ = id => document.getElementById(id);
 
-  const money = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD"
-  });
+  const CATALOG_URL = "/matcha-manita-sku-catalog-v1.json";
 
   const SUPABASE_URL =
     "https://xbzxzdcfrhsxrqlpqzdw.supabase.co";
@@ -14,53 +11,203 @@
   const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_oWYpTQefSN2J22urpPSYng_JGk-6_hM";
 
-  const products = [
-    ["mm-01", "Emerald Collection", "Flower", 42],
-    ["mm-02", "Purple Orbit", "Flower", 48],
-    ["mm-03", "Golden Moon", "Concentrates", 38],
-    ["mm-04", "Diamond Drop", "Concentrates", 52],
-    ["mm-05", "Cosmic Chews", "Edibles", 24],
-    ["mm-06", "Hive Vape", "Vapes", 36]
-  ].map(([id, name, category, price], i) => ({
-    id,
-    name,
-    category,
-    price,
-    featured: i
-  }));
+  const money = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD"
+  });
 
+  let products = [];
   let active = "All";
   let cart = [];
+
   let accessToken = "";
   let orderSession = null;
   let checkoutInFlight = false;
 
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function variantLabel(variant) {
+    return (
+      variant.weight ||
+      variant.size ||
+      variant.label ||
+      variant.sku
+    );
+  }
+
+  function findSku(sku) {
+    for (const product of products) {
+      const variant =
+        product.variants?.find(
+          item => item.sku === sku
+        );
+
+      if (variant) {
+        return {
+          product,
+          variant
+        };
+      }
+    }
+
+    return null;
+  }
+
+  function startingPriceMinor(product) {
+    const prices =
+      (product.variants || [])
+        .filter(
+          variant =>
+            variant.available !== false &&
+            Number.isInteger(
+              variant.priceMinor
+            )
+        )
+        .map(
+          variant => variant.priceMinor
+        );
+
+    if (!prices.length) {
+      return 0;
+    }
+
+    return Math.min(...prices);
+  }
+
+  function validateCatalog(catalog) {
+    if (
+      !catalog ||
+      catalog.registryId !==
+        "matcha-manita-sku-catalog-v1" ||
+      !Array.isArray(catalog.products)
+    ) {
+      throw new Error(
+        "MATCHA MANITA catalog is invalid."
+      );
+    }
+
+    const seen = new Set();
+
+    catalog.products.forEach(product => {
+      if (
+        !product.id ||
+        !product.name ||
+        !product.category ||
+        !Array.isArray(product.variants)
+      ) {
+        throw new Error(
+          "Catalog contains an invalid product."
+        );
+      }
+
+      product.variants.forEach(variant => {
+        if (!variant.sku) {
+          throw new Error(
+            `Missing SKU for ${product.id}.`
+          );
+        }
+
+        if (seen.has(variant.sku)) {
+          throw new Error(
+            `Duplicate SKU: ${variant.sku}`
+          );
+        }
+
+        seen.add(variant.sku);
+
+        if (
+          !Number.isInteger(
+            variant.priceMinor
+          ) ||
+          variant.priceMinor < 0
+        ) {
+          throw new Error(
+            `Invalid price for ${variant.sku}.`
+          );
+        }
+      });
+    });
+
+    return catalog;
+  }
+
+  async function loadCatalog() {
+    const response =
+      await fetch(
+        CATALOG_URL,
+        {
+          cache: "no-store"
+        }
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        `Catalog request failed (${response.status}).`
+      );
+    }
+
+    const catalog =
+      validateCatalog(
+        await response.json()
+      );
+
+    products =
+      catalog.products.map(
+        (product, featured) => ({
+          ...product,
+          featured
+        })
+      );
+
+    return catalog;
+  }
+
   function cats() {
     const host = $("categories");
-    if (!host) return;
+
+    if (!host) {
+      return;
+    }
 
     host.innerHTML = "";
 
-    ["All", ...new Set(products.map(p => p.category))]
-      .forEach(category => {
-        const button = document.createElement("button");
+    const categories = [
+      "All",
+      ...new Set(
+        products.map(
+          product => product.category
+        )
+      )
+    ];
 
-        button.type = "button";
-        button.className =
-          category === active
-            ? "category active"
-            : "category";
+    categories.forEach(category => {
+      const button =
+        document.createElement("button");
 
-        button.textContent = category;
+      button.type = "button";
 
-        button.onclick = () => {
-          active = category;
-          cats();
-          render();
-        };
+      button.className =
+        category === active
+          ? "category active"
+          : "category";
 
-        host.appendChild(button);
-      });
+      button.textContent = category;
+
+      button.onclick = () => {
+        active = category;
+        cats();
+        render();
+      };
+
+      host.appendChild(button);
+    });
   }
 
   function list() {
@@ -72,26 +219,44 @@
     const sort =
       $("sort")?.value || "featured";
 
-    let items = products.filter(product =>
-      (active === "All" ||
-        product.category === active) &&
-      (!query ||
-        `${product.name} ${product.category}`
-          .toLowerCase()
-          .includes(query))
-    );
+    const items =
+      products.filter(product => {
+        const matchesCategory =
+          active === "All" ||
+          product.category === active;
+
+        const matchesSearch =
+          !query ||
+          `${product.name} ${product.category}`
+            .toLowerCase()
+            .includes(query);
+
+        return (
+          matchesCategory &&
+          matchesSearch
+        );
+      });
 
     if (sort === "low") {
-      items.sort((a, b) => a.price - b.price);
+      items.sort(
+        (a, b) =>
+          startingPriceMinor(a) -
+          startingPriceMinor(b)
+      );
     }
 
     if (sort === "high") {
-      items.sort((a, b) => b.price - a.price);
+      items.sort(
+        (a, b) =>
+          startingPriceMinor(b) -
+          startingPriceMinor(a)
+      );
     }
 
     if (sort === "featured") {
       items.sort(
-        (a, b) => a.featured - b.featured
+        (a, b) =>
+          a.featured - b.featured
       );
     }
 
@@ -100,7 +265,10 @@
 
   function render() {
     const grid = $("productGrid");
-    if (!grid) return;
+
+    if (!grid) {
+      return;
+    }
 
     grid.innerHTML = "";
 
@@ -109,6 +277,7 @@
     if (!items.length) {
       grid.innerHTML =
         '<p class="empty">No products match this view.</p>';
+
       return;
     }
 
@@ -116,38 +285,131 @@
       const card =
         document.createElement("article");
 
-      card.className = "product-card";
+      card.className =
+        "product-card";
+
+      const available =
+        (product.variants || [])
+          .filter(
+            variant =>
+              variant.available !== false
+          );
+
+      const variantButtons =
+        available.length
+          ? available
+              .map(variant => {
+                const sku =
+                  escapeHtml(
+                    variant.sku
+                  );
+
+                const label =
+                  escapeHtml(
+                    variantLabel(
+                      variant
+                    )
+                  );
+
+                const price =
+                  money.format(
+                    variant.priceMinor /
+                      100
+                  );
+
+                return `
+                  <button
+                    type="button"
+                    data-sku="${sku}"
+                    class="variant-button"
+                  >
+                    <span>${label}</span>
+                    <strong>${price}</strong>
+                  </button>
+                `;
+              })
+              .join("")
+          : `
+              <button
+                type="button"
+                class="variant-button"
+                disabled
+              >
+                Unavailable
+              </button>
+            `;
 
       card.innerHTML = `
-        <div class="product-art" aria-hidden="true">
+        <div
+          class="product-art"
+          aria-hidden="true"
+        >
           <span>MM</span>
         </div>
 
-        <small>${product.category}</small>
-        <h3>${product.name}</h3>
+        <small>
+          ${escapeHtml(
+            product.category
+          )}
+        </small>
+
+        <h3>
+          ${escapeHtml(
+            product.name
+          )}
+        </h3>
 
         <div class="product-bottom">
-          <strong>${money.format(product.price)}</strong>
-          <button type="button">Add to Bag</button>
+          <strong>
+            From ${money.format(
+              startingPriceMinor(
+                product
+              ) / 100
+            )}
+          </strong>
+        </div>
+
+        <div class="variant-list">
+          ${variantButtons}
         </div>
       `;
 
-      card.querySelector("button").onclick =
-        () => add(product.id);
+      card
+        .querySelectorAll(
+          "[data-sku]"
+        )
+        .forEach(button => {
+          button.onclick = () => {
+            add(
+              button.dataset.sku
+            );
+          };
+        });
 
       grid.appendChild(card);
     });
   }
 
-  function add(id) {
-    const item =
-      cart.find(entry => entry.id === id);
+  function add(sku) {
+    const match = findSku(sku);
 
-    if (item) {
-      item.qty++;
+    if (
+      !match ||
+      match.variant.available === false
+    ) {
+      return;
+    }
+
+    const existing =
+      cart.find(
+        item => item.sku === sku
+      );
+
+    if (existing) {
+      existing.qty += 1;
     } else {
       cart.push({
-        id,
+        sku,
         qty: 1
       });
     }
@@ -155,83 +417,170 @@
     bag();
   }
 
-  function qty(id, change) {
+  function qty(sku, change) {
     const item =
-      cart.find(entry => entry.id === id);
+      cart.find(
+        entry =>
+          entry.sku === sku
+      );
 
-    if (!item) return;
+    if (!item) {
+      return;
+    }
 
     item.qty += change;
 
     cart =
-      cart.filter(entry => entry.qty > 0);
+      cart.filter(
+        entry => entry.qty > 0
+      );
 
     bag();
   }
 
   function cartAmountMinor() {
-    return Math.round(
-      cart.reduce((sum, item) => {
-        const product =
-          products.find(
-            p => p.id === item.id
-          );
+    return cart.reduce(
+      (sum, item) => {
+        const match =
+          findSku(item.sku);
 
-        return sum +
-          (product
-            ? product.price * item.qty
-            : 0);
-      }, 0) * 100
+        if (
+          !match ||
+          match.variant
+            .available === false
+        ) {
+          return sum;
+        }
+
+        return (
+          sum +
+          match.variant.priceMinor *
+            item.qty
+        );
+      },
+      0
     );
   }
 
+  function validateCart() {
+    for (const item of cart) {
+      const match =
+        findSku(item.sku);
+
+      if (!match) {
+        throw new Error(
+          `Unknown SKU in cart: ${item.sku}`
+        );
+      }
+
+      if (
+        match.variant.available ===
+        false
+      ) {
+        throw new Error(
+          `${match.product.name} ${variantLabel(
+            match.variant
+          )} is unavailable.`
+        );
+      }
+
+      if (
+        !Number.isInteger(
+          match.variant.priceMinor
+        ) ||
+        match.variant.priceMinor <= 0
+      ) {
+        throw new Error(
+          `Invalid price for ${item.sku}.`
+        );
+      }
+
+      if (
+        !Number.isInteger(item.qty) ||
+        item.qty <= 0
+      ) {
+        throw new Error(
+          `Invalid quantity for ${item.sku}.`
+        );
+      }
+    }
+  }
+
   function bag() {
-    const itemsHost = $("cartItems");
+    const host = $("cartItems");
     const count = $("cartCount");
     const total = $("cartTotal");
 
-    if (!itemsHost || !count || !total) {
+    if (
+      !host ||
+      !count ||
+      !total
+    ) {
       return;
     }
 
-    count.textContent = String(
-      cart.reduce(
-        (sum, item) => sum + item.qty,
-        0
-      )
-    );
+    count.textContent =
+      String(
+        cart.reduce(
+          (sum, item) =>
+            sum + item.qty,
+          0
+        )
+      );
 
     total.textContent =
       money.format(
         cartAmountMinor() / 100
       );
 
-    itemsHost.innerHTML = "";
+    host.innerHTML = "";
 
     if (!cart.length) {
-      itemsHost.innerHTML =
+      host.innerHTML =
         '<p class="empty">Your bag is empty.</p>';
+
       return;
     }
 
     cart.forEach(item => {
-      const product =
-        products.find(
-          p => p.id === item.id
-        );
+      const match =
+        findSku(item.sku);
 
-      if (!product) return;
+      if (!match) {
+        return;
+      }
+
+      const {
+        product,
+        variant
+      } = match;
 
       const row =
         document.createElement("div");
 
-      row.className = "cart-row";
+      row.className =
+        "cart-row";
 
       row.innerHTML = `
         <div>
-          <b>${product.name}</b>
+          <b>
+            ${escapeHtml(
+              product.name
+            )}
+          </b>
+
           <small>
-            ${money.format(product.price)} each
+            ${escapeHtml(
+              variantLabel(
+                variant
+              )
+            )}
+            ·
+            ${money.format(
+              variant.priceMinor /
+                100
+            )}
+            each
           </small>
         </div>
 
@@ -239,45 +588,64 @@
           <button
             type="button"
             aria-label="Remove one"
-          >−</button>
+          >
+            −
+          </button>
 
-          <span>${item.qty}</span>
+          <span>
+            ${item.qty}
+          </span>
 
           <button
             type="button"
             aria-label="Add one"
-          >+</button>
+          >
+            +
+          </button>
         </div>
       `;
 
       const buttons =
-        row.querySelectorAll("button");
+        row.querySelectorAll(
+          "button"
+        );
 
       buttons[0].onclick =
-        () => qty(item.id, -1);
+        () =>
+          qty(
+            item.sku,
+            -1
+          );
 
       buttons[1].onclick =
-        () => qty(item.id, 1);
+        () =>
+          qty(
+            item.sku,
+            1
+          );
 
-      itemsHost.appendChild(row);
+      host.appendChild(row);
     });
   }
 
   function drawer(open) {
-    $("drawer")?.classList.toggle(
-      "open",
-      open
-    );
+    $("drawer")
+      ?.classList.toggle(
+        "open",
+        open
+      );
 
-    $("scrim")?.classList.toggle(
-      "show",
-      open
-    );
+    $("scrim")
+      ?.classList.toggle(
+        "show",
+        open
+      );
 
-    document.body.classList.toggle(
-      "drawer-open",
-      open
-    );
+    document.body
+      .classList.toggle(
+        "drawer-open",
+        open
+      );
   }
 
   async function signIn(
@@ -298,10 +666,11 @@
               "application/json"
           },
 
-          body: JSON.stringify({
-            email,
-            password
-          })
+          body:
+            JSON.stringify({
+              email,
+              password
+            })
         }
       );
 
@@ -379,7 +748,9 @@
       "click",
       () => {
         $("ageGate")
-          ?.classList.add("hidden");
+          ?.classList.add(
+            "hidden"
+          );
       }
     );
 
@@ -387,13 +758,16 @@
     ?.addEventListener(
       "click",
       () => {
-        const gate = $("ageGate");
+        const gate =
+          $("ageGate");
 
         if (gate) {
-          gate.querySelector(
-            ".age-card"
-          ).innerHTML =
-            "<h2>Access unavailable</h2><p>This storefront is intended for adults 21+.</p>";
+          gate
+            .querySelector(
+              ".age-card"
+            )
+            .innerHTML =
+              "<h2>Access unavailable</h2><p>This storefront is intended for adults 21+.</p>";
         }
       }
     );
@@ -403,17 +777,24 @@
       "click",
       () => {
         $("nav")
-          ?.classList.toggle("open");
+          ?.classList.toggle(
+            "open"
+          );
       }
     );
 
   document
-    .querySelectorAll("#nav a")
+    .querySelectorAll(
+      "#nav a"
+    )
     .forEach(link => {
       link.onclick =
-        () =>
+        () => {
           $("nav")
-            ?.classList.remove("open");
+            ?.classList.remove(
+              "open"
+            );
+        };
     });
 
   $("cartBtn")
@@ -437,7 +818,10 @@
   document.addEventListener(
     "keydown",
     event => {
-      if (event.key === "Escape") {
+      if (
+        event.key ===
+        "Escape"
+      ) {
         drawer(false);
       }
     }
@@ -465,10 +849,11 @@
           ($("zip")?.value || "")
             .trim();
 
-        $("zipStatus").textContent =
-          /^\d{5}$/.test(zip)
-            ? "ZIP received. Final delivery eligibility must be confirmed by the licensed fulfillment workflow."
-            : "Enter a valid 5-digit ZIP code.";
+        $("zipStatus")
+          .textContent =
+            /^\d{5}$/.test(zip)
+              ? "ZIP received. Final delivery eligibility must be confirmed by the licensed fulfillment workflow."
+              : "Enter a valid 5-digit ZIP code.";
       }
     );
 
@@ -481,10 +866,13 @@
         if (
           !event.currentTarget
             .reportValidity()
-        ) return;
+        ) {
+          return;
+        }
 
-        $("applyStatus").textContent =
-          "Application validated locally. Secure account submission is not enabled in this frontend build.";
+        $("applyStatus")
+          .textContent =
+            "Application validated locally. Secure account submission is not enabled in this frontend build.";
       }
     );
 
@@ -497,7 +885,9 @@
         if (
           !event.currentTarget
             .reportValidity()
-        ) return;
+        ) {
+          return;
+        }
 
         const status =
           $("loginStatus");
@@ -509,11 +899,13 @@
             );
 
         const email =
-          ($("loginEmail")?.value || "")
+          ($("loginEmail")
+            ?.value || "")
             .trim();
 
         const password =
-          $("loginPassword")?.value || "";
+          $("loginPassword")
+            ?.value || "";
 
         if (status) {
           status.textContent =
@@ -521,7 +913,8 @@
         }
 
         if (submit) {
-          submit.disabled = true;
+          submit.disabled =
+            true;
         }
 
         try {
@@ -533,10 +926,14 @@
 
           if (status) {
             status.textContent =
-              `Signed in. Customer session verified: ${session.customerId.slice(0, 8)}…`;
+              `Signed in. Customer session verified: ${session.customerId.slice(
+                0,
+                8
+              )}…`;
           }
 
-          $("loginPassword").value = "";
+          $("loginPassword")
+            .value = "";
         } catch (error) {
           accessToken = "";
           orderSession = null;
@@ -549,7 +946,8 @@
           }
         } finally {
           if (submit) {
-            submit.disabled = false;
+            submit.disabled =
+              false;
           }
         }
       }
@@ -568,6 +966,7 @@
         if (!cart.length) {
           status.textContent =
             "Add an item before continuing.";
+
           return;
         }
 
@@ -577,10 +976,24 @@
         ) {
           status.textContent =
             "Sign in before continuing to protected checkout.";
+
           return;
         }
 
-        if (checkoutInFlight) {
+        if (
+          checkoutInFlight
+        ) {
+          return;
+        }
+
+        try {
+          validateCart();
+        } catch (error) {
+          status.textContent =
+            error instanceof Error
+              ? error.message
+              : "Cart validation failed.";
+
           return;
         }
 
@@ -588,18 +1001,23 @@
           cartAmountMinor();
 
         if (
-          !Number.isInteger(amount) ||
+          !Number.isInteger(
+            amount
+          ) ||
           amount <= 0
         ) {
           status.textContent =
             "Checkout amount is invalid.";
+
           return;
         }
 
-        checkoutInFlight = true;
+        checkoutInFlight =
+          true;
 
         if (button) {
-          button.disabled = true;
+          button.disabled =
+            true;
         }
 
         status.textContent =
@@ -607,7 +1025,9 @@
 
         try {
           const idempotencyKey =
-            typeof crypto?.randomUUID ===
+            typeof crypto !==
+              "undefined" &&
+            typeof crypto.randomUUID ===
               "function"
               ? `mm-${crypto.randomUUID()}`
               : `mm-${orderSession.orderId}-${Date.now()}`;
@@ -626,72 +1046,29 @@
                     idempotencyKey
                 },
 
-                body: JSON.stringify({
-                  amount,
-                  currency: "USD",
+                body:
+                  JSON.stringify({
+                    amount,
+                    currency:
+                      "USD",
 
-                  orderId:
-                    orderSession.orderId,
+                    orderId:
+                      orderSession.orderId,
 
-                  customerId:
-                    orderSession.customerId,
+                    customerId:
+                      orderSession.customerId,
 
-                  ownershipProof:
-                    orderSession.ownershipProof,
+                    ownershipProof:
+                      orderSession.ownershipProof,
 
-                  description:
-                    "MATCHA MANITA order"
-                })
+                    description:
+                      "MATCHA MANITA order"
+                  })
               }
             );
 
           const paymentBody =
             await paymentResponse
               .json()
-              .catch(() => ({}));
-
-          if (
-            !paymentResponse.ok ||
-            paymentBody.ok !== true
-          ) {
-            throw new Error(
-              paymentBody.error ||
-              "SonoraPort Banking rejected the payment intent."
-            );
-          }
-
-          const intent =
-            paymentBody.paymentIntent || {};
-
-          const state =
-            intent.status || "created";
-
-          status.textContent =
-            `Payment intent ${state}. Settlement executed: ${
-              paymentBody.settlementExecuted === true
-                ? "yes"
-                : "no"
-            }. Provider confirmed: ${
-              paymentBody.providerConfirmed === true
-                ? "yes"
-                : "no"
-            }.`;
-        } catch (error) {
-          status.textContent =
-            error instanceof Error
-              ? error.message
-              : "Protected checkout failed.";
-        } finally {
-          checkoutInFlight = false;
-
-          if (button) {
-            button.disabled = false;
-          }
-        }
-      }
-    );
-
-  cats();
-  render();
-  bag();
-})();
+              .catch(
+                ()
