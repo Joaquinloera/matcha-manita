@@ -1,45 +1,99 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "registryId": "MATCHA-MANITA-SONORAPORT-BANKING-V2",
   "integration": "matcha-manita-sonoraport-banking",
+  "status": "ACTIVE",
   "mode": "server-to-server",
+
+  "frontendBoundary": {
+    "directBankingAccess": false,
+    "bankingCredentialsExposed": false,
+    "ownershipSecretExposed": false,
+    "paymentEndpoint": "/.netlify/functions/create-payment-intent",
+    "orderSessionEndpoint": "/.netlify/functions/create-order-session"
+  },
+
   "authentication": {
-    "type": "hmac-sha256",
-    "timestampHeader": "x-matcha-timestamp",
-    "requestIdHeader": "x-matcha-request-id",
-    "idempotencyHeader": "x-idempotency-key",
-    "signatureHeader": "x-matcha-signature",
+    "customerIdentity": "SUPABASE_AUTH",
+    "customerIdentityVerifiedServerSide": true,
+    "browserSuppliedCustomerIdTrusted": false,
+    "bankingAuthentication": "SERVER_SIDE_BEARER_TOKEN",
+    "bankingTokenEnvironmentVariable": "MATCHA_MANITA_BANKING_TOKEN",
     "secretsInConfig": false
   },
-  "routes": {
-    "create": "/.netlify/functions/matcha-payment-intent-create",
-    "status": "/.netlify/functions/matcha-payment-intent-status",
-    "cancel": "/.netlify/functions/matcha-payment-intent-cancel",
-    "receipt": "/.netlify/functions/matcha-payment-intent-receipt",
-    "bindBankingPayment": "/.netlify/functions/matcha-payment-intent-bind"
+
+  "orderSession": {
+    "function": "netlify/functions/create-order-session.js",
+    "authenticationRequired": true,
+    "customerIdSource": "VERIFIED_SUPABASE_USER_ID",
+    "orderIdGeneratedServerSide": true,
+    "ownershipProofGeneratedServerSide": true,
+    "ownershipAlgorithm": "HMAC-SHA256",
+    "ownershipSecretEnvironmentVariable": "MATCHA_MANITA_ORDER_OWNERSHIP_SECRET",
+    "failClosed": true
   },
+
+  "paymentIntent": {
+    "function": "netlify/functions/create-payment-intent.js",
+    "method": "POST",
+    "amountUnit": "INTEGER_MINOR_CURRENCY_UNITS",
+    "currency": "USD",
+    "ownershipProofRequired": true,
+    "idempotencyRequired": true,
+    "idempotencyHeader": "idempotency-key",
+    "browserMayDeclareSettlement": false,
+    "browserMayDeclareProviderConfirmation": false
+  },
+
+  "bankingBoundary": {
+    "authority": "SonoraPort Banking",
+    "upstreamRoute": "/api/matcha-manita/payment-intents",
+    "serverSideOnly": true,
+    "authorizationHeader": "Bearer MATCHA_MANITA_BANKING_TOKEN",
+    "idempotencyForwarded": true,
+    "settlementAuthority": "SONORAPORT_BANKING_RESPONSE",
+    "providerConfirmationAuthority": "SONORAPORT_BANKING_RESPONSE"
+  },
+
+  "catalogBoundary": {
+    "catalog": "matcha-manita-sku-catalog-v1.json",
+    "cartIdentityField": "sku",
+    "priceField": "priceMinor",
+    "integerMinorUnitsRequired": true,
+    "unavailableSkuRejected": true
+  },
+
   "ownership": {
     "required": [
       "customerId",
       "orderId",
-      "intentId"
+      "ownershipProof"
     ],
-    "enforceServerSide": true
+    "enforceServerSide": true,
+    "crossCustomerAccessRejected": true
   },
-  "executionBinding": {
-    "field": "bankingPaymentId",
-    "allowRebind": false,
-    "allowTerminalIntentBind": false
-  },
-  "providerReconciliation": {
-    "authority": "provider-callback",
-    "allowBrowserSettlement": false,
-    "preventTerminalRollback": true,
-    "duplicateCallbackProtection": true
-  },
+
   "security": {
-    "browserSecrets": false,
+    "browserBankingSecrets": false,
+    "browserOwnershipSecret": false,
+    "browserSuppliedCustomerIdTrusted": false,
     "failClosed": true,
-    "replayProtection": true,
-    "auditLifecycleChanges": true
+    "idempotencyRequired": true,
+    "auditAuthority": "SONORAPORT_BANKING",
+    "manufacturedSettlementSuccessAllowed": false
+  },
+
+  "sourceVerification": {
+    "appJsSha": "a2f052aa47f995740f5a79f763dda47bf6c8356c",
+    "skuCatalogSha": "5cf6a7703faf13a472065e5d73c90f091cec012a",
+    "createOrderSessionSha": "82977607f9b2b86bd4c678640004569cf8d2e5fc",
+    "createPaymentIntentSha": "b7578090cb8872f7780e519b0e9d624b4dc1181b"
+  },
+
+  "runtimeVerification": {
+    "supabaseAuthentication": "REQUIRES_DEPLOYED_RUNTIME_TEST",
+    "orderSession": "REQUIRES_DEPLOYED_RUNTIME_TEST",
+    "paymentIntent": "REQUIRES_DEPLOYED_RUNTIME_TEST",
+    "sonoraportBanking": "REQUIRES_DEPLOYED_RUNTIME_TEST"
   }
 }
