@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "category": "flower",
+  "scope": "all-strains",
+  "currency": "USD",
+  "baseOunceGrams": 28,
+  "baseOuncePrice": 80,
+  "variants": [
+    {
+      "label": "1 gram",
+      "grams": 1,
+      "price": 2.86
+    },
+    {
+      "label": "1/8 oz",
+      "grams": 3.5,
+      "price": 10
+    },
+    {
+      "label": "1/4 oz",
+      "grams": 7,
+      "price": 20
+    },
+    {
+      "label": "1/2 oz",
+      "grams": 14,
+      "price": 40
+    },
+    {
+      "label": "1 oz",
+      "grams": 28,
+      "price": 80
+    }
+  ],
+  "notes": "Uniform base pricing across flower strains; taxes excluded. Proposed catalog configuration, not yet wired to storefront checkout."
+}
