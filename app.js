@@ -876,6 +876,18 @@
       }
     );
 
+  // Browser capability check only: never collect biometric templates or request credentials
+  // until a verified, server-issued WebAuthn challenge endpoint is configured.
+  $("passkeyInfoBtn")?.addEventListener("click", () => {
+    const supported = window.isSecureContext &&
+      typeof window.PublicKeyCredential !== "undefined" &&
+      typeof navigator.credentials?.get === "function";
+    const status = $("passkeyStatus");
+    if (status) status.textContent = supported
+      ? "Your browser supports passkeys. Sign-in is not enabled until secure server verification is connected."
+      : "Passkeys require a compatible browser and a secure HTTPS connection. Sign-in is not enabled.";
+  });
+
   $("loginForm")
     ?.addEventListener(
       "submit",
