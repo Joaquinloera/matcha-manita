@@ -1,0 +1,106 @@
+{
+  "updated": "2026-10-09",
+  "purpose": "Public technology research for Matcha Manita delivery-service preview; not connected to providers",
+  "sources": [
+    {
+      "name": "Dutchie",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://api.pos.dutchie.com/pages/authentication.html",
+      "auth": "Vendor-scoped API keys using HTTP Basic; approved onboarding",
+      "software": "REST/JSON, OpenAPI; product and inventory endpoints",
+      "blockchain": "No blockchain integration verified",
+      "status": "Documented; not connected"
+    },
+    {
+      "name": "Metrc",
+      "category": "Cannabis compliance",
+      "country": "United States",
+      "url": "https://api-ma.metrc.com/Documentation/",
+      "auth": "Integrator and user API keys; jurisdiction-specific authorization",
+      "software": "REST/JSON; state-specific inventory and track-and-trace",
+      "blockchain": "No blockchain integration verified",
+      "status": "Documented; not connected"
+    },
+    {
+      "name": "BLAZE",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://apidocs.blaze.me/intro",
+      "auth": "Partner onboarding; confirm credential method with provider",
+      "software": "Partner API and headless ecommerce documentation",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official docs located; access not verified"
+    },
+    {
+      "name": "Flowhub",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://www.flowhub.com/partners/ecommerce",
+      "auth": "Partner authorization required; exact API credential model not verified",
+      "software": "POS and ecommerce integrations",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official integration overview; API access not verified"
+    },
+    {
+      "name": "Treez",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://support.treez.io/en/articles/9129351-requesting-api-access-for-treez-apis",
+      "auth": "API access request through provider",
+      "software": "Treez APIs; implementation details require approval",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official onboarding documentation; not connected"
+    },
+    {
+      "name": "POSaBIT",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://developer.posabit.com/",
+      "auth": "Provider-issued integration credentials; method to verify",
+      "software": "Developer API documentation",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official developer portal; not connected"
+    },
+    {
+      "name": "OpenAI",
+      "category": "AI software",
+      "country": "United States",
+      "url": "https://developers.openai.com/api/reference/overview/",
+      "auth": "Server-side API keys",
+      "software": "Model APIs, SDKs and agent tools",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official API docs; not connected"
+    },
+    {
+      "name": "Anthropic Claude",
+      "category": "AI software",
+      "country": "United States",
+      "url": "https://platform.claude.com/docs/en/api/overview",
+      "auth": "Server-side API authentication",
+      "software": "Claude model API and tools",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official API docs; not connected"
+    },
+    {
+      "name": "Google Gemini",
+      "category": "AI software",
+      "country": "United States",
+      "url": "https://ai.google.dev/gemini-api/docs/api-key",
+      "auth": "Project-issued API keys; protect on backend",
+      "software": "Gemini API and SDKs",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official API docs; not connected"
+    },
+    {
+      "name": "NIST",
+      "category": "Government standards",
+      "country": "United States",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "auth": "Public authentication standard, not an API",
+      "software": "Digital identity guidance",
+      "blockchain": "Not applicable",
+      "status": "Official public standard"
+    }
+  ]
+}
