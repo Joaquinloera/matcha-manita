@@ -10,7 +10,7 @@
       "auth": "Vendor-scoped API keys using HTTP Basic; approved onboarding",
       "software": "REST/JSON, OpenAPI; product and inventory endpoints",
       "blockchain": "No blockchain integration verified",
-      "status": "Documented; not connected"
+      "status": "Official POS API authentication docs located; not connected"
     },
     {
       "name": "Metrc",
@@ -46,21 +46,21 @@
       "name": "Treez",
       "category": "Cannabis POS",
       "country": "United States",
-      "url": "https://support.treez.io/en/articles/9129351-requesting-api-access-for-treez-apis",
-      "auth": "API access request through provider",
-      "software": "Treez APIs; implementation details require approval",
+      "url": "https://code.treez.io/reference/authentication",
+      "auth": "Integrator-signed JWT with 4096-bit RSA private key, registered public certificate and 30-second TTL",
+      "software": "Treez REST APIs; integrator certificate and organization-level permissions",
       "blockchain": "No blockchain integration verified",
-      "status": "Official onboarding documentation; not connected"
+      "status": "Official authentication page inspected; not connected"
     },
     {
       "name": "POSaBIT",
       "category": "Cannabis POS",
       "country": "United States",
-      "url": "https://developer.posabit.com/",
-      "auth": "Provider-issued integration credentials; method to verify",
-      "software": "Developer API documentation",
+      "url": "https://developer.posabit.com/authentication.html",
+      "auth": "V3: HTTP Basic with integrator token + venue token; V1/V2 legacy: Bearer venue API token",
+      "software": "POSaBIT API v3; venue-specific authorized endpoints",
       "blockchain": "No blockchain integration verified",
-      "status": "Official developer portal; not connected"
+      "status": "Official authentication page inspected; not connected"
     },
     {
       "name": "OpenAI",
@@ -101,6 +101,36 @@
       "software": "Digital identity guidance",
       "blockchain": "Not applicable",
       "status": "Official public standard"
+    },
+    {
+      "name": "OpenAI Codex SDK",
+      "category": "AI developer tools",
+      "country": "United States",
+      "url": "https://developers.openai.com/codex/codex-sdk",
+      "auth": "Developer account authorization; inspect SDK setup before integration",
+      "software": "Codex SDK and coding agent workflows",
+      "blockchain": "Not a blockchain integration",
+      "status": "Official Codex SDK documentation located; not connected"
+    },
+    {
+      "name": "AI.gov",
+      "category": "Government AI research",
+      "country": "United States",
+      "url": "https://www.ai.gov/",
+      "auth": "Public website; no private government system access",
+      "software": "Public US government AI program information",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official public portal located; no government affiliation"
+    },
+    {
+      "name": "Metrc Connect",
+      "category": "Cannabis compliance",
+      "country": "United States",
+      "url": "https://www.metrc.com/track-and-trace-technology/metrc-connect/",
+      "auth": "Integrator onboarding and jurisdiction-specific permissions",
+      "software": "Track-and-trace integration services",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official product information located; not connected"
     }
   ]
 }
