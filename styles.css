@@ -789,3 +789,21 @@ footer a {
     flex-wrap: wrap;
   }
   }
+
+/* Matcha Manita delivery-first visual system — responsive and accessible */
+:root { --magenta: #ff39a6; }
+.menu-disclaimer { max-width: 68ch; color: var(--muted); line-height: 1.65; margin: 0 0 1.6rem; }
+.hero h1 { text-wrap: balance; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--magenta); outline-offset: 3px; }
+#shop { scroll-margin-top: 90px; }
+#productGrid .product-art { background: radial-gradient(circle at 75% 18%, rgba(255,57,166,.18), transparent 46%), linear-gradient(145deg,#120a12,#08110a); }
+#checkoutStatus, #zipStatus, #applyStatus { overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+ .menu-disclaimer { font-size: .9rem; }
+ .drawer { width: 100vw; max-width: 100%; padding: 22px 18px; }
+ .cart-row { align-items: flex-start; }
+ .qty { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+ *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
