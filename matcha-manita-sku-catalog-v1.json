@@ -13,8 +13,9 @@
         {
           "sku": "mm-01-1g",
           "weight": "1g",
-          "priceMinor": 300,
-          "available": true
+          "priceMinor": 286,
+          "available": true,
+          "grams": 1
         },
         {
           "sku": "mm-01-3.5g",
@@ -54,8 +55,9 @@
         {
           "sku": "mm-02-1g",
           "weight": "1g",
-          "priceMinor": 300,
-          "available": true
+          "priceMinor": 286,
+          "available": true,
+          "grams": 1
         },
         {
           "sku": "mm-02-3.5g",
