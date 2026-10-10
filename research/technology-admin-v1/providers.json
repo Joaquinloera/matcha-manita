@@ -1,0 +1,433 @@
+{
+  "updated": "2026-10-10",
+  "purpose": "Public technology and integration research supporting the production-intended Matcha Manita website; integrations are tracked separately",
+  "sources": [
+    {
+      "name": "Dutchie",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://api.pos.dutchie.com/swagger/index.html",
+      "auth": "Permission-scoped, vendor-specific location key with HTTP Basic; integrator key may be required; backend-only secrets",
+      "software": "REST/JSON product, inventory, customer and reporting endpoints; GET /whoami verifies authorized identity",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official POS API authentication docs located; not connected"
+    },
+    {
+      "name": "Metrc",
+      "category": "Cannabis compliance",
+      "country": "United States",
+      "url": "https://api-ma.metrc.com/Documentation/",
+      "auth": "Integrator and user API keys; jurisdiction-specific authorization",
+      "software": "REST/JSON; state-specific inventory and track-and-trace",
+      "blockchain": "No blockchain integration verified",
+      "status": "Documented; not connected"
+    },
+    {
+      "name": "BLAZE",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://apidocs.blaze.me/intro",
+      "auth": "Partner onboarding; confirm credential method with provider",
+      "software": "Partner API and headless ecommerce documentation",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official docs located; access not verified"
+    },
+    {
+      "name": "Flowhub",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://www.flowhub.com/partners/ecommerce",
+      "auth": "Partner authorization required; exact API credential model not verified",
+      "software": "POS and ecommerce integrations",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official integration overview; API access not verified"
+    },
+    {
+      "name": "Treez",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://code.treez.io/reference/authentication",
+      "auth": "Integrator-signed JWT with 4096-bit RSA private key, registered public certificate and 30-second TTL",
+      "software": "Treez REST APIs; integrator certificate and organization-level permissions",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official authentication page inspected; not connected"
+    },
+    {
+      "name": "POSaBIT",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://developer.posabit.com/authentication.html",
+      "auth": "General v3 API: integrator + venue HTTP Basic; menu feed endpoint separately documents Bearer API token and feed key; follow endpoint-specific docs",
+      "software": "Official Venue API v3: menu feeds, incoming orders, quotes, coupons, customers, inventories, inventory transactions, manifests, sales histories and suppliers",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official venue API v3, menu-feed and authentication documentation inspected; no live access"
+    },
+    {
+      "name": "OpenAI",
+      "category": "AI software",
+      "country": "United States",
+      "url": "https://developers.openai.com/api/reference/overview/",
+      "auth": "Server-side API keys",
+      "software": "Responses API, Agents SDK and production best-practices guide for server-side secure model integration",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official production best-practices guidance inspected; not connected"
+    },
+    {
+      "name": "Anthropic Claude",
+      "category": "AI software",
+      "country": "United States",
+      "url": "https://platform.claude.com/docs/en/api/overview",
+      "auth": "Server-side API authentication",
+      "software": "Claude model API and tools",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official API docs; not connected"
+    },
+    {
+      "name": "Google Gemini",
+      "category": "AI software",
+      "country": "United States",
+      "url": "https://ai.google.dev/gemini-api/docs/api-key",
+      "auth": "Gemini API supports standard project keys and service-account-bound authorization keys; protect credentials server-side",
+      "software": "Gemini API and SDKs",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official API key security guidance inspected; not connected"
+    },
+    {
+      "name": "NIST",
+      "category": "Government standards",
+      "country": "United States",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "auth": "Public authentication standard, not an API",
+      "software": "Digital identity guidance",
+      "blockchain": "Not applicable",
+      "status": "Official public standard"
+    },
+    {
+      "name": "OpenAI Codex SDK",
+      "category": "AI developer tools",
+      "country": "United States",
+      "url": "https://developers.openai.com/codex/codex-sdk",
+      "auth": "Authorized Codex session and server-side environment; no keys in browser",
+      "software": "Server-side TypeScript Codex SDK; Node.js 18+; CI and engineering automation workflows",
+      "blockchain": "Not a blockchain integration",
+      "status": "Official SDK documentation inspected; not connected"
+    },
+    {
+      "name": "AI.gov",
+      "category": "Government AI research",
+      "country": "United States",
+      "url": "https://www.ai.gov/",
+      "auth": "Public website; no private government system access",
+      "software": "Public US government AI program information",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official public portal located; no government affiliation"
+    },
+    {
+      "name": "Metrc Connect",
+      "category": "Cannabis compliance",
+      "country": "United States",
+      "url": "https://www.metrc.com/track-and-trace-technology/metrc-connect/",
+      "auth": "Integrator onboarding and jurisdiction-specific permissions",
+      "software": "Track-and-trace integration services",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official product information located; not connected"
+    },
+    {
+      "name": "Cova",
+      "category": "Cannabis POS",
+      "country": "Canada / United States",
+      "url": "https://api.covasoft.net/Documentation",
+      "auth": "OAuth2 token endpoint documented at accounts.iqmetrix.net; approved credentials required",
+      "software": "REST Data Platform APIs; initial full sync plus incremental UpdatedAsOf inventory/product updates",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official API documentation inspected; not connected"
+    },
+    {
+      "name": "Sweed",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://www.sweedpos.com/ecommerce-public-api",
+      "auth": "Ecommerce API authentication and account registration capabilities described; credential method not verified",
+      "software": "REST catalog, pricing, carts, orders and retail inventory; access subject to provider onboarding",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official ecommerce API overview inspected; not connected"
+    },
+    {
+      "name": "Greenline",
+      "category": "Cannabis POS",
+      "country": "Canada",
+      "url": "https://getgreenline.co/why-greenline-is-the-best-cannabis-pos-for-integrators/",
+      "auth": "Integration partner onboarding; API authentication details not verified",
+      "software": "Cannabis POS integration ecosystem and partner services",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official integration overview inspected; not connected"
+    },
+    {
+      "name": "Fireblocks",
+      "category": "Blockchain infrastructure",
+      "country": "Global",
+      "url": "https://developers.fireblocks.com/reference/signing-a-request-jwt-structure",
+      "auth": "Signed JWT with protected private signing key; approved customer credentials required",
+      "software": "Digital asset infrastructure API and signing workflows",
+      "blockchain": "Wallet and digital asset infrastructure; no Matcha Manita integration",
+      "status": "Official API docs located; separate from cannabis checkout"
+    },
+    {
+      "name": "Amazon Bedrock",
+      "category": "AI developer tools",
+      "country": "United States / Global",
+      "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html",
+      "auth": "IAM permissions; short-term bearer API keys up to 12 hours recommended for production; long-term keys for exploration only",
+      "software": "Managed foundation model API access, IAM authorization and CloudTrail auditing",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official AWS API-key and IAM documentation inspected; not connected"
+    },
+    {
+      "name": "PayPal Developer",
+      "category": "Payment API research",
+      "country": "United States / Global",
+      "url": "https://developer.paypal.com/docs/api/overview/",
+      "auth": "OAuth 2.0 client credentials for supported PayPal APIs; eligibility and acceptable-use approval must be independently confirmed",
+      "software": "Published REST APIs and SDKs; production integration subject to provider approval and technical validation",
+      "blockchain": "No cannabis blockchain payment support verified",
+      "status": "Provider eligibility and cannabis-related restrictions require confirmation from PayPal before any live integration; no connection is configured"
+    },
+    {
+      "name": "GitHub Actions",
+      "category": "AI developer tools",
+      "country": "Global",
+      "url": "https://docs.github.com/actions/managing-workflow-runs/using-workflow-run-logs",
+      "auth": "Repository permissions and GitHub Actions tokens; no credentials in public client code",
+      "software": "CI workflow job logs, failed-step diagnosis and regression testing for Matcha Manita development",
+      "blockchain": "Not applicable",
+      "status": "Official CI troubleshooting guidance reviewed; website testing tracked separately"
+    },
+    {
+      "name": "US AI Action Plan",
+      "category": "Government AI",
+      "country": "United States",
+      "url": "https://www.ai.gov/action-plan",
+      "auth": "Public government policy resource; no developer API key or service credentials advertised",
+      "software": "Official AI policy covering innovation, infrastructure, international engagement and security; not an integration SDK",
+      "blockchain": "No blockchain API verified on this policy page",
+      "status": "Official federal policy resource verified; reference only"
+    },
+    {
+      "name": "White House SI Education",
+      "category": "Government AI",
+      "country": "United States",
+      "url": "https://www.ai.gov/initiatives/education",
+      "auth": "Public educational resource; no API key required to read",
+      "software": "Federal AI and superintelligence education initiative and training information; not a model API",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official federal education initiative verified; reference only"
+    },
+    {
+      "name": "Claude API Overview",
+      "category": "AI API",
+      "country": "Global",
+      "url": "https://docs.anthropic.com/claude/reference/getting-started-with-the-api",
+      "auth": "Claude Console API key or configured workload identity federation; credentials must be secured",
+      "software": "REST Messages, batches, token counting, models, files and skills APIs",
+      "blockchain": "No blockchain capability verified in API overview",
+      "status": "Official API overview verified; no live integration configured"
+    },
+    {
+      "name": "Gemini API Key Security",
+      "category": "AI API",
+      "country": "Global",
+      "url": "https://ai.google.dev/gemini-api/docs/api-key",
+      "auth": "Google documents standard and service-account-bound authorization API keys; restrict credentials and avoid exposing server secrets",
+      "software": "Gemini API authentication and project-based quota/security configuration",
+      "blockchain": "No blockchain capability verified in authentication documentation",
+      "status": "Official key-security documentation verified; no live integration configured"
+    },
+    {
+      "name": "NIST Generative AI Profile",
+      "category": "AI security",
+      "country": "United States",
+      "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+      "auth": "Public NIST publication; no API key required",
+      "software": "NIST AI 600-1 generative AI risk management guidance, not a model API or integration SDK",
+      "blockchain": "No blockchain integration documented",
+      "status": "Official publication verified; voluntary risk management guidance"
+    },
+    {
+      "name": "NIST AI RMF Core",
+      "category": "AI security",
+      "country": "United States",
+      "url": "https://airc.nist.gov/airmf-resources/airmf/",
+      "auth": "Public framework; no API key required",
+      "software": "Voluntary AI risk management outcomes for design, development, use and evaluation of trustworthy AI systems",
+      "blockchain": "Not a blockchain product or API",
+      "status": "Official framework verified; guidance, not certification"
+    },
+    {
+      "name": "Cisco Meraki",
+      "category": "Internet and Wi-Fi management",
+      "country": "United States",
+      "url": "https://developer.cisco.com/meraki/api-v1/authorization/",
+      "auth": "OAuth 2.0 app-scoped grants or administrator-scoped API keys; keep secrets server-side",
+      "software": "Dashboard REST API, network and device administration, automation SDKs",
+      "blockchain": "No native blockchain capability established in reviewed documentation",
+      "status": "Official API documentation reviewed; not connected"
+    },
+    {
+      "name": "Cloudflare",
+      "category": "Internet and API infrastructure",
+      "country": "United States",
+      "url": "https://developers.cloudflare.com/api/overview/",
+      "auth": "Scoped API tokens recommended; rotate and restrict permissions",
+      "software": "DNS, security, networking and API automation via documented interfaces",
+      "blockchain": "No native digital-asset custody capability established",
+      "status": "Official API documentation reviewed; not connected"
+    },
+    {
+      "name": "Coinbase Developer Platform",
+      "category": "Digital asset infrastructure",
+      "country": "United States",
+      "url": "https://docs.cdp.coinbase.com/wallet-api/v2/introduction/quickstart",
+      "auth": "Developer API key and wallet secret; backend-only custody controls",
+      "software": "Wallet APIs and SDKs; EVM and Solana accounts; testnet development",
+      "blockchain": "EVM and Solana blockchain account tooling; no Matcha Manita connection",
+      "status": "Official wallet documentation reviewed; not connected"
+    },
+    {
+      "name": "Weedmaps",
+      "category": "Cannabis ecommerce",
+      "country": "United States",
+      "url": "https://developer.weedmaps.com/v2026.01/docs/overview",
+      "auth": "Developer onboarding and access requirements must be confirmed against the official portal; no credential verified",
+      "software": "Official Weedmaps developer documentation; API products and permissions require endpoint-level review",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official developer portal located; not connected"
+    },
+    {
+      "name": "Arizona ADHS Facility Licensing",
+      "category": "Government licensing",
+      "country": "United States",
+      "url": "https://facility-licensing.azdhs.gov/s/login/",
+      "auth": "Authorized facility portal account; no account access or license verified",
+      "software": "Arizona facility licensing administration portal; not a public retail ordering API",
+      "blockchain": "Not applicable",
+      "status": "Official portal located; no license verified"
+    },
+    {
+      "name": "FIDO Alliance Passkeys",
+      "category": "Biometric authentication standards",
+      "country": "International",
+      "url": "https://fidoalliance.org/passkeys/",
+      "auth": "FIDO2/WebAuthn public-key authentication; biometrics remain device-mediated",
+      "software": "Phishing-resistant passkey standards for staff/customer account authentication",
+      "blockchain": "Not applicable",
+      "status": "Standards research only; not implemented"
+    },
+    {
+      "name": "NCBI APIs",
+      "category": "Biocomputing research",
+      "country": "United States",
+      "url": "https://www.ncbi.nlm.nih.gov/home/develop/api/",
+      "auth": "Endpoint-specific API key and usage policies; no key verified",
+      "software": "NCBI bioinformatics data APIs; research-only and not a dispensary POS integration",
+      "blockchain": "Not applicable",
+      "status": "Official research APIs located; not connected"
+    }
+  ],
+  "integrationBlueprint": {
+    "mode": "production-intended; live integrations gated by verification",
+    "frontend": "Read-only education directory; never hold API credentials",
+    "backend": "Authorized HTTPS API gateway with per-provider credential vault, least privilege, rate limiting, audit logs and token rotation",
+    "inventory": "Once authorized, sync inventory server-side using provider-supported incremental updates; display last-synced timestamps",
+    "webhooks": "Only enable authenticated verified callbacks after partner approval; validate source and idempotency",
+    "checkout": "Disabled until licensing, age/identity verification, delivery permissions and payment legality independently established",
+    "digitalAssets": "No blockchain wallet, token or cannabis payment flows enabled",
+    "menuFeed": "POSaBIT menu feeds document Bearer API token plus feed key; unlike general v3 endpoints, do not assume one authentication scheme applies to every endpoint. Store tokens server-side; stage with provider authorization.",
+    "aiAgent": "Use server-side agent runtime, allowlisted tools, human review for consequential actions and zero customer data sent to unapproved AI services.",
+    "researchProvenance": [
+      {
+        "organization": "POSaBIT",
+        "url": "https://developer.posabit.com/menu-feeds.html",
+        "verified": "2026-10-09"
+      },
+      {
+        "organization": "OpenAI",
+        "url": "https://developers.openai.com/api/docs/guides/agents/sdk",
+        "verified": "2026-10-09"
+      },
+      {
+        "organization": "POSaBIT",
+        "url": "https://developer.posabit.com/venue-api-v3.html",
+        "verified": "2026-10-09"
+      },
+      {
+        "organization": "Google Gemini",
+        "url": "https://ai.google.dev/gemini-api/docs/api-key",
+        "verified": "2026-10-09"
+      },
+      {
+        "organization": "OpenAI",
+        "url": "https://developers.openai.com/api/docs/guides/production-best-practices",
+        "verified": "2026-10-09"
+      },
+      {
+        "organization": "Amazon Bedrock",
+        "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html",
+        "verified": "2026-10-09"
+      }
+    ],
+    "productionReadiness": [
+      "Approved vendor contracts and licensed operations",
+      "Server-side secrets with scoped credentials and rotation",
+      "Explicit permission checks and audit trails",
+      "Provider rate limits and backoff",
+      "Verified inventory freshness and reconciliation",
+      "Compliance and age verification before any commerce",
+      "No production deploy without staging smoke tests and coordinated release"
+    ],
+    "integrationReadiness": [
+      {
+        "provider": "POSaBIT",
+        "capability": "Menu and inventory feed",
+        "documentation": "https://developer.posabit.com/menu-feeds.html",
+        "stage": "documented",
+        "connected": false,
+        "requirements": [
+          "Partner approval and feed configuration",
+          "Backend-only bearer token and feed key",
+          "Staging feed validation and inventory reconciliation"
+        ]
+      },
+      {
+        "provider": "OpenAI",
+        "capability": "Server-side AI assistance",
+        "documentation": "https://developers.openai.com/api/docs/guides/production-best-practices",
+        "stage": "documented",
+        "connected": false,
+        "requirements": [
+          "Authorized organization and API credentials",
+          "Server-side key storage and usage limits",
+          "Human-reviewed tool permissions and privacy assessment"
+        ]
+      },
+      {
+        "provider": "PayPal",
+        "capability": "Payment processing eligibility review",
+        "documentation": "https://developer.paypal.com/docs/api/overview/",
+        "stage": "provider-approval-required",
+        "connected": false,
+        "requirements": [
+          "Explicit confirmation of cannabis-related merchant eligibility",
+          "Applicable licensing and payment compliance",
+          "Provider-authorized sandbox tests before any checkout change"
+        ]
+      }
+    ],
+    "releaseGates": {
+      "inventory": "blocked until authorized live or staging POS feed and reconciliation tests",
+      "ai": "blocked until backend secrets, privacy review and authorized tools",
+      "checkout": "disabled pending licensing, age verification, provider approval and operational compliance",
+      "deployment": "requires successful CI and staging smoke tests"
+    }
+  },
+  "verification_note": "Research-only registry; no vendor, licensing, biometric or biological integration is claimed live."
+}
