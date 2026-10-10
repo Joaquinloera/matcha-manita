@@ -201,6 +201,26 @@
       "software": "CI workflow job logs, failed-step diagnosis and regression testing for Matcha Manita development",
       "blockchain": "Not applicable",
       "status": "Official CI troubleshooting guidance reviewed; website testing tracked separately"
+    },
+    {
+      "name": "US AI Action Plan",
+      "category": "Government AI",
+      "country": "United States",
+      "url": "https://www.ai.gov/action-plan",
+      "auth": "Public government policy resource; no developer API key or service credentials advertised",
+      "software": "Official AI policy covering innovation, infrastructure, international engagement and security; not an integration SDK",
+      "blockchain": "No blockchain API verified on this policy page",
+      "status": "Official federal policy resource verified; reference only"
+    },
+    {
+      "name": "White House SI Education",
+      "category": "Government AI",
+      "country": "United States",
+      "url": "https://www.ai.gov/initiatives/education",
+      "auth": "Public educational resource; no API key required to read",
+      "software": "Federal AI and superintelligence education initiative and training information; not a model API",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official federal education initiative verified; reference only"
     }
   ],
   "integrationBlueprint": {
