@@ -19,9 +19,13 @@ jobs:
         run: |
           node --check research-directory.js
           node --check app.js
+          node --check server/posabit-staging.cjs
+          node --check server/inventory.cjs
+          node --check tests/inventory-staging.test.cjs
           node --check tests/research-directory.test.cjs
           node --check tests/research-directory.behavior.test.cjs
       - name: Research directory regression tests
         run: |
           node tests/research-directory.test.cjs
           node tests/research-directory.behavior.test.cjs
+          node tests/inventory-staging.test.cjs
