@@ -1,0 +1,66 @@
+{
+  "project": "Matcha Manita website",
+  "date": "2026-10-10",
+  "method": "individual TinyFish SWARM + SKIM",
+  "records": [
+    {
+      "name": "Dutchie",
+      "official_url": "https://api.pos.dutchie.com/pages/authentication.html",
+      "findings": "Partner authentication; no credentials verified",
+      "status": "researched—not connected"
+    },
+    {
+      "name": "Treez",
+      "official_url": "https://code.treez.io/reference/authentication",
+      "findings": "API authentication; access approval required",
+      "status": "researched—not connected"
+    },
+    {
+      "name": "Metrc",
+      "official_url": "https://www.metrc.com/track-and-trace-technology/metrc-connect/",
+      "findings": "Regulatory tracking integration; no access verified",
+      "status": "researched—not connected"
+    },
+    {
+      "name": "Weedmaps",
+      "official_url": "https://developer.weedmaps.com/docs/wm-menu-api-getting-started",
+      "findings": "Menu integration documentation; no connection",
+      "status": "researched—not connected"
+    },
+    {
+      "name": "Arizona ADHS",
+      "official_url": "https://www.azdhs.gov/licensing/marijuana/",
+      "findings": "Licensing requirements; license not verified",
+      "status": "researched—not connected"
+    },
+    {
+      "name": "FIDO",
+      "official_url": "https://fidoalliance.org/passkeys/",
+      "findings": "Passkey standards for future customer/admin authentication",
+      "status": "researched—not connected"
+    },
+    {
+      "name": "Supabase",
+      "official_url": "https://supabase.com/docs/reference/javascript/introduction",
+      "findings": "Auth SDK documentation; live account integration untested",
+      "status": "researched—not connected"
+    },
+    {
+      "name": "Netlify",
+      "official_url": "https://docs.netlify.com/build/functions/environment-variables/",
+      "findings": "Server-side environment variable handling",
+      "status": "researched—not connected"
+    }
+  ],
+  "website_requirements": {
+    "artwork": "User-provided Día de los Muertos page designs and product boxes",
+    "flower_prices_usd": {
+      "1g": 2.86,
+      "3.5g": 10,
+      "7g": 20,
+      "14g": 40,
+      "28g": 80
+    },
+    "production_status": "not deployed in this build"
+  }
+}
