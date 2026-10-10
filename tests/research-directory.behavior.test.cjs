@@ -27,13 +27,14 @@ async function run() {
   ];
   const context = {
     document: {getElementById: id => controls[id], createElement: element},
-    fetch: async () => ({ok: true, json: async () => ({sources})})
+    fetch: async () => ({ok: true, json: async () => ({sources,integrationBlueprint:{integrationReadiness:[{provider:'Bravo',stage:'documented',connected:false}]}})})
   };
   vm.runInNewContext(fs.readFileSync(path.resolve(__dirname, '../research-directory.js'), 'utf8'), context);
   await new Promise(resolve => setTimeout(resolve, 0));
   const grid = controls.directoryGrid;
   const names = () => grid.children.map(card => card.children[1].textContent);
   assert.deepEqual(names(), ['Alpha', 'Bravo', 'Zulu'], 'Default alphabetical order and HTTPS validation');
+  assert.match(grid.children.find(card=>card.children[1]?.textContent==='Bravo').children.at(-1).textContent,/Documented; not connected/,'Integration readiness should be visible on matching provider card');
   assert.equal(controls.directoryCategory.children.length, 2, 'Categories populated');
   assert.equal(controls.directoryRegion.children.length, 2, 'Regions populated');
   controls.directoryRegion.value = 'Canada';
