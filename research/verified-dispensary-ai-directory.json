@@ -107,10 +107,10 @@
       "category": "AI developer tools",
       "country": "United States",
       "url": "https://developers.openai.com/codex/codex-sdk",
-      "auth": "Developer account authorization; inspect SDK setup before integration",
-      "software": "Codex SDK and coding agent workflows",
+      "auth": "Authorized Codex session and server-side environment; no keys in browser",
+      "software": "Server-side TypeScript Codex SDK; Node.js 18+; CI and engineering automation workflows",
       "blockchain": "Not a blockchain integration",
-      "status": "Official Codex SDK documentation located; not connected"
+      "status": "Official SDK documentation inspected; not connected"
     },
     {
       "name": "AI.gov",
@@ -131,6 +131,46 @@
       "software": "Track-and-trace integration services",
       "blockchain": "No blockchain integration verified",
       "status": "Official product information located; not connected"
+    },
+    {
+      "name": "Cova",
+      "category": "Cannabis POS",
+      "country": "Canada / United States",
+      "url": "https://api.covasoft.net/Documentation",
+      "auth": "OAuth2 token endpoint documented at accounts.iqmetrix.net; approved credentials required",
+      "software": "Data Platform REST APIs for catalog, pricing, inventory, taxes and order intake",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official API documentation inspected; not connected"
+    },
+    {
+      "name": "Sweed",
+      "category": "Cannabis POS",
+      "country": "United States",
+      "url": "https://www.sweedpos.com/ecommerce-public-api",
+      "auth": "Ecommerce API authentication and account registration capabilities described; credential method not verified",
+      "software": "REST catalog, pricing, carts, orders and retail inventory; access subject to provider onboarding",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official ecommerce API overview inspected; not connected"
+    },
+    {
+      "name": "Greenline",
+      "category": "Cannabis POS",
+      "country": "Canada",
+      "url": "https://getgreenline.co/why-greenline-is-the-best-cannabis-pos-for-integrators/",
+      "auth": "Integration partner onboarding; API authentication details not verified",
+      "software": "Cannabis POS integration ecosystem and partner services",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official integration overview inspected; not connected"
+    },
+    {
+      "name": "Fireblocks",
+      "category": "Blockchain infrastructure",
+      "country": "Global",
+      "url": "https://developers.fireblocks.com/reference/signing-a-request-jwt-structure",
+      "auth": "Signed JWT with protected private signing key; approved customer credentials required",
+      "software": "Digital asset infrastructure API and signing workflows",
+      "blockchain": "Wallet and digital asset infrastructure; no Matcha Manita integration",
+      "status": "Official API docs located; separate from cannabis checkout"
     }
   ]
 }
