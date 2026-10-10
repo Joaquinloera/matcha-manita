@@ -1,0 +1,51 @@
+{
+  "project": "Matcha Manita",
+  "branch": "kino-premium-preview-20261008",
+  "date": "2026-10-10",
+  "method": "TinyFish SWARM + SKIM",
+  "production_integration_claim": false,
+  "records": [
+    {
+      "name": "Weedmaps",
+      "category": "Marketplace and menu API",
+      "official_docs": "https://developer.weedmaps.com/v2026.01/docs/overview",
+      "auth": "Confirm Weedmaps partner authorization and credentials",
+      "status": "Documentation located; not connected"
+    },
+    {
+      "name": "Jane Technologies",
+      "category": "Cannabis ecommerce",
+      "official_docs": null,
+      "auth": "Official public developer portal not verified in this pass",
+      "status": "Research pending; not connected"
+    },
+    {
+      "name": "Arizona ADHS Facility Licensing",
+      "category": "State regulatory portal",
+      "official_docs": "https://facility-licensing.azdhs.gov/s/login/",
+      "auth": "Authorized facility account required",
+      "status": "Official portal located; license status unverified"
+    },
+    {
+      "name": "Cova",
+      "category": "Cannabis POS API",
+      "official_docs": "https://api.covasoft.net/Documentation",
+      "auth": "Vendor-approved credentials required; exact method unverified",
+      "status": "Documentation located; not connected"
+    },
+    {
+      "name": "Treez",
+      "category": "Cannabis POS API",
+      "official_docs": "https://code.treez.io/",
+      "auth": "Integrator authentication documented in existing directory",
+      "status": "Documentation located; not connected"
+    },
+    {
+      "name": "BLAZE",
+      "category": "Cannabis POS API",
+      "official_docs": "https://apidocs.blaze.me/intro",
+      "auth": "Partner onboarding required",
+      "status": "Documentation located; not connected"
+    }
+  ]
+}
