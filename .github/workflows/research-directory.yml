@@ -1,0 +1,24 @@
+name: Matcha Manita research directory tests
+on:
+  push:
+    branches:
+      - kino-premium-preview-20261008
+  pull_request:
+  workflow_dispatch:
+jobs:
+  verify-directory:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check
+        run: |
+          node --check research-directory.js
+          node --check app.js
+          node --check tests/research-directory.test.cjs
+      - name: Research directory regression tests
+        run: node tests/research-directory.test.cjs
