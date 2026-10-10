@@ -331,6 +331,66 @@
       "software": "NCBI bioinformatics data APIs; research-only and not a dispensary POS integration",
       "blockchain": "Not applicable",
       "status": "Official research APIs located; not connected"
+    },
+    {
+      "name": "Weedmaps Developer API",
+      "category": "Cannabis ecommerce",
+      "country": "International",
+      "url": "https://developer.weedmaps.com/docs/overview",
+      "auth": "Official documentation; credentials not yet validated",
+      "software": "Official developer resource and vendor onboarding documentation",
+      "blockchain": "Not verified",
+      "status": "Research verified; not connected"
+    },
+    {
+      "name": "Microsoft Foundry API",
+      "category": "Enterprise AI",
+      "country": "International",
+      "url": "https://learn.microsoft.com/en-us/rest/api/microsoft-foundry/",
+      "auth": "Official documentation; credentials not yet validated",
+      "software": "Official developer resource and vendor onboarding documentation",
+      "blockchain": "Not verified",
+      "status": "Research verified; not connected"
+    },
+    {
+      "name": "NVIDIA NIM API",
+      "category": "AI inference",
+      "country": "International",
+      "url": "https://docs.nvidia.com/nim/large-language-models/latest/api-reference.html",
+      "auth": "Official documentation; credentials not yet validated",
+      "software": "Official developer resource and vendor onboarding documentation",
+      "blockchain": "Not verified",
+      "status": "Research verified; not connected"
+    },
+    {
+      "name": "FIDO WebAuthn",
+      "category": "Biometric authentication",
+      "country": "International",
+      "url": "https://fidoalliance.org/passkeys/",
+      "auth": "Official documentation; credentials not yet validated",
+      "software": "Official developer resource and vendor onboarding documentation",
+      "blockchain": "Not verified",
+      "status": "Research verified; not connected"
+    },
+    {
+      "name": "Cloudflare Workers AI",
+      "category": "Cloud AI infrastructure",
+      "country": "International",
+      "url": "https://developers.cloudflare.com/workers-ai/get-started/rest-api/",
+      "auth": "Official documentation; credentials not yet validated",
+      "software": "Official developer resource and vendor onboarding documentation",
+      "blockchain": "Not verified",
+      "status": "Research verified; not connected"
+    },
+    {
+      "name": "Treez API Access",
+      "category": "Cannabis POS onboarding",
+      "country": "International",
+      "url": "https://support.treez.io/en/articles/9129351-requesting-api-access-for-treez-apis",
+      "auth": "Official documentation; credentials not yet validated",
+      "software": "Official developer resource and vendor onboarding documentation",
+      "blockchain": "Not verified",
+      "status": "Research verified; not connected"
     }
   ],
   "integrationBlueprint": {
