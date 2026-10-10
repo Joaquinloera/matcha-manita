@@ -17,7 +17,7 @@ function element(tag = 'div') {
 }
 async function run() {
   const ids = ['directorySearch', 'directoryCategory', 'directoryGrid',
-    'directoryStatus', 'directoryRegion', 'directorySort', 'directoryReset'];
+    'directoryStatus', 'directoryRegion', 'directorySort', 'directoryReset', 'directoryReadiness'];
   const controls = Object.fromEntries(ids.map(id => [id, element()]));
   const sources = [
     {name:'Zulu',category:'Cannabis POS',country:'Canada',url:'https://example.org/z',auth:'Bearer',software:'Inventory',blockchain:'None',status:'Research'},
@@ -38,6 +38,14 @@ async function run() {
   assert.match(grid.children.find(card=>card.children[1]?.textContent==='Alpha').children.at(-1).textContent,/Verified live integration/,'Verified live integration status should be shown only when explicitly verified');
   assert.equal(controls.directoryCategory.children.length, 2, 'Categories populated');
   assert.equal(controls.directoryRegion.children.length, 2, 'Regions populated');
+  controls.directoryReadiness.value = 'documented';
+  controls.directoryReadiness.fire('change');
+  assert.deepEqual(names(), ['Bravo'], 'Documented integration filter');
+  controls.directoryReadiness.value = 'verified-live';
+  controls.directoryReadiness.fire('change');
+  assert.deepEqual(names(), ['Alpha'], 'Verified-live integration filter');
+  controls.directoryReadiness.value = '';
+  controls.directoryReadiness.fire('change');
   controls.directoryRegion.value = 'Canada';
   controls.directoryRegion.fire('change');
   assert.deepEqual(names(), ['Zulu'], 'Region filtering');
@@ -60,6 +68,7 @@ async function run() {
   controls.directoryReset.fire('click');
   assert.deepEqual(names(), ['Alpha', 'Bravo', 'Zulu'], 'Reset results');
   assert.equal(controls.directorySort.value, 'name', 'Reset sorting');
+  assert.equal(controls.directoryReadiness.value, '', 'Reset integration status');
   assert.equal(controls.directorySearch.focused, true, 'Reset returns focus');
   assert.match(controls.directoryStatus.textContent, /3 of 3/, 'Accurate count');
   console.log('PASS: Directory behavior (load, safe sources, filters, search, sort, reset)');
