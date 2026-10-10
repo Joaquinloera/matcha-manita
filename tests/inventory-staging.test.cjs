@@ -1,0 +1,27 @@
+"use strict";
+const assert=require("node:assert/strict");
+const {createPosabitAdapter,STAGING_ORIGIN}=require("../server/posabit-staging.cjs");
+const {normalizeInventory}=require("../server/inventory.cjs");
+(async()=>{
+  assert.equal(STAGING_ORIGIN,"https://staging-app.posabit.com");
+  assert.throws(()=>createPosabitAdapter({}),/credentials/);
+  assert.throws(()=>createPosabitAdapter({token:"test",feedKey:"../escape"}),/credentials/);
+  let request;
+  const adapter=createPosabitAdapter({token:"test-token",feedKey:"feed_123",fetchImpl:async(url,opts)=>{request={url,opts};return {ok:true,json:async()=>({products:[]})}}});
+  assert.deepEqual(await adapter.fetchMenu(),{products:[]});
+  assert.equal(request.url,"https://staging-app.posabit.com/api/v3/menu_feeds/feed_123");
+  assert.equal(request.opts.headers.Authorization,"Bearer test-token");
+  assert.equal(request.opts.redirect,"error");
+  await assert.rejects(createPosabitAdapter({token:"test",feedKey:"key",fetchImpl:async()=>({ok:false,status:401})}).fetchMenu(),/401/);
+  await assert.rejects(createPosabitAdapter({token:"test",feedKey:"key",fetchImpl:async()=>({ok:true,json:async()=>[]})}).fetchMenu(),/Invalid/);
+  await assert.rejects(createPosabitAdapter({token:"test",feedKey:"key",fetchImpl:async()=>{throw Error("network unavailable")}}).fetchMenu(),/network unavailable/);
+  const now=Date.parse("2026-10-10T00:00:00Z");
+  const item={id:"p1",name:"Sample",quantity:2,price:12};
+  const snapshot=normalizeInventory([item],{syncedAt:"2026-10-09T23:59:00Z",now});
+  assert.equal(snapshot.verifiedLive,false);
+  assert.equal(snapshot.items[0].available,true);
+  assert.throws(()=>normalizeInventory([item,item],{syncedAt:"2026-10-09T23:59:00Z",now}),/Duplicate/);
+  assert.throws(()=>normalizeInventory([{...item,quantity:-1}],{syncedAt:"2026-10-09T23:59:00Z",now}),/quantity/);
+  assert.throws(()=>normalizeInventory([item],{syncedAt:"2026-10-09T23:00:00Z",now}),/stale/);
+  console.log("PASS: POSaBIT staging adapter and inventory snapshot validation");
+})().catch(e=>{console.error(e);process.exitCode=1});
