@@ -58,9 +58,9 @@
       "country": "United States",
       "url": "https://developer.posabit.com/authentication.html",
       "auth": "General v3 API: integrator + venue HTTP Basic; menu feed endpoint separately documents Bearer API token and feed key; follow endpoint-specific docs",
-      "software": "POS v3 REST endpoints, JSON menu feed GET /api/v3/menu_feeds/{feed_key}, incoming order status callbacks; staging documented",
+      "software": "Official Venue API v3: menu feeds, incoming orders, quotes, coupons, customers, inventories, inventory transactions, manifests, sales histories and suppliers",
       "blockchain": "No blockchain integration verified",
-      "status": "Official authentication, menu-feed and webhook docs inspected; no integration connected"
+      "status": "Official venue API v3, menu-feed and authentication documentation inspected; no live access"
     },
     {
       "name": "OpenAI",
@@ -68,9 +68,9 @@
       "country": "United States",
       "url": "https://developers.openai.com/api/reference/overview/",
       "auth": "Server-side API keys",
-      "software": "Responses API and official Agents SDK for tool orchestration, guardrails, human review and tracing",
+      "software": "Responses API, Agents SDK and production best-practices guide for server-side secure model integration",
       "blockchain": "No blockchain integration verified",
-      "status": "Official API and Agents SDK docs inspected; not connected"
+      "status": "Official production best-practices guidance inspected; not connected"
     },
     {
       "name": "Anthropic Claude",
@@ -87,10 +87,10 @@
       "category": "AI software",
       "country": "United States",
       "url": "https://ai.google.dev/gemini-api/docs/api-key",
-      "auth": "Project-issued API keys; protect on backend",
+      "auth": "Gemini API supports standard project keys and service-account-bound authorization keys; protect credentials server-side",
       "software": "Gemini API and SDKs",
       "blockchain": "No blockchain integration verified",
-      "status": "Official API docs; not connected"
+      "status": "Official API key security guidance inspected; not connected"
     },
     {
       "name": "NIST",
@@ -193,7 +193,31 @@
         "organization": "OpenAI",
         "url": "https://developers.openai.com/api/docs/guides/agents/sdk",
         "verified": "2026-10-09"
+      },
+      {
+        "organization": "POSaBIT",
+        "url": "https://developer.posabit.com/venue-api-v3.html",
+        "verified": "2026-10-09"
+      },
+      {
+        "organization": "Google Gemini",
+        "url": "https://ai.google.dev/gemini-api/docs/api-key",
+        "verified": "2026-10-09"
+      },
+      {
+        "organization": "OpenAI",
+        "url": "https://developers.openai.com/api/docs/guides/production-best-practices",
+        "verified": "2026-10-09"
       }
+    ],
+    "productionReadiness": [
+      "Approved vendor contracts and licensed operations",
+      "Server-side secrets with scoped credentials and rotation",
+      "Explicit permission checks and audit trails",
+      "Provider rate limits and backoff",
+      "Verified inventory freshness and reconciliation",
+      "Compliance and age verification before any commerce",
+      "No production deploy without staging smoke tests and coordinated release"
     ]
   }
 }
