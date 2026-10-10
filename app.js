@@ -178,13 +178,18 @@
 
     host.innerHTML = "";
 
+    // Show all approved categories even before licensed inventory is synced.
+    const storefrontCategories = [
+      "Flower", "Pre-Rolls", "Concentrates", "Diamonds",
+      "Vapes", "Edibles", "Beverages", "Topicals",
+      "Wellness", "Accessories"
+    ];
     const categories = [
       "All",
-      ...new Set(
-        products.map(
-          product => product.category
-        )
-      )
+      ...new Set([
+        ...storefrontCategories,
+        ...products.map(product => product.category)
+      ])
     ];
 
     categories.forEach(category => {
@@ -199,6 +204,7 @@
           : "category";
 
       button.textContent = category;
+      button.setAttribute("aria-pressed", String(category === active));
 
       button.onclick = () => {
         active = category;
