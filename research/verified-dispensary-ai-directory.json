@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-10",
+  "updated": "2026-10-09",
   "purpose": "Public technology and integration research supporting the production-intended Matcha Manita website; integrations are tracked separately",
   "sources": [
     {
@@ -261,6 +261,36 @@
       "software": "Voluntary AI risk management outcomes for design, development, use and evaluation of trustworthy AI systems",
       "blockchain": "Not a blockchain product or API",
       "status": "Official framework verified; guidance, not certification"
+    },
+    {
+      "name": "Cisco Meraki",
+      "category": "Internet and Wi-Fi management",
+      "country": "United States",
+      "url": "https://developer.cisco.com/meraki/api-v1/authorization/",
+      "auth": "OAuth 2.0 app-scoped grants or administrator-scoped API keys; keep secrets server-side",
+      "software": "Dashboard REST API, network and device administration, automation SDKs",
+      "blockchain": "No native blockchain capability established in reviewed documentation",
+      "status": "Official API documentation reviewed; not connected"
+    },
+    {
+      "name": "Cloudflare",
+      "category": "Internet and API infrastructure",
+      "country": "United States",
+      "url": "https://developers.cloudflare.com/api/overview/",
+      "auth": "Scoped API tokens recommended; rotate and restrict permissions",
+      "software": "DNS, security, networking and API automation via documented interfaces",
+      "blockchain": "No native digital-asset custody capability established",
+      "status": "Official API documentation reviewed; not connected"
+    },
+    {
+      "name": "Coinbase Developer Platform",
+      "category": "Digital asset infrastructure",
+      "country": "United States",
+      "url": "https://docs.cdp.coinbase.com/wallet-api/v2/introduction/quickstart",
+      "auth": "Developer API key and wallet secret; backend-only custody controls",
+      "software": "Wallet APIs and SDKs; EVM and Solana accounts; testnet development",
+      "blockchain": "EVM and Solana blockchain account tooling; no Matcha Manita connection",
+      "status": "Official wallet documentation reviewed; not connected"
     }
   ],
   "integrationBlueprint": {
