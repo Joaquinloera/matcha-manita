@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-09",
+  "updated": "2026-10-10",
   "purpose": "Public technology and integration research supporting the production-intended Matcha Manita website; integrations are tracked separately",
   "sources": [
     {
@@ -291,6 +291,46 @@
       "software": "Wallet APIs and SDKs; EVM and Solana accounts; testnet development",
       "blockchain": "EVM and Solana blockchain account tooling; no Matcha Manita connection",
       "status": "Official wallet documentation reviewed; not connected"
+    },
+    {
+      "name": "Weedmaps",
+      "category": "Cannabis ecommerce",
+      "country": "United States",
+      "url": "https://developer.weedmaps.com/v2026.01/docs/overview",
+      "auth": "Developer onboarding and access requirements must be confirmed against the official portal; no credential verified",
+      "software": "Official Weedmaps developer documentation; API products and permissions require endpoint-level review",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official developer portal located; not connected"
+    },
+    {
+      "name": "Arizona ADHS Facility Licensing",
+      "category": "Government licensing",
+      "country": "United States",
+      "url": "https://facility-licensing.azdhs.gov/s/login/",
+      "auth": "Authorized facility portal account; no account access or license verified",
+      "software": "Arizona facility licensing administration portal; not a public retail ordering API",
+      "blockchain": "Not applicable",
+      "status": "Official portal located; no license verified"
+    },
+    {
+      "name": "FIDO Alliance Passkeys",
+      "category": "Biometric authentication standards",
+      "country": "International",
+      "url": "https://fidoalliance.org/passkeys/",
+      "auth": "FIDO2/WebAuthn public-key authentication; biometrics remain device-mediated",
+      "software": "Phishing-resistant passkey standards for staff/customer account authentication",
+      "blockchain": "Not applicable",
+      "status": "Standards research only; not implemented"
+    },
+    {
+      "name": "NCBI APIs",
+      "category": "Biocomputing research",
+      "country": "United States",
+      "url": "https://www.ncbi.nlm.nih.gov/home/develop/api/",
+      "auth": "Endpoint-specific API key and usage policies; no key verified",
+      "software": "NCBI bioinformatics data APIs; research-only and not a dispensary POS integration",
+      "blockchain": "Not applicable",
+      "status": "Official research APIs located; not connected"
     }
   ],
   "integrationBlueprint": {
@@ -388,5 +428,6 @@
       "checkout": "disabled pending licensing, age verification, provider approval and operational compliance",
       "deployment": "requires successful CI and staging smoke tests"
     }
-  }
+  },
+  "verification_note": "Research-only registry; no vendor, licensing, biometric or biological integration is claimed live."
 }
