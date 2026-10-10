@@ -47,6 +47,10 @@ async function run() {
   controls.directorySearch.value = 'oauth';
   controls.directorySearch.fire('input');
   assert.deepEqual(names(), ['Bravo'], 'Authentication search');
+  controls.directorySearch.value = 'nonexistent-technology-xyz';
+  controls.directorySearch.fire('input');
+  assert.equal(grid.children.length, 1, 'Empty state should have one explanatory element');
+  assert.match(grid.children[0].textContent, /No matching research records/, 'Empty state message');
   controls.directorySearch.value = '';
   controls.directorySort.value = 'category';
   controls.directorySort.fire('change');
