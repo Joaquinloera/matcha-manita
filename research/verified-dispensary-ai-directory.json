@@ -6,9 +6,9 @@
       "name": "Dutchie",
       "category": "Cannabis POS",
       "country": "United States",
-      "url": "https://api.pos.dutchie.com/pages/authentication.html",
-      "auth": "Vendor-scoped API keys using HTTP Basic; approved onboarding",
-      "software": "REST/JSON, OpenAPI; product and inventory endpoints",
+      "url": "https://api.pos.dutchie.com/swagger/index.html",
+      "auth": "Permission-scoped, vendor-specific location key with HTTP Basic; integrator key may be required; backend-only secrets",
+      "software": "REST/JSON product, inventory, customer and reporting endpoints; GET /whoami verifies authorized identity",
       "blockchain": "No blockchain integration verified",
       "status": "Official POS API authentication docs located; not connected"
     },
@@ -58,9 +58,9 @@
       "country": "United States",
       "url": "https://developer.posabit.com/authentication.html",
       "auth": "V3: HTTP Basic with integrator token + venue token; V1/V2 legacy: Bearer venue API token",
-      "software": "POSaBIT API v3; venue-specific authorized endpoints",
+      "software": "POS API v3 and order status callbacks: status_callback URL or GET /api/v3/incoming_orders/{id}; callback content type application/x-www-form-urlencoded",
       "blockchain": "No blockchain integration verified",
-      "status": "Official authentication page inspected; not connected"
+      "status": "Official authentication and webhook documentation inspected; no webhook connected"
     },
     {
       "name": "OpenAI",
@@ -138,7 +138,7 @@
       "country": "Canada / United States",
       "url": "https://api.covasoft.net/Documentation",
       "auth": "OAuth2 token endpoint documented at accounts.iqmetrix.net; approved credentials required",
-      "software": "Data Platform REST APIs for catalog, pricing, inventory, taxes and order intake",
+      "software": "REST Data Platform APIs; initial full sync plus incremental UpdatedAsOf inventory/product updates",
       "blockchain": "No blockchain integration verified",
       "status": "Official API documentation inspected; not connected"
     },
@@ -172,5 +172,14 @@
       "blockchain": "Wallet and digital asset infrastructure; no Matcha Manita integration",
       "status": "Official API docs located; separate from cannabis checkout"
     }
-  ]
+  ],
+  "integrationBlueprint": {
+    "mode": "research-only",
+    "frontend": "Read-only education directory; never hold API credentials",
+    "backend": "Authorized HTTPS API gateway with per-provider credential vault, least privilege, rate limiting, audit logs and token rotation",
+    "inventory": "Once authorized, sync inventory server-side using provider-supported incremental updates; display last-synced timestamps",
+    "webhooks": "Only enable authenticated verified callbacks after partner approval; validate source and idempotency",
+    "checkout": "Disabled until licensing, age/identity verification, delivery permissions and payment legality independently established",
+    "digitalAssets": "No blockchain wallet, token or cannabis payment flows enabled"
+  }
 }
