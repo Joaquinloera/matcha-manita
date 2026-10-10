@@ -171,6 +171,16 @@
       "software": "Digital asset infrastructure API and signing workflows",
       "blockchain": "Wallet and digital asset infrastructure; no Matcha Manita integration",
       "status": "Official API docs located; separate from cannabis checkout"
+    },
+    {
+      "name": "Amazon Bedrock",
+      "category": "AI developer tools",
+      "country": "United States / Global",
+      "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html",
+      "auth": "IAM permissions; short-term bearer API keys up to 12 hours recommended for production; long-term keys for exploration only",
+      "software": "Managed foundation model API access, IAM authorization and CloudTrail auditing",
+      "blockchain": "No blockchain integration verified",
+      "status": "Official AWS API-key and IAM documentation inspected; not connected"
     }
   ],
   "integrationBlueprint": {
@@ -207,6 +217,11 @@
       {
         "organization": "OpenAI",
         "url": "https://developers.openai.com/api/docs/guides/production-best-practices",
+        "verified": "2026-10-09"
+      },
+      {
+        "organization": "Amazon Bedrock",
+        "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html",
         "verified": "2026-10-09"
       }
     ],
