@@ -20,5 +20,8 @@ jobs:
           node --check research-directory.js
           node --check app.js
           node --check tests/research-directory.test.cjs
+          node --check tests/research-directory.behavior.test.cjs
       - name: Research directory regression tests
-        run: node tests/research-directory.test.cjs
+        run: |
+          node tests/research-directory.test.cjs
+          node tests/research-directory.behavior.test.cjs
