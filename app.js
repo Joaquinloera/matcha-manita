@@ -93,6 +93,15 @@
       );
     }
 
+    // Approved flower price contract: fail closed if catalog prices drift.
+    const flowerPrices = new Map([
+      [1, 286], [3.5, 1000], [7, 2000], [14, 4000], [28, 8000]
+    ]);
+    const flowerWeights = new Map([
+      ["1g", 1], ["1/8 oz", 3.5], ["1/4 oz", 7],
+      ["1/2 oz", 14], ["1 oz", 28]
+    ]);
+
     const seen = new Set();
 
     catalog.products.forEach(product => {
@@ -121,6 +130,16 @@
         }
 
         seen.add(variant.sku);
+
+        if (product.category === "Flower") {
+          const grams = Number.isFinite(variant.grams)
+            ? variant.grams
+            : flowerWeights.get(variant.weight);
+          if (!flowerPrices.has(grams) ||
+              variant.priceMinor !== flowerPrices.get(grams)) {
+            throw new Error(`Unapproved flower weight or price: ${variant.sku}`);
+          }
+        }
 
         if (
           !Number.isInteger(
