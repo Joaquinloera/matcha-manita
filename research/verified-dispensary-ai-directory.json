@@ -57,10 +57,10 @@
       "category": "Cannabis POS",
       "country": "United States",
       "url": "https://developer.posabit.com/authentication.html",
-      "auth": "V3: HTTP Basic with integrator token + venue token; V1/V2 legacy: Bearer venue API token",
-      "software": "POS API v3 and order status callbacks: status_callback URL or GET /api/v3/incoming_orders/{id}; callback content type application/x-www-form-urlencoded",
+      "auth": "General v3 API: integrator + venue HTTP Basic; menu feed endpoint separately documents Bearer API token and feed key; follow endpoint-specific docs",
+      "software": "POS v3 REST endpoints, JSON menu feed GET /api/v3/menu_feeds/{feed_key}, incoming order status callbacks; staging documented",
       "blockchain": "No blockchain integration verified",
-      "status": "Official authentication and webhook documentation inspected; no webhook connected"
+      "status": "Official authentication, menu-feed and webhook docs inspected; no integration connected"
     },
     {
       "name": "OpenAI",
@@ -68,9 +68,9 @@
       "country": "United States",
       "url": "https://developers.openai.com/api/reference/overview/",
       "auth": "Server-side API keys",
-      "software": "Model APIs, SDKs and agent tools",
+      "software": "Responses API and official Agents SDK for tool orchestration, guardrails, human review and tracing",
       "blockchain": "No blockchain integration verified",
-      "status": "Official API docs; not connected"
+      "status": "Official API and Agents SDK docs inspected; not connected"
     },
     {
       "name": "Anthropic Claude",
@@ -180,6 +180,20 @@
     "inventory": "Once authorized, sync inventory server-side using provider-supported incremental updates; display last-synced timestamps",
     "webhooks": "Only enable authenticated verified callbacks after partner approval; validate source and idempotency",
     "checkout": "Disabled until licensing, age/identity verification, delivery permissions and payment legality independently established",
-    "digitalAssets": "No blockchain wallet, token or cannabis payment flows enabled"
+    "digitalAssets": "No blockchain wallet, token or cannabis payment flows enabled",
+    "menuFeed": "POSaBIT menu feeds document Bearer API token plus feed key; unlike general v3 endpoints, do not assume one authentication scheme applies to every endpoint. Store tokens server-side; stage with provider authorization.",
+    "aiAgent": "Use server-side agent runtime, allowlisted tools, human review for consequential actions and zero customer data sent to unapproved AI services.",
+    "researchProvenance": [
+      {
+        "organization": "POSaBIT",
+        "url": "https://developer.posabit.com/menu-feeds.html",
+        "verified": "2026-10-09"
+      },
+      {
+        "organization": "OpenAI",
+        "url": "https://developers.openai.com/api/docs/guides/agents/sdk",
+        "verified": "2026-10-09"
+      }
+    ]
   }
 }
