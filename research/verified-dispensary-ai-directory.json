@@ -221,6 +221,26 @@
       "software": "Federal AI and superintelligence education initiative and training information; not a model API",
       "blockchain": "No blockchain integration verified",
       "status": "Official federal education initiative verified; reference only"
+    },
+    {
+      "name": "Claude API Overview",
+      "category": "AI API",
+      "country": "Global",
+      "url": "https://docs.anthropic.com/claude/reference/getting-started-with-the-api",
+      "auth": "Claude Console API key or configured workload identity federation; credentials must be secured",
+      "software": "REST Messages, batches, token counting, models, files and skills APIs",
+      "blockchain": "No blockchain capability verified in API overview",
+      "status": "Official API overview verified; no live integration configured"
+    },
+    {
+      "name": "Gemini API Key Security",
+      "category": "AI API",
+      "country": "Global",
+      "url": "https://ai.google.dev/gemini-api/docs/api-key",
+      "auth": "Google documents standard and service-account-bound authorization API keys; restrict credentials and avoid exposing server secrets",
+      "software": "Gemini API authentication and project-based quota/security configuration",
+      "blockchain": "No blockchain capability verified in authentication documentation",
+      "status": "Official key-security documentation verified; no live integration configured"
     }
   ],
   "integrationBlueprint": {
