@@ -977,7 +977,10 @@
     });
   }
 
-  loadCatalog().catch(error => {
+  loadCatalog().then(() => {
+    cats();
+    render();
+  }).catch(error => {
     const status = $("checkoutStatus");
     if (status) status.textContent = "Catalog preview unavailable. Please retry later.";
     console.error("Matcha Manita catalog load failed", error);
