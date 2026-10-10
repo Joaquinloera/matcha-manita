@@ -264,7 +264,7 @@
     }
   ],
   "integrationBlueprint": {
-    "mode": "research-only",
+    "mode": "production-intended; live integrations gated by verification",
     "frontend": "Read-only education directory; never hold API credentials",
     "backend": "Authorized HTTPS API gateway with per-provider credential vault, least privilege, rate limiting, audit logs and token rotation",
     "inventory": "Once authorized, sync inventory server-side using provider-supported incremental updates; display last-synced timestamps",
@@ -313,6 +313,50 @@
       "Verified inventory freshness and reconciliation",
       "Compliance and age verification before any commerce",
       "No production deploy without staging smoke tests and coordinated release"
-    ]
+    ],
+    "integrationReadiness": [
+      {
+        "provider": "POSaBIT",
+        "capability": "Menu and inventory feed",
+        "documentation": "https://developer.posabit.com/menu-feeds.html",
+        "stage": "documented",
+        "connected": false,
+        "requirements": [
+          "Partner approval and feed configuration",
+          "Backend-only bearer token and feed key",
+          "Staging feed validation and inventory reconciliation"
+        ]
+      },
+      {
+        "provider": "OpenAI",
+        "capability": "Server-side AI assistance",
+        "documentation": "https://developers.openai.com/api/docs/guides/production-best-practices",
+        "stage": "documented",
+        "connected": false,
+        "requirements": [
+          "Authorized organization and API credentials",
+          "Server-side key storage and usage limits",
+          "Human-reviewed tool permissions and privacy assessment"
+        ]
+      },
+      {
+        "provider": "PayPal",
+        "capability": "Payment processing eligibility review",
+        "documentation": "https://developer.paypal.com/docs/api/overview/",
+        "stage": "provider-approval-required",
+        "connected": false,
+        "requirements": [
+          "Explicit confirmation of cannabis-related merchant eligibility",
+          "Applicable licensing and payment compliance",
+          "Provider-authorized sandbox tests before any checkout change"
+        ]
+      }
+    ],
+    "releaseGates": {
+      "inventory": "blocked until authorized live or staging POS feed and reconciliation tests",
+      "ai": "blocked until backend secrets, privacy review and authorized tools",
+      "checkout": "disabled pending licensing, age verification, provider approval and operational compliance",
+      "deployment": "requires successful CI and staging smoke tests"
+    }
   }
 }
