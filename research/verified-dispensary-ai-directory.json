@@ -1,6 +1,6 @@
 {
   "updated": "2026-10-10",
-  "purpose": "Public technology research for Matcha Manita delivery-service preview; not connected to providers",
+  "purpose": "Public technology and integration research supporting the production-intended Matcha Manita website; integrations are tracked separately",
   "sources": [
     {
       "name": "Dutchie",
@@ -188,9 +188,9 @@
       "country": "United States / Global",
       "url": "https://developer.paypal.com/docs/api/overview/",
       "auth": "OAuth 2.0 client credentials for supported PayPal APIs; eligibility and acceptable-use approval must be independently confirmed",
-      "software": "Developer REST APIs and SDK documentation; research only, not connected to cannabis checkout",
+      "software": "Published REST APIs and SDKs; production integration subject to provider approval and technical validation",
       "blockchain": "No cannabis blockchain payment support verified",
-      "status": "Developer documentation researched; not authorized for cannabis transactions"
+      "status": "Provider eligibility and cannabis-related restrictions require confirmation from PayPal before any live integration; no connection is configured"
     },
     {
       "name": "GitHub Actions",
