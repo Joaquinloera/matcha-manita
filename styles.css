@@ -845,3 +845,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .mm-service-location address{font-style:normal;line-height:1.6;margin:.4rem 0;color:#f5f2e8}
 .mm-service-location small{display:block;color:#d5c7a9;line-height:1.5}
 @media(max-width:600px){.mm-service-location{padding:1rem;gap:.75rem}.mm-service-location .mm-location-symbol{flex-basis:36px;height:36px}}
+
+/* KINO storefront catalog provenance */
+.mm-catalog-note{display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:baseline;padding:1rem 1.15rem;margin:1rem 0 1.4rem;border-left:3px solid #e8bf62;background:rgba(10,32,24,.86);border-radius:0 12px 12px 0}
+.mm-catalog-note strong{color:#e8bf62}
+.mm-catalog-note span{color:#d5c7a9;line-height:1.5;font-size:.9rem}
