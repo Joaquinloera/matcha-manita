@@ -965,122 +965,21 @@
       }
     );
 
-  $("checkoutBtn")
-    ?.addEventListener(
-      "click",
-      async () => {
-        const status =
-          $("checkoutStatus");
+  // Preview safeguard: do not start payment, checkout or order fulfillment.
+  const checkoutButton = $("checkoutBtn");
+  if (checkoutButton) {
+    checkoutButton.disabled = true;
+    checkoutButton.addEventListener("click", event => {
+      event.preventDefault();
+      const status = $("checkoutStatus");
+      if (status) status.textContent =
+        "Checkout is disabled in this research preview. Licensed fulfillment and identity verification are required.";
+    });
+  }
 
-        const button =
-          $("checkoutBtn");
-
-        if (!cart.length) {
-          status.textContent =
-            "Add an item before continuing.";
-
-          return;
-        }
-
-        if (
-          !accessToken ||
-          !orderSession
-        ) {
-          status.textContent =
-            "Sign in before continuing to protected checkout.";
-
-          return;
-        }
-
-        if (
-          checkoutInFlight
-        ) {
-          return;
-        }
-
-        try {
-          validateCart();
-        } catch (error) {
-          status.textContent =
-            error instanceof Error
-              ? error.message
-              : "Cart validation failed.";
-
-          return;
-        }
-
-        const amount =
-          cartAmountMinor();
-
-        if (
-          !Number.isInteger(
-            amount
-          ) ||
-          amount <= 0
-        ) {
-          status.textContent =
-            "Checkout amount is invalid.";
-
-          return;
-        }
-
-        checkoutInFlight =
-          true;
-
-        if (button) {
-          button.disabled =
-            true;
-        }
-
-        status.textContent =
-          "Creating protected payment intent…";
-
-        try {
-          const idempotencyKey =
-            typeof crypto !==
-              "undefined" &&
-            typeof crypto.randomUUID ===
-              "function"
-              ? `mm-${crypto.randomUUID()}`
-              : `mm-${orderSession.orderId}-${Date.now()}`;
-
-          const paymentResponse =
-            await fetch(
-              "/.netlify/functions/create-payment-intent",
-              {
-                method: "POST",
-
-                headers: {
-                  "content-type":
-                    "application/json",
-
-                  "idempotency-key":
-                    idempotencyKey
-                },
-
-                body:
-                  JSON.stringify({
-                    amount,
-                    currency:
-                      "USD",
-
-                    orderId:
-                      orderSession.orderId,
-
-                    customerId:
-                      orderSession.customerId,
-
-                    ownershipProof:
-                      orderSession.ownershipProof,
-
-                    description:
-                      "MATCHA MANITA order"
-                  })
-              }
-            );
-
-          const paymentBody =
-            await paymentResponse
-              .json()
-              .catch(
-                ()
+  loadCatalog().catch(error => {
+    const status = $("checkoutStatus");
+    if (status) status.textContent = "Catalog preview unavailable. Please retry later.";
+    console.error("Matcha Manita catalog load failed", error);
+  });
+})();
