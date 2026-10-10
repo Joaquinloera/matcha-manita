@@ -241,6 +241,26 @@
       "software": "Gemini API authentication and project-based quota/security configuration",
       "blockchain": "No blockchain capability verified in authentication documentation",
       "status": "Official key-security documentation verified; no live integration configured"
+    },
+    {
+      "name": "NIST Generative AI Profile",
+      "category": "AI security",
+      "country": "United States",
+      "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+      "auth": "Public NIST publication; no API key required",
+      "software": "NIST AI 600-1 generative AI risk management guidance, not a model API or integration SDK",
+      "blockchain": "No blockchain integration documented",
+      "status": "Official publication verified; voluntary risk management guidance"
+    },
+    {
+      "name": "NIST AI RMF Core",
+      "category": "AI security",
+      "country": "United States",
+      "url": "https://airc.nist.gov/airmf-resources/airmf/",
+      "auth": "Public framework; no API key required",
+      "software": "Voluntary AI risk management outcomes for design, development, use and evaluation of trustworthy AI systems",
+      "blockchain": "Not a blockchain product or API",
+      "status": "Official framework verified; guidance, not certification"
     }
   ],
   "integrationBlueprint": {
