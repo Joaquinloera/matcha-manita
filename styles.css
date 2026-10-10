@@ -837,3 +837,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 #flower-weights .deal-row h3{color:var(--mm-gold)}
 @media(max-width:600px){#collections .mm-collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#collections .mm-collection-grid>a{min-width:0}#productGrid button{min-height:44px}}
 @media(prefers-reduced-motion:reduce){#collections .mm-collection-grid>a{transition:none}#collections .mm-collection-grid>a:hover{transform:none}}
+
+/* KINO delivery location: preserve original emerald/gold storefront identity */
+.mm-service-location{display:flex;align-items:flex-start;gap:1rem;margin:1.3rem 0;padding:1.2rem;border:1px solid rgba(232,191,98,.55);border-radius:18px;background:radial-gradient(circle at top right,rgba(18,185,135,.15),transparent 65%),#0b1710;box-shadow:0 12px 30px rgba(0,0,0,.2)}
+.mm-service-location .mm-location-symbol{display:grid;place-items:center;flex:0 0 44px;height:44px;border-radius:50%;border:1px solid rgba(242,154,35,.65);color:#f29a23;font-size:1.5rem}
+.mm-service-location strong{display:block;color:#e8bf62;letter-spacing:.04em}
+.mm-service-location address{font-style:normal;line-height:1.6;margin:.4rem 0;color:#f5f2e8}
+.mm-service-location small{display:block;color:#d5c7a9;line-height:1.5}
+@media(max-width:600px){.mm-service-location{padding:1rem;gap:.75rem}.mm-service-location .mm-location-symbol{flex-basis:36px;height:36px}}
