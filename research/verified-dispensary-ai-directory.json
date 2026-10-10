@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-09",
+  "updated": "2026-10-10",
   "purpose": "Public technology research for Matcha Manita delivery-service preview; not connected to providers",
   "sources": [
     {
@@ -181,6 +181,26 @@
       "software": "Managed foundation model API access, IAM authorization and CloudTrail auditing",
       "blockchain": "No blockchain integration verified",
       "status": "Official AWS API-key and IAM documentation inspected; not connected"
+    },
+    {
+      "name": "PayPal Developer",
+      "category": "Payment API research",
+      "country": "United States / Global",
+      "url": "https://developer.paypal.com/docs/api/overview/",
+      "auth": "OAuth 2.0 client credentials for supported PayPal APIs; eligibility and acceptable-use approval must be independently confirmed",
+      "software": "Developer REST APIs and SDK documentation; research only, not connected to cannabis checkout",
+      "blockchain": "No cannabis blockchain payment support verified",
+      "status": "Developer documentation researched; not authorized for cannabis transactions"
+    },
+    {
+      "name": "GitHub Actions",
+      "category": "AI developer tools",
+      "country": "Global",
+      "url": "https://docs.github.com/actions/managing-workflow-runs/using-workflow-run-logs",
+      "auth": "Repository permissions and GitHub Actions tokens; no credentials in public client code",
+      "software": "CI workflow job logs, failed-step diagnosis and regression testing for Matcha Manita development",
+      "blockchain": "Not applicable",
+      "status": "Official CI troubleshooting guidance reviewed; website testing tracked separately"
     }
   ],
   "integrationBlueprint": {
