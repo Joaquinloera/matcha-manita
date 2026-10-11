@@ -407,7 +407,8 @@
           </strong>
         </div>
 
-        <div class="variant-list">
+        <p class="mm-card-availability" role="note">Preview listing · Inventory not confirmed</p>
+        <div class="variant-list" aria-label="Select weight or size for ${escapeHtml(product.name)}">
           ${variantButtons}
         </div>
       `;
