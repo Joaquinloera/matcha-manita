@@ -399,11 +399,9 @@
 
         <div class="product-bottom">
           <strong>
-            From ${money.format(
-              startingPriceMinor(
-                product
-              ) / 100
-            )}
+            ${available.length
+              ? `From ${money.format(startingPriceMinor(product) / 100)}`
+              : "Price unavailable"}
           </strong>
         </div>
 
