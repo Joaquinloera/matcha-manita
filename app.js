@@ -19,6 +19,17 @@
   let products = [];
   let active = "All";
   let cart = [];
+  const favorites = new Set();
+  try {
+    const saved = JSON.parse(localStorage.getItem("mm-favorites-v1") || "[]");
+    if (Array.isArray(saved)) saved.filter(id => typeof id === "string").forEach(id => favorites.add(id));
+  } catch (_) { /* Private browsing can disable storage. */ }
+  function toggleFavorite(id) {
+    if (favorites.has(id)) favorites.delete(id);
+    else favorites.add(id);
+    try { localStorage.setItem("mm-favorites-v1", JSON.stringify([...favorites])); } catch (_) {}
+    render();
+  }
 
   let accessToken = "";
   let orderSession = null;
@@ -364,7 +375,9 @@
               </button>
             `;
 
-      card.innerHTML = `
+      const isFavorite = favorites.has(product.id);
+      card.innerHTML = \`
+        <button type="button" class="mm-favorite" aria-label="${isFavorite ? "Remove" : "Add"} ${escapeHtml(product.name)} ${isFavorite ? "from" : "to"} favorites" aria-pressed="${isFavorite}" data-favorite="${escapeHtml(product.id)}">${isFavorite ? "♥" : "♡"}</button>
         <div
           class="product-art"
           aria-hidden="true"
@@ -399,6 +412,7 @@
         </div>
       `;
 
+      card.querySelector("[data-favorite]")?.addEventListener("click", () => toggleFavorite(product.id));
       card
         .querySelectorAll(
           "[data-sku]"
