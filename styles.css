@@ -850,3 +850,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .mm-catalog-note{display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:baseline;padding:1rem 1.15rem;margin:1rem 0 1.4rem;border-left:3px solid #e8bf62;background:rgba(10,32,24,.86);border-radius:0 12px 12px 0}
 .mm-catalog-note strong{color:#e8bf62}
 .mm-catalog-note span{color:#d5c7a9;line-height:1.5;font-size:.9rem}
+
+/* Accessible favorites on original Matcha Manita product cards */
+.product-card { position: relative; }
+.mm-favorite { position:absolute; z-index:2; top:14px; right:14px; width:44px; height:44px; border:1px solid var(--gold); border-radius:50%; background:rgba(5,8,6,.9); color:var(--gold-soft); font-size:1.55rem; display:grid; place-items:center; cursor:pointer; }
+.mm-favorite[aria-pressed="true"] { background:var(--gold); color:#16120a; }
+.mm-favorite:focus-visible { outline:3px solid var(--green-bright); outline-offset:3px; }
