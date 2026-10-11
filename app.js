@@ -376,7 +376,7 @@
             `;
 
       const isFavorite = favorites.has(product.id);
-      card.innerHTML = \`
+      card.innerHTML = `
         <button type="button" class="mm-favorite" aria-label="${isFavorite ? "Remove" : "Add"} ${escapeHtml(product.name)} ${isFavorite ? "from" : "to"} favorites" aria-pressed="${isFavorite}" data-favorite="${escapeHtml(product.id)}">${isFavorite ? "♥" : "♡"}</button>
         <div
           class="product-art"
