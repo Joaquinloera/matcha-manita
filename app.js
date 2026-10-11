@@ -215,7 +215,7 @@
       "Wellness", "Accessories"
     ];
     const categories = [
-      "All",
+      "All", "Favorites",
       ...new Set([
         ...storefrontCategories,
         ...products.map(product => product.category)
@@ -259,6 +259,7 @@
       products.filter(product => {
         const matchesCategory =
           active === "All" ||
+          (active === "Favorites" && favorites.has(product.id)) ||
           product.category === active;
 
         const matchesSearch =
@@ -309,6 +310,8 @@
     grid.innerHTML = "";
 
     const items = list();
+    grid.setAttribute("aria-live", "polite");
+    grid.setAttribute("aria-label", `${items.length} matching products`);
 
     if (!items.length) {
       grid.innerHTML =
