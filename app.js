@@ -143,6 +143,7 @@
     ]);
 
     const seen = new Set();
+    const productIds = new Set();
 
     catalog.products.forEach(product => {
       if (
@@ -156,8 +157,13 @@
         );
       }
 
+      if (typeof product.id !== "string" || productIds.has(product.id)) {
+        throw new Error("Catalog contains a duplicate or invalid product ID.");
+      }
+      productIds.add(product.id);
+
       product.variants.forEach(variant => {
-        if (!variant.sku) {
+        if (typeof variant.sku !== "string" || !variant.sku.trim()) {
           throw new Error(
             `Missing SKU for ${product.id}.`
           );
