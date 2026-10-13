@@ -15,4 +15,4 @@ jobs:
         with:
           node-version: '22'
       - name: Validate BLAZE adapter with mock requests
-        run: node --test tests/blaze-partner.test.mjs
+        run: node --test tests/*.test.mjs
