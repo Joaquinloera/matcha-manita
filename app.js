@@ -349,9 +349,19 @@
     grid.setAttribute("aria-label", `${items.length} matching products`);
 
     if (!items.length) {
-      grid.innerHTML =
-        '<p class="empty">No products match this view.</p>';
-
+      const searching = Boolean(($("search")?.value || "").trim());
+      const message = searching
+        ? "No matching preview products. Try another search or category."
+        : active === "Favorites"
+          ? "No favorites yet. Use the heart on a product to save it here."
+          : active === "All"
+            ? "Preview catalog is currently unavailable. Please check back."
+            : `${active} collection preview — inventory and availability have not been verified.`;
+      const notice = document.createElement("p");
+      notice.className = "empty";
+      notice.setAttribute("role", "status");
+      notice.textContent = message;
+      grid.appendChild(notice);
       return;
     }
 
