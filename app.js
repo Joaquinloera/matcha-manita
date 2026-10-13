@@ -19,6 +19,28 @@
   let products = [];
   let active = "All";
   let cart = [];
+  // Keep preview bags across reloads. Validate against the approved catalog on load.
+  const CART_STORAGE_KEY = "mm-preview-cart-v1";
+  function saveCart() {
+    try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart)); }
+    catch (_) { /* Storage may be unavailable in private mode. */ }
+  }
+  function restoreCart() {
+    try {
+      const stored = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+      if (!Array.isArray(stored)) return;
+      const bySku = new Map();
+      for (const item of stored) {
+        if (!item || typeof item.sku !== "string" ||
+            !Number.isSafeInteger(item.qty) || item.qty < 1 || item.qty > 99) continue;
+        const match = findSku(item.sku);
+        if (!match || match.variant.available === false) continue;
+        bySku.set(item.sku, Math.min(99, (bySku.get(item.sku) || 0) + item.qty));
+      }
+      cart = [...bySku].map(([sku, qty]) => ({ sku, qty }));
+      saveCart();
+    } catch (_) { cart = []; }
+  }
   const favorites = new Set();
   try {
     const saved = JSON.parse(localStorage.getItem("mm-favorites-v1") || "[]");
@@ -447,7 +469,7 @@
       );
 
     if (existing) {
-      existing.qty += 1;
+      existing.qty = Math.min(99, existing.qty + 1);
     } else {
       cart.push({
         sku,
@@ -455,6 +477,7 @@
       });
     }
 
+    saveCart();
     bag();
   }
 
@@ -469,13 +492,14 @@
       return;
     }
 
-    item.qty += change;
+    item.qty = Math.min(99, item.qty + change);
 
     cart =
       cart.filter(
         entry => entry.qty > 0
       );
 
+    saveCart();
     bag();
   }
 
@@ -1019,6 +1043,8 @@
   }
 
   loadCatalog().then(() => {
+    restoreCart();
+    bag();
     cats();
     render();
   }).catch(error => {
