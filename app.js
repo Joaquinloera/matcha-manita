@@ -486,6 +486,13 @@
       return;
     }
 
+    // A preview bag is not a verified order or a stock reservation.
+    // Only catalog-priced, non-negative integer-cent variants can be added.
+    if (!Number.isSafeInteger(match.variant.priceMinor) ||
+        match.variant.priceMinor <= 0) {
+      return;
+    }
+
     const existing =
       cart.find(
         item => item.sku === sku
