@@ -28,7 +28,11 @@
   function restoreCart() {
     try {
       const stored = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
-      if (!Array.isArray(stored)) return;
+      if (!Array.isArray(stored)) {
+        cart = [];
+        saveCart();
+        return;
+      }
       const bySku = new Map();
       for (const item of stored) {
         if (!item || typeof item.sku !== "string" ||
@@ -39,7 +43,10 @@
       }
       cart = [...bySku].map(([sku, qty]) => ({ sku, qty }));
       saveCart();
-    } catch (_) { cart = []; }
+    } catch (_) {
+      cart = [];
+      saveCart();
+    }
   }
   const favorites = new Set();
   try {
