@@ -1,0 +1,75 @@
+{
+  "schema": "matcha-manita-geographic-coverage-v1",
+  "date": "2026-10-15",
+  "scope": {
+    "unitedStates": "50 states plus DC and territories as applicable",
+    "arizona": "Phoenix metro and statewide priority",
+    "international": "jurisdiction-specific licensed or permitted models, not all called dispensaries"
+  },
+  "coverageStatus": "research seeds, not complete operator census",
+  "jurisdictions": [
+    {
+      "name": "Arizona",
+      "model": "Phoenix metro and statewide",
+      "officialSource": "https://www.azdhs.gov/licensing/marijuana/",
+      "operatorRecordsImported": 0,
+      "licenseeVerification": "not yet performed"
+    },
+    {
+      "name": "California",
+      "model": "statewide licensee search",
+      "officialSource": "https://search.cannabis.ca.gov/",
+      "operatorRecordsImported": 0,
+      "licenseeVerification": "not yet performed"
+    },
+    {
+      "name": "Colorado",
+      "model": "statewide licensee lookup",
+      "officialSource": "https://med.colorado.gov/licensee-information-and-lookup-tool",
+      "operatorRecordsImported": 0,
+      "licenseeVerification": "not yet performed"
+    },
+    {
+      "name": "New York",
+      "model": "statewide licensed dispensary verification",
+      "officialSource": "https://cannabis.ny.gov/dispensary-location-verification",
+      "operatorRecordsImported": 0,
+      "licenseeVerification": "not yet performed"
+    },
+    {
+      "name": "Canada",
+      "model": "federal licensed cultivators/processors/sellers; provincial retail separate",
+      "officialSource": "https://www.canada.ca/en/health-canada/services/drugs-medication/cannabis/industry-licensees-applicants/licensed-cultivators-processors-sellers.html",
+      "operatorRecordsImported": 0,
+      "licenseeVerification": "not yet performed"
+    },
+    {
+      "name": "Netherlands",
+      "model": "municipal coffeeshop policy; not U.S.-style licensed dispensaries",
+      "officialSource": "https://www.government.nl/themes/family-health-and-care/drugs/toleration-policy-regarding-soft-drugs-and-coffee-shops",
+      "operatorRecordsImported": 0,
+      "licenseeVerification": "not yet performed"
+    },
+    {
+      "name": "Australia",
+      "model": "medicinal cannabis regulatory access; pharmacy model",
+      "officialSource": "https://www.tga.gov.au/resources/explore-topic/medicinal-cannabis-hub",
+      "operatorRecordsImported": 0,
+      "licenseeVerification": "not yet performed"
+    }
+  ],
+  "pipeline": [
+    "discover authoritative registry",
+    "obtain authorized downloadable/API dataset",
+    "normalize jurisdiction and license status",
+    "deduplicate operators and physical locations",
+    "link public software integrations without inferring partnerships",
+    "recheck records on schedule"
+  ],
+  "safety": {
+    "customerPortal": "no operator/technology matrix",
+    "secrets": "backend vault only",
+    "medicalIds": "restricted identity system",
+    "deeds": "private evidence repository"
+  }
+}
