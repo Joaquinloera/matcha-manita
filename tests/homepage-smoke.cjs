@@ -6,7 +6,7 @@ const checks=[
  ['homepage navigation',html.includes('class="mm-gateway-next"')],
  ['age gate',html.includes('id="ageGate"')],
  ['catalog preserved',html.includes('id="productGrid"')],
- ['research directory mounted',html.includes('id="technology-directory"')&&html.includes('src="research-directory.js"')],
+ ['private research not mounted in customer portal',!html.includes('id="technology-directory"')&&!html.includes('src="research-directory.js"')],
  ['research directory script exists',fs.existsSync('research-directory.js')],
  ['checkout disabled',html.includes('id="checkoutBtn" type="button" disabled')],
  ['mobile responsive styles',css.includes('@media')],
