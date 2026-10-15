@@ -1,0 +1,112 @@
+{
+  "schema": "matcha-manita-dispensary-provider-architecture-v1",
+  "researchedOn": "2026-10-15",
+  "scope": "12 researched vendors; documentation discovery, not credential onboarding",
+  "websiteBoundary": "admin research only; never show provider matrix in customer portal",
+  "vendors": [
+    {
+      "name": "Dutchie",
+      "capability": "POS API; third-party key request",
+      "source": "https://support.dutchie.com/hc/en-us/articles/27660267271187-Dutchie-POS-API-key-request-process-for-third-party-integrations",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "Treez",
+      "capability": "POS-integrated ecommerce, delivery and loyalty",
+      "source": "https://www.treez.io/integrations",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "Flowhub",
+      "capability": "native and headless ecommerce approaches",
+      "source": "https://www.flowhub.com/learn/headless-ecommerce-for-dispensaries",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "BLAZE",
+      "capability": "retail open API and partner network",
+      "source": "https://www.blaze.me/products/retail/open-api-docs/",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "Cova",
+      "capability": "POS developer API and integrations",
+      "source": "https://api.covasoft.net/Documentation",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "Sweed",
+      "capability": "public ecommerce API documentation",
+      "source": "https://www.sweedpos.com/ecommerce-public-api",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "POSaBIT",
+      "capability": "menu feed developer API",
+      "source": "https://developer.posabit.com/menu-feeds.html",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "Metrc",
+      "capability": "regulated track-and-trace integration",
+      "source": "https://www.metrc.com/track-and-trace-technology/metrc-connect/",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "Weedmaps",
+      "capability": "menu and marketplace developer integration",
+      "source": "https://developer.weedmaps.com/",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "Greenline",
+      "capability": "POS integration ecosystem",
+      "source": "https://getgreenline.co/why-greenline-is-the-best-cannabis-pos-for-integrators/",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "Dispense",
+      "capability": "ecommerce integration with POS partners",
+      "source": "https://www.dispenseapp.com/integrations/blaze",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    },
+    {
+      "name": "Jane Technologies",
+      "capability": "ecommerce and supply-chain integration ecosystem",
+      "source": "https://nabis.com/press-release/nabis-announces-api-integration-partnership-with-jane-technologies",
+      "credentialStatus": "not provided",
+      "connectionStatus": "not verified",
+      "productionEnabled": false
+    }
+  ],
+  "integrationDesign": {
+    "catalog": "provider adapter normalizes inventory and SKU only after authorized connection",
+    "delivery": "eligibility and order workflows must be independently approved and tested",
+    "medicalId": "restricted identity service; no browser storage",
+    "passkey": "WebAuthn challenge/response verified on server",
+    "secrets": "backend secret vault only",
+    "deeds": "private evidence repository; not public storefront metadata"
+  }
+}
