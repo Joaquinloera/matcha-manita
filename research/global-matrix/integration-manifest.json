@@ -1,0 +1,59 @@
+{
+  "schema": "matcha-manita-integration-manifest-v1",
+  "updated": "2026-10-15",
+  "purpose": "Mainframe connector readiness and secure integration boundaries",
+  "researchRecords": 39,
+  "connectors": [
+    {
+      "name": "BLAZE",
+      "sector": "dispensary-pos",
+      "documentation": "https://apidocs.blaze.me/intro",
+      "authentication": "partner access; exact credentials require provider confirmation",
+      "stage": "documented",
+      "connected": false
+    },
+    {
+      "name": "POSaBIT menu feeds",
+      "sector": "dispensary-pos",
+      "documentation": "https://developer.posabit.com/menu-feeds.html",
+      "authentication": "bearer token plus feed key; server-side",
+      "stage": "documented",
+      "connected": false
+    },
+    {
+      "name": "Google Gemini",
+      "sector": "ai",
+      "documentation": "https://ai.google.dev/gemini-api/docs/api-key",
+      "authentication": "project API keys or documented authorized identity",
+      "stage": "documented",
+      "connected": false
+    },
+    {
+      "name": "Coinbase Developer Platform",
+      "sector": "blockchain",
+      "documentation": "https://docs.cdp.coinbase.com/coinbase-app/authentication-authorization/api-key-authentication",
+      "authentication": "developer credentials; backend only",
+      "stage": "documented",
+      "connected": false
+    },
+    {
+      "name": "Supabase",
+      "sector": "identity-and-data",
+      "documentation": "https://supabase.com/docs/guides/database/postgres/row-level-security",
+      "authentication": "authenticated roles and row-level security policies",
+      "stage": "documented",
+      "connected": false
+    }
+  ],
+  "boundaries": {
+    "public": "provider names, docs, capabilities and readiness only",
+    "private": "API secrets, medical IDs, identity evidence, deeds and application records",
+    "passkeys": "server-generated challenges and verified WebAuthn assertions",
+    "checkout": "disabled until licensed and authorized workflow verified"
+  },
+  "tests": {
+    "liveCredentialsVerified": false,
+    "providerConnectionsVerified": false,
+    "productionDeployVerified": false
+  }
+}
