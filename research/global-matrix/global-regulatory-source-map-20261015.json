@@ -1,0 +1,72 @@
+{
+  "schema": "matcha-manita-global-regulatory-sources-v1",
+  "date": "2026-10-15",
+  "regions": [
+    {
+      "region": "US nationwide",
+      "authority": "Cannabis Regulators Association",
+      "url": "https://www.cann-ra.org/",
+      "scope": "regulator discovery, not comprehensive operator registry",
+      "operatorCountVerified": 0
+    },
+    {
+      "region": "Arizona",
+      "authority": "Arizona Department of Health Services",
+      "url": "https://www.azdhs.gov/licensing/marijuana/",
+      "scope": "licensed establishment verification required",
+      "operatorCountVerified": 0
+    },
+    {
+      "region": "California",
+      "authority": "Department of Cannabis Control",
+      "url": "https://search.cannabis.ca.gov/",
+      "scope": "license lookup",
+      "operatorCountVerified": 0
+    },
+    {
+      "region": "Colorado",
+      "authority": "Marijuana Enforcement Division",
+      "url": "https://med.colorado.gov/licensee-information-and-lookup-tool",
+      "scope": "license lookup",
+      "operatorCountVerified": 0
+    },
+    {
+      "region": "New York",
+      "authority": "Office of Cannabis Management",
+      "url": "https://cannabis.ny.gov/dispensary-location-verification",
+      "scope": "dispensary verification",
+      "operatorCountVerified": 0
+    },
+    {
+      "region": "Canada",
+      "authority": "Health Canada",
+      "url": "https://www.canada.ca/en/health-canada/services/drugs-medication/cannabis/industry-licensees-applicants/licensed-cultivators-processors-sellers.html",
+      "scope": "federal producers/sellers; retail provincial",
+      "operatorCountVerified": 0
+    },
+    {
+      "region": "British Columbia",
+      "authority": "Liquor and Cannabis Regulation Branch",
+      "url": "https://justice.gov.bc.ca/lcrb/",
+      "scope": "provincial retail oversight",
+      "operatorCountVerified": 0
+    },
+    {
+      "region": "Netherlands",
+      "authority": "Government of Netherlands",
+      "url": "https://www.government.nl/themes/family-health-and-care/drugs/toleration-policy-regarding-soft-drugs-and-coffee-shops",
+      "scope": "coffeeshop model",
+      "operatorCountVerified": 0
+    },
+    {
+      "region": "Australia",
+      "authority": "Therapeutic Goods Administration",
+      "url": "https://www.tga.gov.au/products/unapproved-therapeutic-goods/medicinal-cannabis",
+      "scope": "medical access model",
+      "operatorCountVerified": 0
+    }
+  ],
+  "researchStatus": "official source discovery; incomplete global and US operator enumeration",
+  "use": "internal admin metadata for future verified operator import; never render in customer portal",
+  "notes": "Different jurisdictions have different cannabis access regimes; do not infer retail legality or API partnership from regulator references."
+}
