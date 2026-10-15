@@ -859,3 +859,24 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* Customer-facing collection feature, scoped to the Matcha Manita preview */
 .mm-featured-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.1rem;margin-top:1.5rem}.mm-featured-tile{min-height:240px;display:flex;flex-direction:column;justify-content:flex-end;gap:.65rem;padding:1.6rem;border:1px solid rgba(215,182,93,.5);border-radius:24px;color:#f5f3e8;text-decoration:none;background:radial-gradient(circle at 80% 15%,rgba(121,217,139,.18),transparent 50%),linear-gradient(145deg,#13271a,#070d09 80%);transition:transform .2s,border-color .2s}.mm-featured-tile:nth-child(2){background:radial-gradient(circle at 75% 10%,rgba(215,182,93,.2),transparent 55%),linear-gradient(145deg,#281e11,#080a08)}.mm-featured-tile:nth-child(3){background:radial-gradient(circle at 75% 10%,rgba(82,197,170,.17),transparent 55%),linear-gradient(145deg,#112520,#070a09)}.mm-featured-tile:hover,.mm-featured-tile:focus-visible{transform:translateY(-4px);border-color:#f1d98d}.mm-featured-tile strong{font-size:clamp(1.5rem,2.4vw,2.1rem);line-height:1.15;color:#f1d98d}.mm-featured-number{font-size:.8rem;letter-spacing:.14em;color:#a5f5ad}.mm-featured-link{font-weight:700;color:#a5f5ad;margin-top:.5rem}@media(max-width:760px){.mm-featured-tiles{grid-template-columns:1fr}.mm-featured-tile{min-height:190px}}
+
+/* Approved Royal Día de los Muertos Page 1 — scoped, additive, mobile-first */
+.mm-royal-entry{position:relative;isolation:isolate;text-align:center;padding:clamp(28px,5vw,65px) 18px 65px;overflow:hidden;background:radial-gradient(ellipse at 50% 17%,#126038 0%,#061c12 42%,#030805 82%);color:#f5e3a0;border-bottom:2px solid #b98c31}
+.mm-royal-entry:before{content:"✿     ✦       ✿       ✦       ✿";position:absolute;inset:8% 0 auto;pointer-events:none;color:#d87e24;opacity:.27;font-size:clamp(22px,4vw,58px);letter-spacing:2vw}
+.mm-royal-halo{margin:auto;max-width:760px;filter:drop-shadow(0 0 36px #ad8a2466)}
+.mm-royal-halo img{display:block;width:100%;height:auto;object-fit:contain}
+.mm-royal-entry h1{font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,4.3rem);line-height:1.1;color:#f6d77b;text-shadow:0 3px 24px #000;margin:12px auto}
+.mm-royal-subtitle{letter-spacing:.19em;font-size:clamp(.75rem,1.5vw,1rem);color:#f2e0a8;margin:16px 0 25px}
+.mm-royal-login{max-width:660px;margin:20px auto;padding:clamp(22px,5vw,42px);background:linear-gradient(140deg,#062b1a,#04140d);border:2px solid #cba04b;border-radius:28px;box-shadow:0 0 38px #c3922733,inset 0 0 20px #cfad3522}
+.mm-royal-login h2{font-family:Georgia,serif;color:#f4d27c;font-size:clamp(1.8rem,4vw,2.7rem);margin:0 0 20px}
+#royalLoginForm{display:grid;gap:12px;text-align:left}
+#royalLoginForm label{color:#f8e8bc;font-weight:600}
+#royalLoginForm input{min-height:54px;border-radius:30px;border:1px solid #8e8054;background:#02130d;color:#fff;font-size:1rem;padding:14px 20px}
+#royalLoginForm button{min-height:52px;border-radius:30px;font-size:1.05rem;cursor:pointer}
+#royalLoginForm button[type=submit]{background:linear-gradient(180deg,#fff1ad,#d6a23f);color:#171408}
+#royalLoginForm .mm-passkey{border:1px solid #5deb9b;background:#031c11;color:#66f4aa}
+#royalLoginStatus{color:#d4c9a4;font-size:.85rem;line-height:1.5;text-align:center}
+.mm-royal-links{display:flex;justify-content:space-between;gap:15px;margin-top:15px}
+.mm-royal-links a{color:#f7d477;text-decoration:underline}
+.mm-royal-trust{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 24px;margin:35px auto 0;color:#e7c46d;font-size:.72rem;letter-spacing:.09em}
+@media(max-width:600px){.mm-royal-entry{padding:22px 12px 45px}.mm-royal-login{border-radius:18px}.mm-royal-subtitle{letter-spacing:.09em}.mm-royal-trust{gap:12px}.mm-royal-links{font-size:.9rem}}
