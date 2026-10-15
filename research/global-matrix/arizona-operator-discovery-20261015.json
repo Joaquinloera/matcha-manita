@@ -1,0 +1,115 @@
+{
+  "schema": "matcha-manita-arizona-operator-discovery-v1",
+  "date": "2026-10-15",
+  "region": "Phoenix metro and Arizona",
+  "purpose": "Operator discovery for restricted admin mainframe, not public customer portal",
+  "officialLicenseVerification": "https://azcarecheck.azdhs.gov/s/",
+  "operators": [
+    {
+      "name": "JARS Cannabis",
+      "source": "https://jarscannabis.com/az",
+      "discoveryStatus": "operator website identified",
+      "licenseVerified": false,
+      "locationAddressVerified": false,
+      "softwareVendorUnknown": true,
+      "apiConnectionVerified": false,
+      "partnerRelationshipVerified": false
+    },
+    {
+      "name": "Zen Leaf",
+      "source": "https://zenleafdispensaries.com/locations/phoenix-n-cave-creek",
+      "discoveryStatus": "operator website identified",
+      "licenseVerified": false,
+      "locationAddressVerified": false,
+      "softwareVendorUnknown": true,
+      "apiConnectionVerified": false,
+      "partnerRelationshipVerified": false
+    },
+    {
+      "name": "Sol Flower",
+      "source": "https://www.livewithsol.com/dispensary-locations/",
+      "discoveryStatus": "operator website identified",
+      "licenseVerified": false,
+      "locationAddressVerified": false,
+      "softwareVendorUnknown": true,
+      "apiConnectionVerified": false,
+      "partnerRelationshipVerified": false
+    },
+    {
+      "name": "The Mint",
+      "source": "https://mintdeals.com/phoenix-az/",
+      "discoveryStatus": "operator website identified",
+      "licenseVerified": false,
+      "locationAddressVerified": false,
+      "softwareVendorUnknown": true,
+      "apiConnectionVerified": false,
+      "partnerRelationshipVerified": false
+    },
+    {
+      "name": "Story Cannabis",
+      "source": "https://storycannabis.com/dispensary-locations/arizona/phoenix-midtown/",
+      "discoveryStatus": "operator website identified",
+      "licenseVerified": false,
+      "locationAddressVerified": false,
+      "softwareVendorUnknown": true,
+      "apiConnectionVerified": false,
+      "partnerRelationshipVerified": false
+    },
+    {
+      "name": "Sunday Goods",
+      "source": "https://sundaygoods.com/location/dispensary-laveen-phoenix-az/",
+      "discoveryStatus": "operator website identified",
+      "licenseVerified": false,
+      "locationAddressVerified": false,
+      "softwareVendorUnknown": true,
+      "apiConnectionVerified": false,
+      "partnerRelationshipVerified": false
+    },
+    {
+      "name": "Trulieve",
+      "source": "https://www.trulieve.com/dispensaries/arizona/phoenix-roosevelt",
+      "discoveryStatus": "operator website identified",
+      "licenseVerified": false,
+      "locationAddressVerified": false,
+      "softwareVendorUnknown": true,
+      "apiConnectionVerified": false,
+      "partnerRelationshipVerified": false
+    },
+    {
+      "name": "Curaleaf",
+      "source": "https://curaleaf.com/dispensary/arizona",
+      "discoveryStatus": "operator website identified",
+      "licenseVerified": false,
+      "locationAddressVerified": false,
+      "softwareVendorUnknown": true,
+      "apiConnectionVerified": false,
+      "partnerRelationshipVerified": false
+    },
+    {
+      "name": "Nirvana Cannabis",
+      "source": "https://nirvanacannabis.com/",
+      "discoveryStatus": "operator website identified",
+      "licenseVerified": false,
+      "locationAddressVerified": false,
+      "softwareVendorUnknown": true,
+      "apiConnectionVerified": false,
+      "partnerRelationshipVerified": false
+    },
+    {
+      "name": "Health for Life",
+      "source": "https://healthforlifedispensaries.com/",
+      "discoveryStatus": "operator website identified",
+      "licenseVerified": false,
+      "locationAddressVerified": false,
+      "softwareVendorUnknown": true,
+      "apiConnectionVerified": false,
+      "partnerRelationshipVerified": false
+    }
+  ],
+  "nextChecks": [
+    "verify each physical location against ADHS",
+    "record location address and public license identity",
+    "identify ecommerce/POS software only when supported by direct evidence",
+    "keep operator and software-company maps distinct"
+  ]
+}
