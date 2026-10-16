@@ -952,6 +952,41 @@
       }
     );
 
+  // Account creation uses the Supabase Auth endpoint, not the unverified
+  // customer application form. Never send DOB, phone, or medical data here.
+  $("signupForm")?.addEventListener("submit", async event => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (!form.reportValidity()) return;
+    const email = ($("signupEmail")?.value || "").trim();
+    const password = $("signupPassword")?.value || "";
+    const confirm = $("signupConfirm")?.value || "";
+    const status = $("signupStatus");
+    const button = form.querySelector('button[type="submit"]');
+    if (password !== confirm) {
+      if (status) status.textContent = "Passwords do not match.";
+      return;
+    }
+    if (status) status.textContent = "Creating account…";
+    if (button) button.disabled = true;
+    try {
+      const response = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+        method: "POST",
+        headers: { apikey: SUPABASE_PUBLISHABLE_KEY, "content-type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body.msg || body.error_description || body.message || "Account creation failed.");
+      if (status) status.textContent = "Registration request accepted. Check your email for confirmation if required by the authentication provider. Your identity and delivery eligibility are not yet verified.";
+      if ($("signupPassword")) $("signupPassword").value = "";
+      if ($("signupConfirm")) $("signupConfirm").value = "";
+    } catch (error) {
+      if (status) status.textContent = error instanceof Error ? error.message : "Account creation failed.";
+    } finally {
+      if (button) button.disabled = false;
+    }
+  });
+
   $("applyForm")
     ?.addEventListener(
       "submit",
