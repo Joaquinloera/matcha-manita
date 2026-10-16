@@ -1,0 +1,89 @@
+{
+  "schema": "matcha-manita-source-pipeline-v1",
+  "date": "2026-10-15",
+  "coverageTarget": "Arizona Phoenix metro; all U.S. jurisdictions; worldwide where lawful regulated cannabis channels exist",
+  "verifiedLocations": 0,
+  "sources": [
+    {
+      "region": "Arizona",
+      "country": "United States",
+      "url": "https://www.azdhs.gov/licensing/marijuana/",
+      "type": "regulator",
+      "scope": "Phoenix and statewide operator verification",
+      "ingestStatus": "source identified; operator records not imported"
+    },
+    {
+      "region": "California",
+      "country": "United States",
+      "url": "https://www.cannabis.ca.gov/resources/search-for-licensed-business/",
+      "type": "license search",
+      "scope": "statewide retail license lookup",
+      "ingestStatus": "source identified; operator records not imported"
+    },
+    {
+      "region": "New York",
+      "country": "United States",
+      "url": "https://cannabis.ny.gov/dispensary-location-verification",
+      "type": "licensed location map",
+      "scope": "statewide operator verification",
+      "ingestStatus": "source identified; operator records not imported"
+    },
+    {
+      "region": "Colorado",
+      "country": "United States",
+      "url": "https://med.colorado.gov/licensee-information-and-lookup-tool",
+      "type": "license lookup",
+      "scope": "statewide verification",
+      "ingestStatus": "source identified; operator records not imported"
+    },
+    {
+      "region": "Ontario",
+      "country": "Canada",
+      "url": "https://www.agco.ca/en/cannabis/retail-store-authorization",
+      "type": "retail authorization",
+      "scope": "provincial retail licenses",
+      "ingestStatus": "source identified; operator records not imported"
+    },
+    {
+      "region": "Canada",
+      "country": "Canada",
+      "url": "https://www.canada.ca/en/health-canada/services/drugs-medication/cannabis/industry-licensees-applicants/licensed-cultivators-processors-sellers.html",
+      "type": "federal list",
+      "scope": "not a retail location census",
+      "ingestStatus": "source identified; operator records not imported"
+    },
+    {
+      "region": "Netherlands",
+      "country": "Netherlands",
+      "url": "https://www.government.nl/themes/family-health-and-care/drugs/toleration-policy-regarding-soft-drugs-and-coffee-shops",
+      "type": "national policy",
+      "scope": "municipal coffeeshop model",
+      "ingestStatus": "source identified; operator records not imported"
+    },
+    {
+      "region": "Australia",
+      "country": "Australia",
+      "url": "https://www.tga.gov.au/products/unapproved-therapeutic-goods/medicinal-cannabis",
+      "type": "medical regulation",
+      "scope": "not recreational dispensary licensing",
+      "ingestStatus": "source identified; operator records not imported"
+    }
+  ],
+  "softwareIntegrationSkim": [
+    {
+      "provider": "Dutchie",
+      "documentation": "https://support.dutchie.com/hc/en-us/articles/27660267271187-Dutchie-POS-API-key-request-process-for-third-party-integrations",
+      "auth": "API key request process",
+      "credentialsReceived": false,
+      "connected": false
+    },
+    {
+      "provider": "Treez",
+      "documentation": "https://code.treez.io/reference/treez-api",
+      "auth": "refer to current official documentation; not independently verified here",
+      "credentialsReceived": false,
+      "connected": false
+    }
+  ],
+  "implementationBoundary": "Internal administration data only; not rendered to public customer storefront; no unverified relationships or inventory"
+}
