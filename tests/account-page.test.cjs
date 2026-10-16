@@ -1,0 +1,13 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const account = fs.readFileSync('account.html','utf8');
+const home = fs.readFileSync('index.html','utf8');
+const script = fs.readFileSync('app.js','utf8');
+for (const id of ['signupForm','loginForm','recoveryForm','passkeyInfoBtn']) assert.ok(account.includes('id="'+id+'"'),id+' missing');
+assert.ok(home.includes('href="account.html"'),'Home account link missing');
+assert.ok(script.includes('/auth/v1/signup'),'Signup integration missing');
+assert.ok(script.includes('/auth/v1/recover'),'Recovery integration missing');
+assert.ok(script.includes('grant_type=password'),'Password login missing');
+assert.ok(account.includes('autocomplete="current-password"'),'Password manager missing');
+assert.ok(!home.includes('id="technology-directory"'),'Internal research leaked');
+console.log('PASS: Account page structural and authentication integration checks');
