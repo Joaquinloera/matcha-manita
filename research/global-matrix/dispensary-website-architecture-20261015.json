@@ -1,0 +1,70 @@
+{
+  "schema": "matcha-manita-dispensary-website-patterns-v1",
+  "date": "2026-10-15",
+  "patterns": [
+    "customer homepage and brand",
+    "catalog and menu synced with licensed store inventory",
+    "account and age/identity verification",
+    "cart and checkout with fulfillment controls",
+    "POS/compliance synchronization",
+    "operator admin separate from public customer portal"
+  ],
+  "providers": [
+    {
+      "name": "Dutchie",
+      "source": "https://dutchie.com/business/ecommerce",
+      "pattern": "ecommerce menu and ordering platform",
+      "dependency": "merchant onboarding, store inventory and compliance configuration",
+      "connected": false,
+      "productionReady": false
+    },
+    {
+      "name": "Jane Technologies",
+      "source": "https://www.iheartjane.com/",
+      "pattern": "consumer shopping and dispensary marketplace",
+      "dependency": "merchant relationship and account/order integration",
+      "connected": false,
+      "productionReady": false
+    },
+    {
+      "name": "Flowhub",
+      "source": "https://www.flowhub.com/partners/ecommerce",
+      "pattern": "POS to ecommerce partner integration",
+      "dependency": "authorized POS and ecommerce partner connection",
+      "connected": false,
+      "productionReady": false
+    },
+    {
+      "name": "Treez",
+      "source": "https://www.treez.io/integrations",
+      "pattern": "POS and ecommerce integration ecosystem",
+      "dependency": "vendor onboarding and approved integration",
+      "connected": false,
+      "productionReady": false
+    },
+    {
+      "name": "BLAZE",
+      "source": "https://www.blaze.me/enterprise-pos/",
+      "pattern": "dispensary POS and multi-store operations",
+      "dependency": "operator credentials and integration approval",
+      "connected": false,
+      "productionReady": false
+    },
+    {
+      "name": "FIDO Alliance",
+      "source": "https://fidoalliance.org/passkeys/",
+      "pattern": "passkey standards for user authentication",
+      "dependency": "server challenge, origin validation, credential storage and verification",
+      "connected": false,
+      "productionReady": false
+    }
+  ],
+  "implementation": {
+    "page1": "index.html",
+    "page2": "account.html",
+    "passwordLogin": "existing server-side auth adapter; production verification pending",
+    "biometricLogin": "capability check only; no credential ceremony implemented",
+    "checkout": "disabled",
+    "liveInventory": "not connected"
+  }
+}
