@@ -911,3 +911,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .mm-results-bar p{margin:0;font-weight:600}
 .mm-results-bar button{cursor:pointer;min-height:44px;padding:.65rem 1rem;border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit}
 .mm-results-bar button:focus-visible{outline:3px solid #e8c777;outline-offset:3px}
+
+/* Accessible storefront search and sorting */
+#shop .toolbar{display:flex;flex-wrap:wrap;gap:1rem;align-items:end}
+#shop .toolbar label{display:flex;flex-direction:column;gap:.45rem;font-size:.9rem;font-weight:650;min-width:0}
+#shop .toolbar .mm-search-field{flex:2 1 240px}
+#shop .toolbar .mm-sort-field{flex:1 1 180px}
+#shop .toolbar input,#shop .toolbar select{width:100%;min-height:46px}
+#shop .toolbar :is(input,select):focus-visible{outline:3px solid #e8c777;outline-offset:3px}
