@@ -345,6 +345,8 @@
     grid.innerHTML = "";
 
     const items = list();
+    const results = $("catalogResults");
+    if (results) results.textContent = `${items.length} preview product${items.length === 1 ? "" : "s"} found`;
     grid.setAttribute("aria-live", "polite");
     grid.setAttribute("aria-label", `${items.length} matching products`);
 
@@ -1117,6 +1119,15 @@
         }
       }
     );
+
+  $("resetCatalog")?.addEventListener("click", () => {
+    active = "All";
+    if ($("search")) $("search").value = "";
+    if ($("sort")) $("sort").value = "featured";
+    cats();
+    render();
+    $("search")?.focus();
+  });
 
   // Preview safeguard: do not start payment, checkout or order fulfillment.
   const checkoutButton = $("checkoutBtn");
