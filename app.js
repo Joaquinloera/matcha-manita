@@ -987,6 +987,29 @@
     }
   });
 
+  $("recoveryForm")?.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (!event.currentTarget.reportValidity()) return;
+    const status = $("recoveryStatus");
+    const button = event.currentTarget.querySelector("button");
+    button.disabled = true;
+    status.textContent = "Sending recovery request…";
+    try {
+      const response = await fetch(SUPABASE_URL + "/auth/v1/recover", {
+        method: "POST",
+        headers: { apikey: SUPABASE_PUBLISHABLE_KEY, "content-type": "application/json" },
+        body: JSON.stringify({ email: $("recoveryEmail").value.trim() })
+      });
+      status.textContent = response.ok
+        ? "If this email is registered, recovery instructions will be sent."
+        : "Recovery is unavailable right now. Try again later.";
+    } catch (_) {
+      status.textContent = "Recovery is unavailable right now. Try again later.";
+    } finally {
+      button.disabled = false;
+    }
+  });
+
   $("applyForm")
     ?.addEventListener(
       "submit",
