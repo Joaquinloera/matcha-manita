@@ -902,3 +902,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* Member account second page */
 .mm-account-page .mm-account-intro{max-width:980px;margin:0 auto;text-align:center;padding:72px 24px 24px}.mm-account-intro h1{font:700 clamp(2.4rem,6vw,4.8rem) Georgia,serif;color:#f2dc9a;margin:12px 0}.mm-account-intro p{max-width:720px;margin:0 auto;line-height:1.7}.mm-account-page .form-section,.mm-account-page .login{max-width:1100px;margin:0 auto}.mm-account-page .login-card{width:min(100%,560px)}.mm-account-page .mm-passkey-explainer{font-size:.92rem;line-height:1.6;color:#d2dacc}.mm-member-cta{text-align:center;padding:65px 20px}.mm-member-cta p{max-width:600px;margin:15px auto 25px}@media(max-width:700px){.mm-account-page .mm-account-intro{padding-top:45px}.mm-account-page .form-section{padding-inline:18px}}
+
+/* Account creation on customer page two */
+.mm-signup{padding-block:24px 42px}.mm-signup .login-card{width:min(100%,600px);margin:auto}.mm-signup form{display:grid;gap:12px}.mm-signup label{font-weight:600;color:#e9d18c}.mm-signup input{width:100%;box-sizing:border-box}.mm-signup .status{min-height:2em;line-height:1.5}
