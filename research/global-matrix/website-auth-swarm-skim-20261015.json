@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-15",
+  "operation": "parallel targeted source discovery; no independently deployed AI workers",
+  "target": "Matcha Manita storefront Page 1 and member Page 2",
+  "sources": [
+    {
+      "provider": "Dutchie",
+      "url": "https://dutchie.com/business/ecommerce",
+      "pattern": "Retail ecommerce menu and checkout",
+      "dependency": "licensed retailer merchant onboarding; live inventory connection",
+      "liveIntegrationVerified": false
+    },
+    {
+      "provider": "Jane",
+      "url": "https://www.iheartjane.com/",
+      "pattern": "Consumer-facing marketplace with customer sign-in",
+      "dependency": "authorized merchant and partner integration",
+      "liveIntegrationVerified": false
+    },
+    {
+      "provider": "Flowhub",
+      "url": "https://www.flowhub.com/learn/headless-ecommerce-for-dispensaries",
+      "pattern": "Headless storefront with POS-driven inventory",
+      "dependency": "POS API permissions and fulfillment controls",
+      "liveIntegrationVerified": false
+    },
+    {
+      "provider": "Treez",
+      "url": "https://www.treez.io/integrations",
+      "pattern": "POS integration ecosystem",
+      "dependency": "approved integrations and operator onboarding",
+      "liveIntegrationVerified": false
+    },
+    {
+      "provider": "BLAZE",
+      "url": "https://www.blaze.me/enterprise-pos/",
+      "pattern": "Enterprise cannabis retail POS",
+      "dependency": "operator onboarding and supported ecommerce integrations",
+      "liveIntegrationVerified": false
+    },
+    {
+      "provider": "SimpleWebAuthn",
+      "url": "https://simplewebauthn.dev/docs/packages/server",
+      "pattern": "WebAuthn server registration and authentication response verification",
+      "dependency": "server-issued challenges, credential persistence, origin and RP ID validation",
+      "liveIntegrationVerified": false
+    },
+    {
+      "provider": "Supabase",
+      "url": "https://supabase.com/docs/reference/javascript/auth-signinwithpassword",
+      "pattern": "Email/password authentication endpoint",
+      "dependency": "verified auth project settings, redirect/origin and session policies",
+      "liveIntegrationVerified": false
+    }
+  ],
+  "engineering": {
+    "homepage": "index.html",
+    "account": "account.html",
+    "changes": [
+      "dedicated account page",
+      "password manager autofill",
+      "responsive member page",
+      "passkey privacy guidance"
+    ],
+    "passkeyEnrollmentImplemented": false,
+    "passkeyAuthenticationImplemented": false,
+    "licensedCheckoutEnabled": false
+  },
+  "securityGates": [
+    "Never collect biometric templates",
+    "Server must generate and verify WebAuthn challenges",
+    "Verify RP ID, origin, signatures and replay resistance",
+    "Do not infer age verification from passkey possession",
+    "Keep API secrets server-side"
+  ]
+}
