@@ -905,3 +905,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* Account creation on customer page two */
 .mm-signup{padding-block:24px 42px}.mm-signup .login-card{width:min(100%,600px);margin:auto}.mm-signup form{display:grid;gap:12px}.mm-signup label{font-weight:600;color:#e9d18c}.mm-signup input{width:100%;box-sizing:border-box}.mm-signup .status{min-height:2em;line-height:1.5}
+
+/* Catalog results toolbar */
+.mm-results-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin:1.2rem 0;color:var(--cream,#f6f0dd)}
+.mm-results-bar p{margin:0;font-weight:600}
+.mm-results-bar button{cursor:pointer;min-height:44px;padding:.65rem 1rem;border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit}
+.mm-results-bar button:focus-visible{outline:3px solid #e8c777;outline-offset:3px}
