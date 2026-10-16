@@ -896,3 +896,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .mm-collection-grid a strong{font-family:Georgia,serif;font-size:clamp(1.35rem,2.5vw,2rem);color:#f3db9a}.mm-collection-grid a span{color:#a4c39b;letter-spacing:.22em}
 @media(max-width:800px){.mm-gateway-portrait{min-height:240px}.mm-gateway-portrait img{max-height:320px}}
 @media(prefers-reduced-motion:reduce){.mm-gateway-portrait:before,.mm-gateway-portrait:after{animation:none}.mm-collection-grid a{transition:none}}
+
+/* Delivery-first customer journey: separate from private provider research */
+.mm-order-steps .mm-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px}.mm-steps article{background:linear-gradient(145deg,#10271a,#07100b);border:1px solid rgba(215,182,93,.35);border-radius:20px;padding:28px;display:flex;flex-direction:column;align-items:flex-start;min-height:265px}.mm-steps article>span{font:700 1rem Georgia,serif;letter-spacing:.15em;color:#e6c678}.mm-steps h3{font:700 clamp(1.5rem,3vw,2.1rem) Georgia,serif;color:#f1d98d;margin:18px 0 8px}.mm-steps p{color:#d3dccf;line-height:1.6;flex:1}.mm-steps a{color:#d7b65d;font-weight:700;text-decoration:underline;text-underline-offset:4px}@media(max-width:720px){.mm-order-steps .mm-steps{grid-template-columns:1fr}.mm-steps article{min-height:0}}
