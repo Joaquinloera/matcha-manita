@@ -1,0 +1,52 @@
+name: Matcha Manita Premium ZIP Release
+on:
+  push:
+    branches: [kino-premium-preview-20261008]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout latest premium branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Homepage smoke test
+        run: node tests/homepage-smoke.cjs
+      - name: Research directory tests
+        run: |
+          node --check research-directory.js
+          node tests/research-directory.test.cjs
+          node tests/research-directory.behavior.test.cjs
+          node tests/inventory-staging.test.cjs
+      - name: Integration tests
+        run: node --test tests/*.test.mjs
+      - name: Package Netlify deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/matcha-site"
+          cp index.html account.html app.js styles.css netlify.toml "$RUNNER_TEMP/matcha-site/"
+          cp -R assets netlify "$RUNNER_TEMP/matcha-site/"
+          # Research code remains in GitHub; no private research files are exposed by the public deployment ZIP.
+          (cd "$RUNNER_TEMP/matcha-site" && zip -qr "$RUNNER_TEMP/matcha-manita-premium-${GITHUB_SHA:0:12}.zip" .)
+          unzip -t "$RUNNER_TEMP/matcha-manita-premium-${GITHUB_SHA:0:12}.zip"
+          for file in index.html account.html app.js styles.css netlify.toml assets/matcha-manita-monogram.svg netlify/functions/create-order-session.js netlify/functions/create-payment-intent.js; do
+            unzip -Z1 "$RUNNER_TEMP/matcha-manita-premium-${GITHUB_SHA:0:12}.zip" | grep -Fx "$file"
+          done
+          echo "ZIP_SHA256=$(sha256sum "$RUNNER_TEMP/matcha-manita-premium-${GITHUB_SHA:0:12}.zip" | cut -d' ' -f1)" >> "$GITHUB_ENV"
+          echo "BRANCH_SHA=$GITHUB_SHA" >> "$GITHUB_ENV"
+      - name: Upload verified deployment ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: matcha-manita-premium-${{ github.sha }}
+          path: ${{ runner.temp }}/matcha-manita-premium-*.zip
+          if-no-files-found: error
+          retention-days: 30
