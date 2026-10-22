@@ -7,12 +7,84 @@
       "license_number": "0000144DRCUM87865142",
       "legal_name": "VERDE AMERICANO, LLC",
       "doing_business_as": "FLOR VERDE DISPENSARY",
-      "license_status": "Operating",
-      "facility_type": "Marijuana Dispensary",
       "street_address": "1115 Circulo Mercado",
       "city": "Rio Rico",
       "postal_code": "85648",
+      "license_status": "Operating",
+      "facility_type": "Marijuana Dispensary",
       "source_url": "https://azcarecheck.azdhs.gov/s/?facilityType=All&licenseStatus=All&licenseType=All&programType=Marijuana%20Facilities&searchQuery=0000144DRCUM87865142"
+    },
+    {
+      "state_code": "AZ",
+      "license_number": "00000017DCEX00412883",
+      "legal_name": "GREENMED, INC",
+      "doing_business_as": "GREENMED, INC",
+      "street_address": "6464 E Tanque Verde Rd",
+      "city": "Tucson",
+      "postal_code": "85715",
+      "license_status": "Active",
+      "facility_type": "Marijuana Dispensary",
+      "source_url": "https://azcarecheck.azdhs.gov/s/facility-details?activeTab=details&facilityId=001t000000L0T9iAAF"
+    },
+    {
+      "state_code": "AZ",
+      "license_number": "00000062DCAY00861940",
+      "legal_name": "MMJ APOTHECARY",
+      "doing_business_as": "PONDEROSA DISPENSARY",
+      "street_address": "9240 West Northern Avenue, Ste. 103b",
+      "city": "Peoria",
+      "postal_code": "85345",
+      "license_status": "Active",
+      "facility_type": "Marijuana Dispensary",
+      "source_url": "https://azcarecheck.azdhs.gov/s/facility-details?activeTab=details&facilityId=001t000000L0TAJAA3"
+    },
+    {
+      "state_code": "AZ",
+      "license_number": "0000154ESTQI31348041",
+      "legal_name": "480 LICENSE HOLDINGS, LLC",
+      "doing_business_as": "PONDEROSA DISPENSARY",
+      "street_address": "25 East Blacklidge Drive",
+      "city": "Tucson",
+      "postal_code": "85705",
+      "license_status": "Active",
+      "facility_type": "Marijuana Dispensary",
+      "source_url": "https://azcarecheck.azdhs.gov/s/facility-details?activeTab=details&facilityId=0018y000004cBuZAAU"
+    },
+    {
+      "state_code": "AZ",
+      "license_number": "00000028DCGV00174888",
+      "legal_name": "ARIZONA NATURAL REMEDIES INC",
+      "doing_business_as": "S FLOWER N PHOENIX, INC.",
+      "street_address": "3217 E Shea Blvd, Suite 1 A",
+      "city": "Phoenix",
+      "postal_code": "85028",
+      "license_status": "Active",
+      "facility_type": "Marijuana Dispensary",
+      "source_url": "https://azcarecheck.azdhs.gov/s/facility-details?activeTab=details&facilityId=001t000000L0T9cAAF"
+    },
+    {
+      "state_code": "AZ",
+      "license_number": "00000008DCJJ00257791",
+      "legal_name": "CSI SOLUTIONS, INC.",
+      "doing_business_as": "SOL FLOWER",
+      "street_address": "14980 N 78th Way",
+      "city": "Scottsdale",
+      "postal_code": "85260",
+      "license_status": "Active",
+      "facility_type": "Marijuana Dispensary",
+      "source_url": "https://azcarecheck.azdhs.gov/s/facility-details?activeTab=details&facilityId=001t000000L0T9ZAAV"
+    },
+    {
+      "state_code": "AZ",
+      "license_number": "00000110DCDE00541508",
+      "legal_name": "UNCLE HARRY INC",
+      "doing_business_as": "UNCLE HARRY INC",
+      "street_address": "17036 North Cave Creek Rd",
+      "city": "Phoenix",
+      "postal_code": "85032",
+      "license_status": "Active",
+      "facility_type": "Marijuana Dispensary",
+      "source_url": "https://azcarecheck.azdhs.gov/s/facility-details?facilityId=001t000000L0TB9AAN"
     }
   ]
 }
